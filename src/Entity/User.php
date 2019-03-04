@@ -2,14 +2,24 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *  fields= {"email"},
+ *  message= "L'adresse mail est deja utilisé"
+ * )
+ * @UniqueEntity(
+ *  fields= {"username"},
+ *  message= "Ce nom d'utilisateur est deja utilisé. Essayez un autre pseudo"
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,7 +28,8 @@ class User
      */
     private $id;
 
-    /**
+    /**     
+     * @Assert\Email
      * @ORM\Column(type="string", length=255)
      */
     private $email;
@@ -39,7 +50,7 @@ class User
     private $firstName;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $birthdate;
 
@@ -93,7 +104,16 @@ class User
      */
     private $movieToWatches;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caratère")
+     */
+    private $password;
 
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Vos mot de passe doivent être identique")
+     */
+    private $confirm_password;
 
     public function __construct()
     {
@@ -229,6 +249,11 @@ class User
 
         return $this;
     }
+    public function eraseCredentials() {}
+    public function getSalt() {}
+    public function getRoles() {
+        return ['ROLE_USER'];
+    }
 
     /**
      * @return Collection|Comment[]
@@ -257,6 +282,30 @@ class User
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPassword(): ?string 
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getConfirmPassword(): ?string 
+    {
+        return $this->confirm_password;
+    }
+
+    public function setConfirmPassword(?string  $confirm_password): self
+    {
+        $this->confirm_password = $confirm_password;
 
         return $this;
     }

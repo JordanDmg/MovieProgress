@@ -13,19 +13,19 @@ class ApiController extends Controller
      */
     public function index()
     {
-        return $this->render('api/index.html.twig', [
+        return $this->render('api/home.html.twig', [
             'controller_name' => 'ApiController',
         ]);
     }
 
     /**
-     * @Route("/test", name="testapi")
+     * @Route("/", name="explorer")
      */
     public function testApi(){
         $client = $this->get('tmdb.client');
         dump($client);
         $movie = $this->get('tmdb.movie_repository')->load(13);
-        return $this->render('api/index.html.twig', [
+        return $this->render('api/home.html.twig', [
             'controller_name' => 'ApiController',
             'movie'          =>  $movie
         ]);

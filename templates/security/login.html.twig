@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <form class="form-signin" action="{{ path('security_login') }}" method="post">
+        
+        <h1 class="h3 mb-3 font-weight-normal">Connexion !</h1>
+    <input autofocus class="form-control" id="inputEmail" require name="_username" placeholder="Email address" required type="email">
+        <input class="form-control" id="inputPassword" placeholder="Password" required name="_password" required type="password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    </form>
+<a href="{{ path('security_registration') }}">Inscription</a>
+</div>
+
+
+
+
+
+
+            
+
+{% endblock %}

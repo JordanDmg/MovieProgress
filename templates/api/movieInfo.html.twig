@@ -14,7 +14,12 @@
         <div class="container">
           <h1 class="jumbotron-heading text-center">{{ movie.title }}</h1>
           <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w1280/{{ movie.backdrop_path }}"  alt="">
-          <p class="lead text-muted">Film de</p>
+          <p class="lead text-muted">Film de {% for director in directors %} {{ director }} {% endfor %} · 
+            {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}">{{ genre.name }}</a> {% endfor %} · 
+            {{ runtime }} · {{ movie.release_date |localizeddate('long', 'none', null) }}
+          </p>
+          <p>
+          </p>
           <p>
             <a href="#" class="btn btn-primary my-2">Main call to action</a>
             <a href="#" class="btn btn-secondary my-2">Secondary action</a>

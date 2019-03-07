@@ -131,12 +131,34 @@ class ApiController extends Controller
     public function showMovie ($id) {
         $client = new Client();
         $client = $this->get('eight_points_guzzle.client.api_tmdb');
-        $response = $client->request('GET', 'http://api.themoviedb.org/3/movie/166428?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR');
+        $promises = [
+            'movie'     => $client->getAsync('/3/movie/'.$id.'?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR'),
+            'credits'   =>$client->getAsync('/3/movie/'.$id.'/credits?api_key=5339f946394a0136198c633aa468ac5b')
 
-        $movie = json_decode(($response->getBody())->getContents());
+        ];
+        $results = Promise\unwrap($promises);
+        $movie = json_decode(($results['movie']->getBody())->getContents(), true);
+        $credits = json_decode(($results['credits']->getBody())->getContents(), true);
+
+        foreach ($credits['crew'] as $crew){
+
+                if ($crew['job'] == 'Director') {
+                    $directors[] =  $crew['name'];
+                }
+
+        }
+        //Change l'heure perçu en minute en heure
+        $runtime = $movie['runtime'];
+        $min = $movie['runtime']%60; 
+        $hour = ($runtime - $min )/60;
+        $runtime = $hour .'h'.$min;
 
         return $this->render('api/movieInfo.html.twig', [
-            'movie' => $movie,
+            'movie'     => $movie,
+            'directors' =>$directors,
+            'credits'   =>$credits, 
+            'runtime'   =>$runtime
+
         ]);
     
     }   

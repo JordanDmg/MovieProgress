@@ -19,7 +19,6 @@ Vue.use(VueAxios, axios)
 Vue.prototype.$axios = axios
 
 new Vue({
-    delimiters: ['${', '}'],
     el: '#app',
     components: { Example, 
             Searchbar}

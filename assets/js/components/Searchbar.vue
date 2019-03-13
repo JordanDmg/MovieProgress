@@ -19,7 +19,6 @@ export default {
             search: '', 
             films: [], 
             loading: false
-
         }
     },
     methods: {
@@ -37,7 +36,4 @@ export default {
             }
         }
     }
-
-
 </script>
-

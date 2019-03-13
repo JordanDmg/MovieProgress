@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MovieRepository")
@@ -135,7 +136,17 @@ class Movie
 
         return $this;
     }
-
-
+    /**
+     * Permet de savoir si cet article est liké pas un user
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isWatchByUser(User $user) :bool {
+        foreach($this->usersWhoWtach as $watch){
+            if($watch->getUser() === $user) return true;
+        }
+        return false;
+    }
 
 }

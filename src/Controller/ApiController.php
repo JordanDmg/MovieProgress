@@ -49,64 +49,38 @@ class ApiController extends Controller
         $scienceFiction = json_decode(($results['scienceFiction']->getBody())->getContents());
         $histoire = json_decode(($results['histoire']->getBody())->getContents());
 
-        
-        
+
+        $moviesArraysHome = array (
+            array ('Films populaires','popular',$popular),
+            array ('Prochaines sorties','upcoming',$upcoming),
+            array ('Films les mieux notés','top_rated',$top_rated),
+            array ('Drame','18',$drame,true),
+            array ('Comedie','35',$comedie,true),
+            array ('Horreur','27',$horreur,true),
+            array ('Science-Fiction','878',$scienceFiction,true),
+            array ('Histoire','36',$histoire,true)
+        );
          return $this->render('api/home.html.twig', [
-             'controller_name' => 'ApiController',
-             'popular'          =>  $popular,
-             'upcoming'         =>  $upcoming,
-             'top_rated'        =>  $top_rated,
-             'drame'            =>  $drame,
-             'comedie'          =>  $comedie,
-             'horreur'          =>  $horreur,
-             'scienceFiction'   =>  $scienceFiction,
-             'histoire'         =>  $histoire,
+             'moviesArraysHome'          => $moviesArraysHome
+
          ]);
         
     }
-
     /**
-     * @Route("/films-populaires", name="popular_movie")
+     * Affiche tous les films en fonction d'une donnée proposé par l'api
+     *@Route ("/specialDisplay/{data}", name="specialDisplay")
      */
-    public function popularMovies() {
 
-        $client = new Client();
-        $client = $this->get('eight_points_guzzle.client.api_tmdb');
-        $response = $client->request('GET', 'http://api.themoviedb.org/3/movie/popular?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&page=1');
-        
-        $popular_movies = json_decode(($response->getBody())->getContents());
-        
-        return $this->render('api/moviesList.html.twig', [
-            'movies' => $popular_movies,
-        ]);
-    }
-    /**
-     * @Route("/films-a-venir", name="upcoming")
-     */
-    public function upcoming() {
+    public function specialDisplay($data) {
 
         $client = new Client();
         $client = $this->get('eight_points_guzzle.client.api_tmdb');
-        $response = $client->request('GET', 'http://api.themoviedb.org/3/movie/upcoming?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&page=1&region=FR');
+        $response = $client->request('GET', 'http://api.themoviedb.org/3/movie/'.$data.'?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&page=1');
         
-        $upcoming = json_decode(($response->getBody())->getContents());
-        
-        return $this->render('api/moviesList.html.twig', [
-            'movies' => $upcoming,
-        ]);
-    }
-    /**
-     * @Route("/top-rated", name="top_rated")
-     */
-    public function topRatedMovies() {
-        $client = new Client();
-        $client = $this->get('eight_points_guzzle.client.api_tmdb');
-        $response = $client->request('GET', 'http://api.themoviedb.org/3/movie/top_rated?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&page=1');
-        
-        $top_rated = json_decode(($response->getBody())->getContents());
+        $movies = json_decode(($response->getBody())->getContents());
         
         return $this->render('api/moviesList.html.twig', [
-            'movies' => $top_rated,
+            'movies' => $movies,
         ]);
     }
 

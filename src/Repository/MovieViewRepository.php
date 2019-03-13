@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\MovieView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\Movie;
+use App\Entity\User;
 
 /**
  * @method MovieView|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,15 +38,19 @@ class MovieViewRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?MovieView
+    
+    public function findOneByUserAndMovie($userid, $movieid): ?MovieView
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+            ->leftJoin("m.user", "u")
+            ->leftJoin("m.movie", "mv")
+            ->where('u.id = :user')
+            ->andWhere("mv.id = :movie")
+            ->setParameter('user', $userid)
+            ->setParameter('movie', $movieid)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+    
 }

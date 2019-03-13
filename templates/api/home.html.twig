@@ -1,210 +1,78 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello ApiController!{% endblock %}
-  
-
-{% block content %}
-<div class="album py-5 bg-light">
-    <div class="container">
-        <h1>Films Populaires</h1><a href="{{ path('popular_movie') }}">Voir plus</a>
-      <div class="row">
-{% for movie in popular.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-        <h1>Films à venir</h1>
-        <a href="{{ path('upcoming') }}">Voir plus</a>
-      <div class="row">
-{% for movie in upcoming.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-        <h1>Films les mieux notés</h1>
-        <a href="{{ path('top_rated') }}">Voir plus</a>
-      <div class="row">
-{% for movie in top_rated.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-        <h1>Drame </h1>
-        <a href="{{ path('genre', {'id': '18', 'name':'Drame' }) }}">Voir plus</a>
-      <div class="row">
-{% for movie in drame.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-        <h1>Comedie </h1>
-        <a href="{{ path('genre', {'id': '35', 'name':'Comedie' }) }}">Voir plus</a>
-      <div class="row">
-{% for movie in comedie.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-        <h1>Horreur </h1>
-        <a href="{{ path('genre', {'id': '27', 'name':'Horreur' }) }}">Voir plus</a>
-      <div class="row">
-{% for movie in horreur.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-        <h1>Science Fiction </h1>
-        <a href="{{ path('genre', {'id': '878', 'name':'Science-Fiction' }) }}">Voir plus</a>
-      <div class="row">
-{% for movie in scienceFiction.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-        <h1>Histoire </h1>
-        <a href="{{ path('genre', {'id': '36', 'name':'Histoire' }) }}">Voir plus</a>
-      <div class="row">
-{% for movie in histoire.results | slice(0,4) %}
-
-     <div class="col-md-3">
-          <div class="card mb-3 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}"  alt="">
-            <div class="card-body">
-              <h5 class="card-text">{{ movie.title }}</h5>
-              <h5 class="card-text">{{ movie.release_date }}</h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">View</a></button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-{% endfor %}
-</div>
-</div>
-</div>
-
+{% block stylesheets %}
+    {{ parent() }}
+                <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}" />    
 {% endblock %}
-
-
-
-
-
-{# {{ movie.backdropImage|tmdb_image_html('original', 2000, 2000)|raw }} #}
-
+{% block title %}Hello ApiController!{% endblock %}
+{% block content %}
+    {% for moviesArrayHome in moviesArraysHome %}
+        <div class="album py-5 bg-light">
+            <div class="container">
+                {% if moviesArrayHome[3] is defined %}
+                    <h1>
+                        {{ moviesArrayHome[0] }}</h1>
+                    <a href="{{ path('genre', {'id': moviesArrayHome[1], 'name':moviesArrayHome[0] }) }}">Voir plus</a>
+                    {% else %}
+                    <h1>
+                        {{ moviesArrayHome[0] }}</h1>
+                    <a href="{{ path('specialDisplay', {'data':moviesArrayHome[1]}) }}">Voir plus</a>
+                {% endif %}
+                <div class="row">
+                    {% for movie in moviesArrayHome[2].results | slice(0,4) %}
+                        <div class="col-md-3">
+                            <div class="card mb-3 shadow-sm">
+                                <img alt="" class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">
+                                    <div class="card-body">
+                                        <h5 class="card-text">
+                                            {{ movie.title }}</h5>
+                                        <h5 class="card-text">
+                                            {% set currentRate = 0 %}
+                                            {% for rating in app.user.movieViews %}
+                                                {% if rating.movie.idTMDB == movie.id %}
+                                                    {% set currentRate = rating.rate %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </h5>
+                                        <select class="rating" id="{{ movie.id }}" data-title="{{ movie.title }}">
+                                            {% for i in 1..10 %}
+                                                <option value={{ i }} {{ i == currentRate ? "selected" }}>
+                                                    {{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary" type="button">
+                                                    <a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">more info</a>
+                                                </button>
+                                                <a href="" data-title="{{ movie.title }}" data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
+                                                    {% set viewed = 0 %}
+                                                    {% for view in app.user.movieViews %}
+                                                        {% if view.movie.idTMDB == movie.id %}
+                                                            {% set viewed = 1 %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if viewed == 1 %}
+                                                        <i class="fas fa-eye-slash"></i>
+                                                        {% else %}
+                                                        <i class="fas fa-eye"></i>
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
+            <script src="{{ asset('../js/ratingBar.js') }}"></script>
+            <script src="{{ asset('../js/watchBtn.js') }}"></script>
+    {% endblock %}
+    {# {{ movie.backdropImage|tmdb_image_html('original', 2000, 2000)|raw }} #}
+    

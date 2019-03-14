@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ListController!{% endblock %}
+
+{% block content %}
+
+<form class="form-signin" action="{{ path('newList') }}" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Création d'une Liste !</h1>
+        {{ form_start(formListing) }}
+        {{ form_row(formListing.name, {'label':'Nom de votre liste','attr' : {'placeholder': 'Par exemple : Meilleurs films sur Batman', 'class':'form-control'}}) }}
+        {{ form_row(formListing.visibility, {'label':'Visibilité', 'attr' : {'type' : 'radio'}}) }}       
+        {{ form_row(formListing.type, {'label':'Liste specifique à un personnage (exemple Batman) ?', 'attr' : {'type' : 'radio'}}) }}       
+        {{ form_row(formListing.description, {'label':'Decrivez votre liste','attr' : { 'class':'form-control'}}) }}
+        
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+{{ form_end(formListing) }}
+{% endblock %}

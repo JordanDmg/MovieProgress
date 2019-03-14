@@ -5,9 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ListingRepository")
+ *  @UniqueEntity(
+ *  fields= {"name"},
+ *  message= "Ce nom de liste existe dejà"
+ * )
  */
 class Listing
 {
@@ -47,6 +52,11 @@ class Listing
      * @ORM\ManyToMany(targetEntity="App\Entity\Movie")
      */
     private $movies;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $authorId;
 
     public function __construct()
     {
@@ -155,6 +165,18 @@ class Listing
         if ($this->movies->contains($movie)) {
             $this->movies->removeElement($movie);
         }
+
+        return $this;
+    }
+
+    public function getAuthorId(): ?int
+    {
+        return $this->authorId;
+    }
+
+    public function setAuthorId(int $authorId): self
+    {
+        $this->authorId = $authorId;
 
         return $this;
     }

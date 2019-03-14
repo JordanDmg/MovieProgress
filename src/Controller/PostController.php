@@ -3,8 +3,6 @@
 namespace App\Controller;
 use App\Entity\Movie;
 use App\Repository\MovieViewRepository;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\MovieView;

@@ -4,11 +4,18 @@ $(".watch-btn").click(function (e) {
     var title = $(this).data("title")
     var state = $(this).find('i').attr("class")
     $.get("view/" + title + "/" + apiid,)
-    if (state === 'fas fa-eye-slash') {
-        $(this).find('i').removeClass("fas fa-eye-slash")
-        $(this).find('i').toggleClass("fas fa-eye")
+    if (state === 'btn-icon fas fa-eye-slash') {
+        $(this).find('i').removeClass("fa-eye-slash")
+        $(this).find('i').toggleClass("fa-eye")
+        
+        //$('.rating#'+apiid).barrating('set', 0)
+        
+       
+        
+
     } else {
-        $(this).find('i').removeClass("fas fa-eye")
-        $(this).find('i').toggleClass("fas fa-eye-slash")
+        $(this).find('i').removeClass("fa-eye"),
+        $(this).find('i').toggleClass("fa-eye-slash")
+        
     }
 });

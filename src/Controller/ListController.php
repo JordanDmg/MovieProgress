@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Movie;
 use App\Form\ListType;
 use App\Entity\Listing;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -53,11 +55,63 @@ class ListController extends AbstractController
         ]);
     }
     /**
-     * @Route("profil/addMovie/{id}", name="addMovie")
+     * @Route("profil/addMovie/{idList}/{id}/{title}", name="addMovie")
      */
-    public function addMovie($id) {
-        return $this->render('list/test.html.twig', [
-            'id'    => $id
-        ]);
-    }
+    public function addMovie($idList, $id, $title ) {
+
+        $title = \urldecode($title);
+
+        $em = $this->getDoctrine()->getManager();
+        $movie = $em->getRepository(Movie::class)->findOneBy(
+            array('idTMDB' => $id)
+        );
+        if($movie === null){
+            $movie = new Movie();
+            $movie->setIdTMDB($id);
+            $movie->setName($title);
+            $em->persist($movie);
+            $em->flush();
+        }
+        $list = $em->getRepository(Listing::class)->findOneBy(
+            array('id'  => $idList)
+        );
+        $movieToList = $list->getMovies()->contains($movie);
+        if($movieToList === false){
+            $list->addMovie($movie);
+            $em->persist($list);
+            $return = "vu !";
+        }
+        else{
+            $list->removeMovie($movie);
+            $return = "pas vu !";
+        }
+        
+        $em->flush();
+
+        return new JsonResponse($return, 200);
+     }
+    /**
+     * Fonction permettant de verifier si un film appartient deja a une liste
+     * @Route("profil/tcheking/{idList}/{id}", name="alreadyIn")
+     * 
+     */
+     public function alreadyIn( $idList, $id) {
+
+            $em = $this->getDoctrine()->getManager();
+            $movie = $em->getRepository(Movie::class)->findOneBy(
+            array('idTMDB' => $id)
+            );
+            $list = $em->getRepository(Listing::class)->findOneBy(
+                array('id'  => $idList)
+            );
+            $testAlreadyIn = $list->getMovies()->contains($movie);
+
+            if ($testAlreadyIn === false){
+                $return = "not in";
+            }else{
+                $return = "in";
+            }
+
+            return new JsonResponse($return, 200);
+     }
 }

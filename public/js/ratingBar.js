@@ -11,9 +11,6 @@ $(function () {
                 $('#'+apiid+'.btn-icon').toggleClass('fa-eye-slash')
             }
             $.get("rate/" + apiid + "/" + value + "/" + title )
-
-            
-            
         }
     });
 });

@@ -17,7 +17,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ film.title }}</h5>
           <p class="card-text">{{ film.release_date }}</p>
-          <a href="#" v-on:click="addMovie(film.id)" class="btn btn-primary" >Ajouter a la liste</a>
+          <a href="#" v-on:click="addMovie(film.id, film.title, $event)" class="btn btn-primary" >Ajouter a la liste</a>
         </div>
       </div>
     </div>
@@ -31,9 +31,10 @@ export default {
     return {
       search: "",
       films: [],
-      loading: false
+      loading: false,
     };
   },
+  props: ['idlist'],
   methods: {
     autoSearch() {
       if (this.search.length >= 3) {
@@ -46,15 +47,21 @@ export default {
           .then(
             response => (
               (this.films = response.data.results), console.log(response)
-            )
+              
+              )
           );
       }
     },
-    addMovie(id) {
-        this.$axios.put('/profil/addMovie/' + id ,{
-    })
+    addMovie(id, title, event) {
+        this.$axios.put('/profil/addMovie/' + this.idlist +'/'+ id +'/'+ title
+        )
         .then(response => {
-            alert('Family has been modified');
+          console.log(response.data)
+            if (response.data ==="vu !"){
+              event.target.className += " btn-success"
+            }else{
+               event.target.className="btn btn-primary"
+            }
         })
     }
     }

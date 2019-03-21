@@ -3,15 +3,13 @@ $(".watch-btn").click(function (e) {
     var apiid = $(this).data("api-id")
     var title = $(this).data("title")
     var state = $(this).find('i').attr("class")
-    $.get("view/" + title + "/" + apiid,)
+
+    $.get("view/" + title + "/" + apiid)
+
     if (state === 'btn-icon fas fa-eye-slash') {
+        var test = $('.rating#'+apiid).barrating('set',0)
         $(this).find('i').removeClass("fa-eye-slash")
         $(this).find('i').toggleClass("fa-eye")
-        
-        //$('.rating#'+apiid).barrating('set', 0)
-        
-       
-        
 
     } else {
         $(this).find('i').removeClass("fa-eye"),

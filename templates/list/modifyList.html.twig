@@ -3,8 +3,8 @@
 {% block title %}Hello ListController!{% endblock %}
 
 {% block content %}
-<h1>Bonjour {{ list.name }}</h1>
+<h1>Bonjour {{ list.id }}</h1>
 <div id="app">
-    <searchbar></searchbar>
+    <searchbar :idlist={{ list.id }}></searchbar>
 </div>
 {% endblock %}

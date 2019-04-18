@@ -1,0 +1,16 @@
+ .test {
+     position: relative;
+ }
+
+ .cover {
+     width: 100%;
+     height: 200px;
+ }
+
+ .profil_picture {
+     position: absolute;
+     top: 14%;
+     left: 4%;
+     height: 150px;
+     width: 150px;
+ }

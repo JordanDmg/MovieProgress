@@ -52,5 +52,22 @@ class MovieViewRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function findMovieByUserId($userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+        SELECT id_tmdb
+        FROM movie_view mv, movie m
+        WHERE mv.user_id = :userId
+        AND mv.movie_id=m.id
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['userId' => $userId]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
     
 }

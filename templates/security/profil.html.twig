@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('../css/profil_page.css') }}" />
+    
+{% endblock %}
+
+{% block content %}
+<div class="test">
+    <img src="{{ asset('../img/chalkboard.jpg') }}" class="cover" alt="Responsive image">
+    <img src="{{ asset('../img/empty_profile.png') }}" class="profil_picture" alt="profil_picture">
+</div>
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="{{ path('profil') }}">Films Vues</a>
+  <a class="navbar-brand" href="#">Films à regarder</a>
+  <a class="navbar-brand" href="#">Mes listes</a>
+  <a class="navbar-brand" href="#">Activités</a>
+  <a class="navbar-brand" href="#">Statistiques</a>
+</nav>
+{% for test in user_movie %}
+{{ test.id_tmdb }}    
+{% endfor %}
+
+
+</img>{% endblock %}

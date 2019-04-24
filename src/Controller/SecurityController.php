@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\User;
 use App\Entity\MovieView;
 use App\Form\RegistrationType;
+use App\Controller\ApiController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,27 +63,7 @@ class SecurityController extends AbstractController
             'controller_name' => 'ApiController',
         ]);
     }
-    /**
-     * Fonction d'affichage du menu profil 
-     * @Route("/profil", name="profil")
-     */
-    public function profil()
-    {
-        $userId = $this->getUser()->getId();
 
-        $em = $this->getDoctrine()->getManager();
-        $userMovies = $em->getRepository(MovieView::class)->findMovieByUserId(
-            $userId
-        );
-
-        dump($userMovies);
-
-
-        return $this->render('security/profil.html.twig', [
-            'controller_name'   => 'Profil',
-            'user_movie'        => $userMovies
-        ]);
-    }
 
     /**
      * @Route("/deconnexion", name="security_logout")

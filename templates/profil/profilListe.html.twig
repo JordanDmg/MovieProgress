@@ -1,0 +1,43 @@
+{% extends 'profil/profil.html.twig' %}
+{% block content %}
+    {{ parent() }}
+
+{% endblock %}
+{% block movingContent %}
+    <a class="navbar-brand" href="{{ path('newList')}}">Créer une liste</a>
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary" data-target="#exampleModal" data-toggle="modal" type="button">
+        Créer une liste
+    </button>
+
+    <!-- Modal -->
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Création d'une Liste !</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-signin" action="{{ path('newList') }}" method="post">
+                        {{ form_start(formListing) }}
+                        {{ form_row(formListing.name, {'label':'Nom de votre liste','attr' : {'placeholder': 'Par exemple : Meilleurs films sur Batman', 'class':'form-control'}}) }}
+                        {{ form_row(formListing.visibility, {'label':'Visibilité', 'attr' : {'type' : 'radio'}}) }}
+                        {{ form_row(formListing.type, {'label':'Liste specifique à un personnage (exemple Batman) ?', 'attr' : {'type' : 'radio'}}) }}
+                        {{ form_row(formListing.description, {'label':'Decrivez votre liste','attr' : { 'class':'form-control'}}) }}
+
+                        <div class="modal-footer">
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Créer la liste</button>
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                        </div>
+                        {{ form_end(formListing) }}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+

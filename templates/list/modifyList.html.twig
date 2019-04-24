@@ -1,10 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ListController!{% endblock %}
+{% block title %}Hello ListController!
+{% endblock %}
 
 {% block content %}
-<h1>Bonjour {{ list.id }}</h1>
-<div id="app">
-    <searchbar :idlist={{ list.id }}></searchbar>
-</div>
+<div class="content">
+    <h1>Bonjour
+        {{ list.id }}</h1>
+    <div>
+        <input id="test" placeholder="Search...">
+    </div>
+    <div id="affichage" class="row">
+
+    
+    </div></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('../js/searchBar.js') }}"></script>
 {% endblock %}

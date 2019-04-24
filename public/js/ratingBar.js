@@ -1,7 +1,6 @@
 $(function () {
     $('.rating').barrating({
         theme: 'bars-1to10',
-        allowEmpty: true,
         emptyValue: 0,
         
         onSelect: function (value, text, event) {

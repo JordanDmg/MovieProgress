@@ -43,25 +43,28 @@ class ListController extends AbstractController
     /**
      * @Route("/profil/modificationList/{id}", name="modifyList") 
      */
-    public function modifyList($id)
+    public function modifyList(Listing $list)
     {
-        $em = $this->getDoctrine()->getManager();
-        $list = $em->getRepository(Listing::class)->findOneBy(
-            array('id' => $id));
-
-
+        
         return $this->render('list/modifyList.html.twig', [
-            'list'    => $list
+            'list'    => $list,
+            
         ]);
     }
+
+
     /**
      * @Route("profil/addMovie/{idList}/{id}/{title}", name="addMovie")
      */
     public function addMovie($idList, $id, $title ) {
-
+        
         $title = \urldecode($title);
 
         $em = $this->getDoctrine()->getManager();
+
+        // Recherche dans la bdd l'id TMDB reçu, et l'ajoute s'il est completement 
+        // inconnu de la base de données 
+        
         $movie = $em->getRepository(Movie::class)->findOneBy(
             array('idTMDB' => $id)
         );
@@ -72,24 +75,42 @@ class ListController extends AbstractController
             $em->persist($movie);
             $em->flush();
         }
+        
         $list = $em->getRepository(Listing::class)->findOneBy(
             array('id'  => $idList)
         );
-        $movieToList = $list->getMovies()->contains($movie);
-        if($movieToList === false){
-            $list->addMovie($movie);
+        $list->addMovie($movie);
             $em->persist($list);
             $return = "vu !";
-        }
-        else{
-            $list->removeMovie($movie);
-            $return = "pas vu !";
-        }
-        
-        $em->flush();
 
+        $em->flush();
+        
         return new JsonResponse($return, 200);
      }
+
+     /**
+     * @Route("/profil/removeMovie/{idList}/{idMovie}", name="removeMovie")
+     */
+    public function removeMovie($idList, $idMovie ) {
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $movie = $em->getRepository(Movie::class)->findOneBy(
+            array('idTMDB' => $idMovie)
+        );
+        
+        $list = $em->getRepository(Listing::class)->findOneBy(
+            array('id'  => $idList)
+        );
+
+        $list->removeMovie($movie);
+            $em->persist($list);
+            $return = "delete !";
+
+        $em->flush();
+        return new JsonResponse($return, 200);
+     }
+     
     /**
      * Fonction permettant de verifier si un film appartient deja a une liste
      * @Route("profil/tcheking/{idList}/{id}", name="alreadyIn")

@@ -4,16 +4,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
     <h1>Bonjour
-        {{ list.id }}</h1>
-    <div>
-        <input id="test" placeholder="Search...">
+        {{ list.id }}
+    </h1>
+    <div class="movieInList">
+        {% for movie in list.movies %}
+            <p  class="movieIn col-6" >{{ movie.idTMDB }}</p>
+            {# <img src="http://image.tmdb.org/t/p/w154/{{ movie }}" alt="terrible" > #}
+        {% endfor %}
     </div>
-    <div id="affichage" class="row">
+    <div>
+        <p class="listId" hidden>{{ list.id }}</p>
+        <input id="test" placeholder="Search..." autocomplete="off">
+    </div>
+    <div class="row" id="affichage" style="margin-left: auto;"></div>
 
-    
-    </div></div>
+
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

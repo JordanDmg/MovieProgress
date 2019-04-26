@@ -4,7 +4,7 @@
 
 {% endblock %}
 {% block movingContent %}
-    <a class="navbar-brand" href="{{ path('newList')}}">Créer une liste</a>
+
     <!-- Button trigger modal -->
     <button class="btn btn-primary" data-target="#exampleModal" data-toggle="modal" type="button">
         Créer une liste
@@ -39,5 +39,10 @@
                 </div>
             </div>
         </div>
-    {% endblock %}
 
+        <h4>Listes de "Pseudo"</h4>
+        {% for user_list in user_lists %}
+           {{ user_list.name }}
+        {% endfor %}
+
+    {% endblock %}

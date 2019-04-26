@@ -54,9 +54,9 @@ class ListController extends AbstractController
 
 
     /**
-     * @Route("profil/addMovie/{idList}/{id}/{title}", name="addMovie")
+     * @Route("profil/addMovie/{idList}/{id}/{title}/{posterPath}", name="addMovie")
      */
-    public function addMovie($idList, $id, $title ) {
+    public function addMovie($idList, $id, $title, $posterPath ) {
         
         $title = \urldecode($title);
 
@@ -72,6 +72,7 @@ class ListController extends AbstractController
             $movie = new Movie();
             $movie->setIdTMDB($id);
             $movie->setName($title);
+            $movie->setPosterPath($posterPath);
             $em->persist($movie);
             $em->flush();
         }
@@ -134,5 +135,20 @@ class ListController extends AbstractController
             }
 
             return new JsonResponse($return, 200);
+     }
+
+
+     /**
+      * Affichage du menu Listes sur la pages explorer 
+      * @Route("/listes", name="homeList")
+      */
+     public function homeList() {
+        $em = $this->getDoctrine()->getManager();
+        $list = $em->getRepository(Listing::class)->findAll();
+        return $this->render('list/homeListes.html.twig', [
+            'lists' => $list,
+    ]);
+
+
      }
 }

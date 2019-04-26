@@ -2,9 +2,9 @@ $(".watch-btn").click(function (e) {
     e.preventDefault()
     var apiid = $(this).data("api-id")
     var title = $(this).data("title")
+    var posterPath = $(this).data("poster")
     var state = $(this).find('i').attr("class")
-
-    $.get("view/" + title + "/" + apiid)
+    $.get("view/" + title + "/" + apiid + posterPath)
 
     if (state === 'btn-icon fas fa-eye-slash') {
         var test = $('.rating#'+apiid).barrating('set',0)

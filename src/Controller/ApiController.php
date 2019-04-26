@@ -210,23 +210,19 @@ class ApiController extends Controller
      */
     public function profilListes(Request $request, ObjectManager $manager, UserInterface $user) {
         $listing = new Listing();
-       
-        
+        $userId = $user->getId();
+        //Creation du formulaire pour le boutton créer une Liste
         $form = $this->createForm(ListType::class, $listing);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $listing->setAuthorId($user->getId());
-            $manager->persist($listing);
-            $manager->flush();
 
-            return $this->redirectToRoute('modifyList', [
-                'id' => $listing->getId()
-                ]);
-            
-        }
-
+        $em = $this->getDoctrine()->getManager();
+        $lists = $em->getRepository(Listing::class)->findBy(
+        array('authorId' => $userId)
+        );
+        dump($lists);
         return $this->render('profil/profilListe.html.twig', [
                 'formListing' => $form->createView(),
+                'user_lists'    =>$lists  
         ]);
     }
 

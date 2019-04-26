@@ -21,9 +21,9 @@ class PostController extends AbstractController
     }
     /**
      * Permet d'ajouter un film à une liste de films vus
-     * @Route("view/{title}/{apiId}", name="view")
+     * @Route("view/{title}/{apiId}/{posterPath}", name="view")
      */
-    public function view($title, $apiId)
+    public function view($title, $apiId, $posterPath)
     {
 
         $title = \urldecode($title);
@@ -39,6 +39,7 @@ class PostController extends AbstractController
             $movie = new Movie();
             $movie->setIdTMDB($apiId);
             $movie->setName($title);
+            $movie->setPosterPath($posterPath);
             $em->persist($movie);
         }
         $view = $em->getRepository(MovieView::class)->findOneByUserAndMovie($user->getId(), $movie->getId());
@@ -61,9 +62,9 @@ class PostController extends AbstractController
 
     /**
      * Permet d'ajouter un film à une liste de films vus
-     * @Route("rate/{apiId}/{rate}/{title}", name="rate")
+     * @Route("rate/{apiId}/{rate}/{title}/{posterPath}", name="rate")
      */
-    public function rate($apiId, $rate, $title)
+    public function rate($apiId, $rate, $title, $posterPath)
     {
 
         $user = $this->getUser();
@@ -78,6 +79,7 @@ class PostController extends AbstractController
             $movie = new Movie();
             $movie->setIdTMDB($apiId);
             $movie->setName($title);
+            $movie->setPosterPath($posterPath);
             $em->persist($movie);
         }
         $rating = $em->getRepository(MovieView::class)->findOneByUserAndMovie($user->getId(), $movie->getId());

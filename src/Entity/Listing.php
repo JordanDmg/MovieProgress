@@ -58,6 +58,11 @@ class Listing
      */
     private $authorId;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true )
+     */
+    private $img_path;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -177,6 +182,18 @@ class Listing
     public function setAuthorId(int $authorId): self
     {
         $this->authorId = $authorId;
+
+        return $this;
+    }
+
+    public function getImgPath(): ?string
+    {
+        return $this->img_path;
+    }
+
+    public function setImgPath(?string $img_path): self
+    {
+        $this->img_path = $img_path;
 
         return $this;
     }

@@ -39,6 +39,11 @@ class Movie
      */
     private $usersWhoWtach;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $poster_path;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -147,6 +152,18 @@ class Movie
             if($watch->getUser() === $user) return true;
         }
         return false;
+    }
+
+    public function getPosterPath(): ?string
+    {
+        return $this->poster_path;
+    }
+
+    public function setPosterPath(?string $poster_path): self
+    {
+        $this->poster_path = $poster_path;
+
+        return $this;
     }
 
 }

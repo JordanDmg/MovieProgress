@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+ <nav class="navbar navbar-dark bg-dark" >
+        <a href="{{ path('explorer') }}" style="color:white; width: 50%; text-align: center;">Films</a>
+        <a href="{{ path('homeList') }}" style="color:white; width: 50%; text-align: center;">Listes</a>
+</nav>
+{% for list in lists %}
+<h5> {{ list.name }}</h5></br>
+{% endfor %}
+
+{% endblock %}

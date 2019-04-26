@@ -1,7 +1,3 @@
-// import Axios from "axios";
-
-
-
 
 $("#test").keyup(function (data) {
   search = document.getElementById("test").value
@@ -31,7 +27,7 @@ $("#test").keyup(function (data) {
             <div style="width: 18rem;">
                        <img
                          src="http://image.tmdb.org/t/p/w154/`+ element.poster_path + `"
-                         alt="terrible"
+                         alt="terrible" class="`+ element.poster_path + `"
                          
                        >
                        <div class="card-body">
@@ -49,9 +45,9 @@ $("#test").keyup(function (data) {
         event.preventDefault()
         title = $(this).siblings(".card-title").text()
         movieId = $(this).siblings(".card-id").text()
+        posterPath = $(this).parent().siblings().attr('class')
         listId = $(".listId").text()
         alreadyIn = false
-
 
         $(".movieIn").each(function () {
 
@@ -73,7 +69,7 @@ $("#test").keyup(function (data) {
             })
           
         } else {
-          axios.put('/profil/addMovie/' + listId + '/' + movieId + '/' + title)
+          axios.put('/profil/addMovie/' + listId + '/' + movieId + '/' + title  + posterPath)
             .then(response => {
               console.log(response.data)
               $(this).toggleClass("btn-primary btn-success")

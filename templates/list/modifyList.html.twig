@@ -7,22 +7,21 @@
     <h1>Bonjour
         {{ list.id }}
     </h1>
-    <div class="movieInList">
-        {% for movie in list.movies %}
-            <p  class="movieIn col-6" >{{ movie.idTMDB }}</p>
-            {# <img src="http://image.tmdb.org/t/p/w154/{{ movie }}" alt="terrible" > #}
-        {% endfor %}
-    </div>
-    <div>
-        <p class="listId" hidden>{{ list.id }}</p>
-        <input id="test" placeholder="Search..." autocomplete="off">
-    </div>
-    <div class="row" id="affichage" style="margin-left: auto;"></div>
 
 
+<div class="movieInList">
+    {% for movie in list.movies %}
+        <p class="movieIn col-6">{{ movie.idTMDB }}</p>
+        {# <img src="http://image.tmdb.org/t/p/w154/{{ movie }}" alt="terrible" > #}
+    {% endfor %}
+</div>
+<div>
+    <p class="listId" hidden>{{ list.id }}</p>
+    <input autocomplete="off" id="test" placeholder="Search...">
+</div>
+<div class="row" id="affichage" style="margin-left: auto;"></div>
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="{{ asset('../js/searchBar.js') }}"></script>
-{% endblock %}
+{{ parent() }}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{{ asset('../js/searchBar.js') }}"></script>{% endblock %}

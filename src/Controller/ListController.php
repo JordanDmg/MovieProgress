@@ -26,6 +26,7 @@ class ListController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $listing->setAuthorId($user->getId());
+            $listing->setImgPath("../img/emptyImg.jpg");
             $manager->persist($listing);
             $manager->flush();
 

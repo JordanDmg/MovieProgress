@@ -6,6 +6,9 @@
         <a href="{{ path('homeList') }}" style="color:white; width: 50%; text-align: center;">Listes</a>
 </nav>
 {% for list in lists %}
+<img src="{{ asset(list.imgPath) }}"
+     alt="list" style="heigth:50px; width:50px;"/>
+     </img>
 <h5> {{ list.name }}</h5></br>
 {% endfor %}
 

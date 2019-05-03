@@ -39,7 +39,8 @@
                                             {% endfor %}
                                         </h5>
                                         <select class="rating" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}">
-                                            {% for i in 0..10 %}
+                                                <option value=""></option>
+                                            {% for i in 1..10 %}
                                                 <option value={{ i }} {{ i == currentRate ? "selected" }}>
                                                     {{ i }}</option>
                                             {% endfor %}

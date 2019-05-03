@@ -13,7 +13,13 @@ $(function () {
                 $('#'+apiid+'.btn-icon').removeClass('fa-eye')
                 $('#'+apiid+'.btn-icon').toggleClass('fa-eye-slash')
             }
+            if(value){
             $.get("rate/" + apiid + "/" + value + "/" + title + posterPath )
-        }
+
+            }else {
+            
+            }
+        },
+        
     });
 });

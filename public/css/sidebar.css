@@ -1,41 +1,18 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-}
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
-}
+
 .wrapper {
     display: flex;
+    width: 100%;
     align-items: stretch;
 }
-
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
+#content {
+    padding-left:250px;
+    
 }
-
-#sidebar.active {
-    margin-left: -250px;
-}
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+#content.active {
+    padding-left:50px;
+    
 }
 body {
     font-family: 'Poppins', sans-serif;
@@ -57,18 +34,24 @@ a, a:hover, a:focus {
 }
 
 #sidebar {
-    /* don't forget to add all the previously mentioned styles here too */
-    background: #7386D5;
+    max-width:250px;
+    min-height: 100vh;
+    background: #343a40;
     color: #fff;
     transition: all 0.3s;
 }
-
 #sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
+    background: #272b30;
 }
 
+#sidebar.active {
+    width:50px;
+    text-align: center;
+}
+
+
 #sidebar ul.components {
+    width: 100%;
     padding: 20px 0;
     border-bottom: 1px solid #47748b;
 }
@@ -80,9 +63,17 @@ a, a:hover, a:focus {
 
 #sidebar ul li a {
     padding: 10px;
+    text-align:center;
     font-size: 1.1em;
     display: block;
 }
+#sidebar ul li a#sidebarCollapse {
+    padding: 10px;
+    padding-left:10px;
+    font-size: 1.1em;
+    display: block;
+}
+
 #sidebar ul li a:hover {
     color: #7386D5;
     background: #fff;
@@ -96,4 +87,30 @@ ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #6d7fcc;
+}
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        max-width:100%;
+    }
+    #sidebar.active {
+        margin-left: 0;
+        
+    }
+    
+    #content {
+        padding-left:50px;
+    }
+    
 }

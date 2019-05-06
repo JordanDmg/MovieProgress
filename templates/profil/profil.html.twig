@@ -25,7 +25,7 @@
 {% for user_movie in user_movies %}
   <div class="img-userMovie">
    <img alt=""  src="https://image.tmdb.org/t/p/w400/{{ user_movie.poster_path }}" style="width:138px; height: 190px ;" >
-   <p class="mx-auto" style="max-width: 138px;">{{ user_movie.title | length > 33  ? user_movie.title|slice(0, 33) ~ '...' : user_movie.title}}</p>
+   <p class="mx-auto" style="max-width: 138px;">{{ user_movie.name | length > 33  ? user_movie.name|slice(0, 33) ~ '...' : user_movie.name}}</p>
    </div>
 {% endfor %}
 

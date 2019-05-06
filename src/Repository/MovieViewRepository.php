@@ -58,7 +58,7 @@ class MovieViewRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-        SELECT id_tmdb
+        SELECT id_tmdb, name, poster_path
         FROM movie_view mv, movie m
         WHERE mv.user_id = :userId
         AND mv.movie_id=m.id

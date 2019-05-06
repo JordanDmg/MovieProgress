@@ -1,15 +1,54 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
- <nav class="navbar navbar-dark bg-dark" >
+    <nav class="navbar navbar-dark bg-dark">
         <a href="{{ path('explorer') }}" style="color:white; width: 50%; text-align: center;">Films</a>
         <a href="{{ path('homeList') }}" style="color:white; width: 50%; text-align: center;">Listes</a>
-</nav>
-{% for list in lists %}
-<img src="{{ asset(list.imgPath) }}"
-     alt="list" style="heigth:50px; width:50px;"/>
-     </img>
-<h5> {{ list.name }}</h5></br>
-{% endfor %}
+    </nav>
+    
+<h1>Liste populaires</h1>
+        <div class="row">
+        
+                {% for list in lists %}
+                {% if list.type == 0 and list.visibility == 1 %}
+                  <div class="col-md-2">
+                      <div class="card mb-3 shadow-sm">      
+                        
+                        <img src="{{ asset(list.imgPath) }}" alt="list" style=" width:100%;"/>
+                        <div class="card-body">
+                            <h5 class="card-text" style="min-height:48px">{{ list.name }}</h5>
+                             {# <a href="#" class="addList" data-list-id="{{ list.id }}">Ajouter la liste</a> #}
+                             <a href="{{ path('addList' , {'id': list.id}) }}"  data-list-id="{{ list.id }}">Ajouter la liste</a>
+                        </div>
+                        
+                      </div>    
+                </div>
+                {% endif %} 
+                {% endfor %}
+          
+        </div>
+<h1>Liste par personnages</h1>
+        <div class="row">
+        
+                {% for list in lists %}
+                 {% if list.type == 1 and list.visibility == 1 %}
+                  <div class="col-md-2">
+                      <div class="card mb-3 shadow-sm">      
+                       
+                        <img src="{{ asset(list.imgPath) }}" alt="list" style="width:100%;"/>
+                        <div class="card-body">
+                            <h5 class="card-text" style="min-height:48px">{{ list.name }}</h5>
+                        </div>
+                       
+                      </div>    
+                </div>
+                 {% endif %} 
+                {% endfor %}
+          
+        </div>
+<h1>Personnalités populaires</h1>{% endblock %}
+{% block javascripts %}
+{{ parent() }}
 
+<script src="{{ asset('../js/addList.js') }}"></script>
 {% endblock %}

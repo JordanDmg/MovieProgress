@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\User;
 use App\Entity\Movie;
+use App\Entity\Listing;
+use App\Entity\MovieView;
 use App\Repository\MovieViewRepository;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\MovieView;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostController extends AbstractController
 {
@@ -102,5 +104,26 @@ class PostController extends AbstractController
         return new JsonResponse($return);
     }
 
+     /**
+     * Permet d'ajouter une list a ses listes favorites
+     * @Route("listes/addliste/{id}", name="addList")
+     */
+    public function addList (Listing $list) {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        dump($list);
+        $user->addListing($list);
+        $em->persist($user);
+        $em->flush();
 
+        
+
+        return $this->render('list/test.html.twig');
+
+
+
+
+   
+
+    }
 }

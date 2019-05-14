@@ -10,6 +10,7 @@ use App\Controller\ApiController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -70,4 +71,31 @@ class SecurityController extends AbstractController
      */
     public function logout()
     { }
+    
+
+    /**
+     * @Route("/parametre", name="parameter")
+     */
+    public function parameter (ObjectManager $manager, Request $request, UserPasswordEncoderInterface $encoder, UserInterface $user) {
+
+        $form = $this->createForm(RegistrationType::class, $user);
+        $form->handleRequest($request);
+            
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setSubscribeDate(new \DateTime());
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('parameter');
+        }
+
+        return $this->render('security/parameter.html.twig', [
+            'form' => $form->createView()
+        ]);
+        // dump($user);
+        // return $this->render('security/parameter.html.twig');
+    }
 }

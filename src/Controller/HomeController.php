@@ -87,21 +87,26 @@ class HomeController extends AbstractController
 
     /**
      * Affiche les informations et les details d'un films en particulier sur une page ( movie info )
-     * @Route("/film/{title}/{id}", name="movie")
+     * @Route("/film/{id}", name="movie")
      */
-    public function showMovie(ApiManager $api, $id)
+    public function showMovie( $id, ApiManager $api)
     {
-
-        $results = $api->getOneMovieById ($id);
+        $results = $api->getOneMovieByIdWithFullData($id);
         $movie = json_decode(($results['movie']->getBody())->getContents(), true);
         $credits = json_decode(($results['credits']->getBody())->getContents(), true);
-
+        $directors = array();
+        $screenplays = array();
         foreach ($credits['crew'] as $crew) {
-
             if ($crew['job'] == 'Director') {
                 $directors[] =  $crew['name'];
             }
+            if ($crew['job'] == 'Screenplay') {
+                $screenplays[] =  $crew['name'];
+            }
+
+            
         }
+        dump($credits['cast']);
         //Change l'heure perçu en minute en heure
         $runtime = $movie['runtime'];
         $min = $movie['runtime'] % 60;
@@ -111,6 +116,7 @@ class HomeController extends AbstractController
         return $this->render('home/movieInfo.html.twig', [
             'movie'     => $movie,
             'directors' => $directors,
+            'screenplays'=> $screenplays,
             'credits'   => $credits,
             'runtime'   => $runtime
 

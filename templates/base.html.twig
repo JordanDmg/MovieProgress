@@ -11,6 +11,7 @@
             <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
             <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" rel="stylesheet">
             <link rel="stylesheet" href="{{ asset('../css/sidebar.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('../css/main.css') }}"/>
         {% endblock %}
     </head>
     <body>
@@ -40,7 +41,10 @@
                         <a href="{{ path('profil') }}"><i class="far fa-user-circle"></i> <span style="display:none;">Profil</span></a>
                     </li>
                     <li>
-                        <a href="#"><i class="fas fa-cog"></i> <span style="display:none;">Paramètres</span></a>
+                        <a href="{{ path('parameter') }}"><i class="fas fa-cog"></i> <span style="display:none;">Paramètres</span></a>
+                    </li>
+                    <li>
+                        <a href="{{ path('security_logout') }}"><i class="fas fa-sign-out-alt"></i> <span style="display:none;">Déconnexion</span></a>
                     </li>
                     <li>
                         <a id="sidebarCollapse" style="text-align:center;" >
@@ -70,6 +74,7 @@
             <script crossorigin="anonymous" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
             <script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
             <script type="text/javascript" src="{{ asset('../js/sidebar.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('../js/main.js') }}"></script>
 
         {% endblock %}
     </body>

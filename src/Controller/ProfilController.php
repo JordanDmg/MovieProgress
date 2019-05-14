@@ -28,7 +28,6 @@ class ProfilController extends AbstractController
         $userMovies = $em->getRepository(MovieView::class)->findMovieByUserId(
             $userId
         );
-
         return $this->render('profil/profil.html.twig', [
             'controller_name'   => 'Profil',
             'user_movies'        => $userMovies

@@ -27,7 +27,11 @@
                 {% for movie in moviesArrayHome[2].results | slice(0,6) %}
                     <div class="col-md-2">
                         <div class="card mb-3 shadow-sm">
-                            <img alt="" class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">
+                            <a href="{{ path('movie', {'id':movie.id }) }}" class="mousehover over_a">
+                                <img alt="" class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">
+                                <i class="over_i fas fa-search fa-2x" ></i>
+                                
+                            </a>
                             <div class="card-body">
                                 <h5 class="card-text">
                                     {{ movie.title }}</h5>
@@ -48,9 +52,6 @@
                                 </select>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-secondary" type="button">
-                                            <a href="{{ path('movie', {'title': movie.title, 'id':movie.id }) }}">more info</a>
-                                        </button>
                                         <a href="" data-title="{{ movie.title }}" data-api-id="{{ movie.id }}" data-poster="{{ movie.poster_path }}" class="watch-btn btn btn-link">
                                             {% set viewed = 0 %}
                                             {% for view in app.user.movieViews %}

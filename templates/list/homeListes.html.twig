@@ -38,6 +38,7 @@
                         <img src="{{ asset(list.imgPath) }}" alt="list" style="width:100%;"/>
                         <div class="card-body">
                             <h5 class="card-text" style="min-height:48px">{{ list.name }}</h5>
+                            <a href="{{ path('addList' , {'id': list.id}) }}"  data-list-id="{{ list.id }}">Ajouter la liste</a>
                         </div>
                        
                       </div>    

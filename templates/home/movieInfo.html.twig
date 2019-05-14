@@ -1,13 +1,98 @@
 {% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
+
+<style>
+  .test {
+    position:relative; 
+    height:20em;
+  }
+  .background {
+    width:100%;
+    background : #272b30;
+    background-size: cover;
+    opacity:1;
+    height: 20em;
+    position: absolute;
+    
+  }
+  .poster{
+    position:absolute;
+
+    width: 200px;
+    height: 273px;
+    margin-top: 21px;
+    margin-left: 21px;
+  }
+  .movie_infos {
+    position:absolute;
+    width:100%;
+    color:white;
+    padding-top:21px;
+    padding-left:240px;
+  }
+  
+
+</style>
+{% endblock %}
 {% block body %}
  {{ parent() }}
 {% endblock %}
 
 {% block content %}
+<div class="test">
+  {# <div class="background" style="background-image: url('http://image.tmdb.org/t/p/w1280/{{ movie.backdrop_path }}');"></div> #}
+  <div class="background" ></div>
+  <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">
+  <div class="movie_infos">
+    <h2>{{ movie.title }} ({{ movie.release_date |date("Y") }})</h2>
+    {% set currentRate = 0 %}
+    {% for rating in app.user.movieViews %}
+        {% if rating.movie.idTMDB == movie.id %}
+              {% set currentRate = rating.rate %}
+        {% endif %}
+    {% endfor %}
+    <select class="rating" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}" >
+      <option value=""></option>
+      {% for i in 1..10 %}
+        <option value={{ i }} {{ i == currentRate ? "selected" }}>{{ i }}</option>
+      {% endfor %}
+    </select>
+    <div class="row" style="margin-left:auto;">
+      <h5>Genres : </h5> 
+      {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}" style="margin-left:5px;">{{ genre.name }}</a> {% endfor %}
+    </div>
+    <h5>Équipe technique principal :</h5>
+    <div class="row">
+      {% for director in directors %}
+        <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="#" >{{ director }}</a></br><font size="2.5" face="Poppins" color="white">Réalisateur</font></div> 
+        {% endfor %}
+      {% for screenplay in screenplays %}
+        <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="#" >{{ screenplay }}</a></br><font size="2.5" face="Poppins" color="white">Scénariste</font></div> 
+        {% endfor %}
+    </div>
+  </div>
+</div>
+<div style="padding-left:15px;">
+  <h2>Casting</h2>
+    <div class="row"> 
+    {% for cast in credits['cast'] | slice(0,7) %}
+      <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
+          <img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.profile_path}}" alt="Card image cap">
+          <b>{{ cast.name }}</b>
+          <p>{{ cast.character }}</p>
+      </div>
+    {% endfor %}
+      <a href="#" >
+        <div class="card" style="width: 138px; height: 358px; margin-left:8px; text-align:center; " >
+          <i style="margin-top:178px ;" class="fas fa-arrow-right fa-2x" ></i>
+      </div></a>
+  </div>
+</div>
 
-
-
-
+{# 
     <main role="main">
 
       <section class="jumbotron ">
@@ -25,153 +110,15 @@
             <a href="#" class="btn btn-secondary my-2">Secondary action</a>
           </p>
         </div>
-      </section>
+      </section> #}
 
-      <div class="album py-5 bg-light">
-        <div class="container">
-
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </main>
 
     {% endblock %}
+
+  {% block javascripts %}
+    {{ parent() }}
+    <script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
+    <script src="{{ asset('../js/ratingBar.js') }}"></script>
+
+
+  {% endblock %}

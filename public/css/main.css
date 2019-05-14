@@ -1,0 +1,17 @@
+.hover {
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 5);
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(50%)
+}
+.over_a {
+    position: relative;
+    text-align: center;
+}
+.over_i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color:white;
+    display:none;
+}

@@ -35,10 +35,7 @@ class ListController extends AbstractController
                 ]);
             
         }
-
-        return $this->render('list/newList.html.twig', [
-                'formListing' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('profil_liste');
     }
 
     /**

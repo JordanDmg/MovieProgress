@@ -29,6 +29,9 @@
                                                 <searchbar></searchbar>
                                             </div> #}
                     <li>
+                        <a href="#" id="searchCollapse"><i class="fas fa-search"></i><input autocomplete="off" id="test" placeholder="Search..." style="display:none;"></a>
+                    </li>
+                    <li>
                         <a href="{{ path('explorer') }}"><i class="far fa-compass"></i> <span style="display:none;">Explorer</span></a>
                     </li>
                     <li>
@@ -58,7 +61,8 @@
 
             <!-- Page Content -->
 
-            <div id="content" class="active" style="width: 100%; ">
+            <div class="active row" id="affichage" ></div>
+            <div id="content" class="active" style="width: 100%;  ">
                
                 {# <div class="container" style="margin-left:8%; margin-top:6%"> #}
                 {% block content %}
@@ -73,8 +77,12 @@
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
             <script crossorigin="anonymous" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
             <script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <script type="text/javascript" src="{{ asset('../js/sidebar.js') }}"></script>
             <script type="text/javascript" src="{{ asset('../js/main.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('../js/homeSearchBar.js') }}"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
         {% endblock %}
     </body>

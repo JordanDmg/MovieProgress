@@ -41,6 +41,7 @@ $("#test").keyup(function (data) {
         );
 
       });
+      
       $(".addMovie").click(function (data) {
         event.preventDefault()
         title = $(this).siblings(".card-title").text()

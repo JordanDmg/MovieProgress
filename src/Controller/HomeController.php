@@ -87,7 +87,7 @@ class HomeController extends AbstractController
 
     /**
      * Affiche les informations et les details d'un films en particulier sur une page ( movie info )
-     * @Route("/film/{id}", name="movie")
+     * @Route("/film/{id}", options={"expose"=true}, name="movie")
      */
     public function showMovie( $id, ApiManager $api)
     {

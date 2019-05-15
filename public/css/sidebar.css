@@ -10,6 +10,12 @@
     padding-left:250px;
     
 }
+#affichage.active {
+    padding-left:250px;
+}
+#affichage {
+    padding-left:50px;
+}
 #content.active {
     padding-left:50px;
     

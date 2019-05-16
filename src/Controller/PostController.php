@@ -3,11 +3,13 @@
 namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Movie;
+use App\Entity\Comment;
 use App\Entity\Listing;
 use App\Entity\MovieView;
 use App\Repository\MovieViewRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostController extends AbstractController
@@ -120,10 +122,28 @@ class PostController extends AbstractController
 
         return $this->render('list/test.html.twig');
 
+    }
 
+    /**
+     * Permet d'ajouter un commentaire a un film 
+     * @Route("film/addcomment/{id}/{content}", name="addComment")
+     */
+    public function addComment($id, $content, UserInterface $user) {  
 
+        $em = $this->getDoctrine()->getManager();
+        $movie = $em->getRepository(Movie::class)->findOneBy(   //Recuparation de l'entité film s'il existe
+            array('idTMDB' => $id)
+        );
+        
+        $comment = new Comment();
+        $comment->setAuthor($user);
+        $comment->setContent($content);
+        $comment->setCreatedAt(new \DateTime());
+        $comment->setMovie($movie);
+        
+        $em->persist($comment);
+        $em->flush();
 
-   
-
+        return new JsonResponse('salut');
     }
 }

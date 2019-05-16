@@ -32,7 +32,7 @@ $("#test").keyup(function (data) {
             `<div class="col-md-2">
                 <div class="card mb-3 shadow-sm">
                     <a href="`+ Routing.generate('movie', {'id':element.id }) +`" class="mousehover over_a">
-                        <img alt="" class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w400/`+ element.poster_path + `">
+                        <img alt="" class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w154/`+ element.poster_path + `">
                         <i class="over_i fas fa-search fa-2x" ></i>
                     </a>
                     <div class="card-body">

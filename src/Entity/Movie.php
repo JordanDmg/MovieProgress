@@ -29,10 +29,6 @@ class Movie
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="movie", orphanRemoval=true)
-     */
-    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\MovieView", mappedBy="movie")
@@ -43,6 +39,11 @@ class Movie
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $poster_path;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="movie", orphanRemoval=true)
+     */
+    private $comments;
 
     public function __construct()
     {
@@ -76,37 +77,6 @@ class Movie
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setMovie($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getMovie() === $this) {
-                $comment->setMovie(null);
-            }
-        }
 
         return $this;
     }
@@ -162,6 +132,37 @@ class Movie
     public function setPosterPath(?string $poster_path): self
     {
         $this->poster_path = $poster_path;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getMovie() === $this) {
+                $comment->setMovie(null);
+            }
+        }
 
         return $this;
     }

@@ -90,7 +90,34 @@
           <i style="margin-top:178px ;" class="fas fa-arrow-right fa-2x" ></i>
       </div></a>
   </div>
+  <h2>Commentaires</h2>
+    <section id="commentaires">
+      <form  autocomplete="off">
+          {{ form(form) }}
+          <button id="addComment" class="btn9 btn-primary btn-block" data-id-movie="{{ movie.id }}" type="submit">Ajouter un commentaires</button>
+      </form>
+      <div class="comment"> 
+      {% for comment in movieDB.comments | reverse %}
+          <div class="row">
+            <div class="col-3">
+              {{ comment.author.username }}  (<small>{{ comment.createdAt | date('d/m/y à H:i') }}</small>)
+            </div>
+            <div class="col">
+            {{ comment.content | raw }}
+            </div>
+          </div>
+        
+        {% endfor %}
+    </div>
+  </section>
+
+
+
+
+
 </div>
+
+  
 
 {# 
     <main role="main">
@@ -119,6 +146,38 @@
     {{ parent() }}
     <script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
     <script src="{{ asset('../js/ratingBar.js') }}"></script>
+    <script>
+      $("#addComment").click(function (e) {
+        var content = ($('textarea').val())
+        var movieId = $(this).data("id-movie")
+        
+        content = content.trim()
+        if(content){
+          $.ajax( "addcomment/" + movieId + "/" + content )
+            .done(function() {
+              $('.comment').append(`<div class="row">
+                                      <div class="col-3">
+                                        {{ comment.author.username }}  (<small>{{ comment.createdAt | date('d/m/y à H:i') }}</small>)
+                                      </div>
+                                    <div class="col">
+                                        {{ comment.content | raw }}
+                                      </div>
+                                    </div>`)
+            })
+            .fail(function() {
+            alert( "error" );
+          })
+  
+          
+         
 
+        }else {
+          console.log('veuillez entrer du texte')
+
+        }
+      })
+
+    
+    </script>
 
   {% endblock %}

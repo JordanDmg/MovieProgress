@@ -4,9 +4,12 @@ namespace App\Controller;
 
 
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Movie;
+use App\Form\CommentType;
 use App\Service\ApiManager;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
@@ -90,35 +93,52 @@ class HomeController extends AbstractController
      * @Route("/film/{id}", options={"expose"=true}, name="movie")
      */
     public function showMovie( $id, ApiManager $api)
-    {
+    {   //Recuperation des informations d'un film grace a son apiId en contactant l'api
+
         $results = $api->getOneMovieByIdWithFullData($id);
         $movie = json_decode(($results['movie']->getBody())->getContents(), true);
         $credits = json_decode(($results['credits']->getBody())->getContents(), true);
         $directors = array();
         $screenplays = array();
-        foreach ($credits['crew'] as $crew) {
-            if ($crew['job'] == 'Director') {
+        foreach ($credits['crew'] as $crew) {       
+            if ($crew['job'] == 'Director') {       //Recuperation des Scenariste pour un affichage avec lien
                 $directors[] =  $crew['name'];
             }
-            if ($crew['job'] == 'Screenplay') {
+            if ($crew['job'] == 'Screenplay') {     //Même chose pour les scenaristes
                 $screenplays[] =  $crew['name'];
             }
-
             
         }
-        dump($credits['cast']);
+        $title = $movie['title'];
+        $posterPath = $movie['poster_path'];
+        $em = $this->getDoctrine()->getManager();
+        $movieFromDatabase = $em->getRepository(Movie::class)->findOneBy(   //Recuparation de l'entité film s'il existe
+            array('idTMDB' => $id)
+        );
+
+        if($movieFromDatabase === null){                                                //Créer l'entité film à partir des infos de l'api s'il existe pas 
+            $movieFromDatabase = new Movie();
+            $movieFromDatabase->setIdTMDB($id);
+            $movieFromDatabase->setName($title);
+            $movieFromDatabase->setPosterPath($posterPath);
+            $em->persist($movieFromDatabase);
+            $em->flush();
+        }
+        $commentForm = $this->createForm(CommentType::class);
+       
         //Change l'heure perçu en minute en heure
         $runtime = $movie['runtime'];
         $min = $movie['runtime'] % 60;
         $hour = ($runtime - $min) / 60;
         $runtime = $hour . 'h' . $min;
-
         return $this->render('home/movieInfo.html.twig', [
-            'movie'     => $movie,
-            'directors' => $directors,
-            'screenplays'=> $screenplays,
-            'credits'   => $credits,
-            'runtime'   => $runtime
+            'movie'         => $movie,
+            'directors'     => $directors,
+            'screenplays'   => $screenplays,
+            'credits'       => $credits,
+            'runtime'       => $runtime,
+            'movieDB'       => $movieFromDatabase,
+            'form'          =>$commentForm->createView()    
 
         ]);
     }

@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class SecurityController extends Controller
+class SecurityController extends AbstractController
 {
     /**
      * @Route ("/register", name="security_registration")
@@ -125,9 +125,7 @@ class SecurityController extends Controller
                 $this->addFlash('notice', 'Votre mot de passe à bien été changé !');
 
                 return $this->redirectToRoute('parameter');
-            
-                
-             
+
         }
     	
     	return $this->render('security/resetPassword.html.twig', array(

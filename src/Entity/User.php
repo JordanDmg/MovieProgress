@@ -80,16 +80,6 @@ class User implements UserInterface
     private $subscribeDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
-     */
-    private $comments;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CommentLike", mappedBy="user")
-     */
-    private $likes;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Listing", mappedBy="users")
      */
     private $listings;
@@ -114,6 +104,11 @@ class User implements UserInterface
      * @Assert\EqualTo(propertyPath="password", message="Vos mot de passe doivent être identique")
      */
     private $confirm_password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=true)
+     */
+    private $comments;
 
     public function __construct()
     {
@@ -255,36 +250,6 @@ class User implements UserInterface
         return ['ROLE_USER'];
     }
 
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getPassword(): ?string 
     {
@@ -310,36 +275,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|CommentLike[]
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
 
-    public function addLike(CommentLike $like): self
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-            $like->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(CommentLike $like): self
-    {
-        if ($this->likes->contains($like)) {
-            $this->likes->removeElement($like);
-            // set the owning side to null (unless already changed)
-            if ($like->getUser() === $this) {
-                $like->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Listing[]
@@ -425,6 +361,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($movieToWatch->getUser() === $this) {
                 $movieToWatch->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 

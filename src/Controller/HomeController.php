@@ -138,7 +138,7 @@ class HomeController extends AbstractController
             'credits'       => $credits,
             'runtime'       => $runtime,
             'movieDB'       => $movieFromDatabase,
-            'form'          =>$commentForm->createView()    
+            'form'          => $commentForm->createView()    
 
         ]);
     }

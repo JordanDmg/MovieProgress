@@ -12,9 +12,12 @@ use App\Controller\ApiController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
@@ -46,14 +49,17 @@ class SecurityController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-    /**
-     *@Route("/login",name="security_login")
+   /**
+     * @Route("/login", name="security_login")
      */
-    public function login()
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-
-        return $this->render('security/login.html.twig', []);
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
     /**
@@ -131,5 +137,25 @@ class SecurityController extends AbstractController
     	return $this->render('security/resetPassword.html.twig', array(
     		'form' => $form->createView(),
     	));
+    }
+
+    /**
+     * Fonction permettant la suppresion du compte actif
+     * @Route("/parametre/deleteUser", name="deleteCurrentUser")
+     */
+    public function deleteCurrentUser () {
+        $currentUserId = $this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->get('session');
+        $session = new Session();
+        $session->invalidate();
+        
+        $user = $em->getRepository(User::class)->findOneBy(   //Recuparation de l'entité film s'il existe
+            array('id' => $currentUserId));
+        $em->remove($user);
+        $em->flush();
+
+        return $this->redirectToRoute('security_login');
     }
 }

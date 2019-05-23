@@ -134,16 +134,35 @@ class PostController extends AbstractController
         $movie = $em->getRepository(Movie::class)->findOneBy(   //Recuparation de l'entité film s'il existe
             array('idTMDB' => $id)
         );
-        
+        $date = new \DateTime();
+        $date->setTimezone(new \DateTimeZone('Europe/Paris'));
         $comment = new Comment();
         $comment->setAuthor($user);
         $comment->setContent($content);
-        $comment->setCreatedAt(new \DateTime());
+        $comment->setCreatedAt($date);
         $comment->setMovie($movie);
         
         $em->persist($comment);
         $em->flush();
+        
+        return new JsonResponse($comment->getId());
+    }
 
-        return new JsonResponse('salut');
+    /**
+     * Permet la suppression d'un commentaire
+     * @Route("film/deletecomment/{id}", name="deleteComment")
+     */
+    public function deleteComment($id) {
+        $em = $this->getDoctrine()->getManager();
+        $comment = $em->getRepository(Comment::class)->findOneBy(   //Recuparation de l'entité film s'il existe
+            array('id' => $id)
+        );
+
+        $em->remove($comment);
+        $em->flush();
+
+        return new JsonResponse('');
+        
+
     }
 }

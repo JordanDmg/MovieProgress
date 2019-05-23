@@ -4,7 +4,7 @@
         <div class="row">
             <img src="{{ asset('../img/empty_profile.png') }}" class="profil_picture" alt="profil_picture" style="width:156px; height:156px; border:solid 2px #000000;">
             
-            <p>Prénom : </p><input type="text" placeholder="{{ app.user.username }}">
+            
         </div>
         <form class="form-signin" action="{{ path('parameter') }}" method="post" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal">Inscription !</h1>
@@ -17,11 +17,41 @@
         {{ form_row(form.birthdate, {'label':'Date de naissance'}) }}
 
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Valider les modifications</button>
 {{ form_end(form) }}
 
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
     </form>
-        <a href="{{ path('editPassword') }}">Modifier mon mot de passe</a>
+        <a href="{{ path('editPassword') }}" class="btn btn-info">Modifier mon mot de passe</a>
+
+        <!-- Button trigger modal -->
+    <button class="btn btn-danger" data-target="#exampleModal" data-toggle="modal" type="button">
+        Supression du compte
+    </button>
+
+    <!-- Modal -->
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Êtes vous sur de vouloir supprimer votre compte et ainsi perdre toutes vos données ?
+                    <div class="modal-footer">
+                            <a href="{{ path('deleteCurrentUser') }}" class="btn btn-info" role="button">Confirmer la suppression</a>
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Annuler</button>
+                    </div>    
+                    
+
+
+                </div>
+            </div>
+        </div>
     </div>
+    </div>
+
 {% endblock %}

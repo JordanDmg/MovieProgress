@@ -102,13 +102,14 @@ class HomeController extends AbstractController
         $screenplays = array();
         foreach ($credits['crew'] as $crew) {       
             if ($crew['job'] == 'Director') {       //Recuperation des Scenariste pour un affichage avec lien
-                $directors[] =  $crew['name'];
+                $directors[] =  $crew;
             }
             if ($crew['job'] == 'Screenplay') {     //Même chose pour les scenaristes
-                $screenplays[] =  $crew['name'];
+                $screenplays[] =  $crew;
+                
             }
-            
         }
+        dump($directors);
         $title = $movie['title'];
         $posterPath = $movie['poster_path'];
         $em = $this->getDoctrine()->getManager();
@@ -125,7 +126,7 @@ class HomeController extends AbstractController
             $em->flush();
         }
         $commentForm = $this->createForm(CommentType::class);
-       
+        
         //Change l'heure perçu en minute en heure
         $runtime = $movie['runtime'];
         $min = $movie['runtime'] % 60;
@@ -143,5 +144,19 @@ class HomeController extends AbstractController
         ]);
     }
 
-    
+    /**
+     * Affiche les information d'une personnalité selectionné 
+     * @Route("/personnalite/{id}", name="people")
+     */
+    public function showPeople($id, ApiManager $api) {
+        $apiPeople = $api->getPeopleById($id);
+        $people_details = json_decode(($apiPeople["details"]->getBody())->getContents());
+        $people_movieCredits = json_decode(($apiPeople["movie_credits"]->getBody())->getContents());
+        dump($people_movieCredits);
+        return $this->render('home/people.html.twig', [
+            'people_details'            => $people_details,
+            'people_movieCredit'        => $people_movieCredits,
+
+        ]);
+    }
 }

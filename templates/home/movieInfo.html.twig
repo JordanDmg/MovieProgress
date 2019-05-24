@@ -3,48 +3,15 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
+    <script src="{{ asset('../css/main.css') }}"></script>
 
-<style>
-  .test {
-    position:relative; 
-    height:20em;
-  }
-  .background {
-    width:100%;
-    background : #272b30;
-    background-size: cover;
-    opacity:1;
-    height: 20em;
-    position: absolute;
-    
-  }
-  .poster{
-    position:absolute;
-
-    width: 200px;
-    height: 273px;
-    margin-top: 21px;
-    margin-left: 21px;
-  }
-  .movie_infos {
-    position:absolute;
-    width:100%;
-    color:white;
-    padding-top:21px;
-    padding-left:240px;
-  }
-  
-
-</style>
 {% endblock %}
 {% block body %}
  {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<div class="test">
-  {# <div class="background" style="background-image: url('http://image.tmdb.org/t/p/w1280/{{ movie.backdrop_path }}');"></div> #}
-  <div class="background" ></div>
+<div class="top_info">
   <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">
   <div class="movie_infos">
     <h2>{{ movie.title }} ({{ movie.release_date |date("Y") }})</h2>
@@ -67,10 +34,10 @@
     <h5>Équipe technique principal :</h5>
     <div class="row">
       {% for director in directors %}
-        <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="#" >{{ director }}</a></br><font size="2.5" face="Poppins" color="white">Réalisateur</font></div> 
+        <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Réalisateur</font></div> 
         {% endfor %}
       {% for screenplay in screenplays %}
-        <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="#" >{{ screenplay }}</a></br><font size="2.5" face="Poppins" color="white">Scénariste</font></div> 
+        <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="{{ path('people', {'id': screenplay['id'] }) }}" >{{ screenplay['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Scénariste</font></div> 
         {% endfor %}
     </div>
   </div>
@@ -80,7 +47,7 @@
     <div class="row"> 
     {% for cast in credits['cast'] | slice(0,7) %}
       <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
-          <img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.profile_path}}" alt="Card image cap">
+          <a href="{{ path('people', {'id': cast.id }) }}"><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.profile_path}}" alt="Card image cap"></a>
           <b>{{ cast.name }}</b>
           <p>{{ cast.character }}</p>
       </div>
@@ -124,28 +91,6 @@
 
 
 </div>
-
-  
-
-{# 
-    <main role="main">
-
-      <section class="jumbotron ">
-        <div class="container">
-          <h1 class="jumbotron-heading text-center">{{ movie.title }}</h1>
-          <img class="bd-placeholder-img card-img-top" src="https://image.tmdb.org/t/p/w1280/{{ movie.backdrop_path }}"  alt="">
-          <p class="lead text-muted">Film de {% for director in directors %} {{ director }} {% endfor %} · 
-            {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}">{{ genre.name }}</a> {% endfor %} · 
-            {{ runtime }} · {{ movie.release_date |localizeddate('long', 'none', null) }}
-          </p>
-          <p>
-          </p>
-          <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-          </p>
-        </div>
-      </section> #}
 
 
     {% endblock %}

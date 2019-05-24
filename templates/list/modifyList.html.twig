@@ -2,24 +2,62 @@
 
 {% block title %}Hello ListController!
 {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('../css/main.css') }}"></script>
 
+    <style>
+</style>    
+{% endblock %}
 {% block content %}
-    <h1>Bonjour
-        {{ list.id }}
-    </h1>
+<div class="top_info">
+  <img class="poster" alt=""  src="{{ asset(list.imgPath) }}">
+  <div class="movie_infos">
+    <h2>{{ list.name }} <a href="{{ path('removeList', {"id": list.id}) }}" class="btn btn-danger">Supprimer la liste</a></h2>
+    <div class="row" style="margin-left:auto;">
+      {# <h5>Genres : </h5> 
+      {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}" style="margin-left:5px;">{{ genre.name }}</a> {% endfor %}
+    </div> #}
+    
+    </div>
+  </div>
+</div>
+{# <div class="container"> #}
+<!-- Another variation with a button -->
+    <div class="input-group">
+        <p class="listId" hidden>{{ list.id }}</p>
+        <input type="text" id="ListSearchBAr" autocomplete="off" class="form-control" placeholder="Search this blog">
+        <div class="input-group-append">
+            <button class="btn btn-secondary" type="button">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-7 row" id="affichage_results" ></div>
+        <div class="col-5" style="border-left: 6px solid black; min-height:86.5vh;">
+            <h3>Films présent dans la liste</h3>
+            <div class="movieInList row">
+            {% for movie in list.movies %}
+                <div  style="max-width:150px; margin-left:15px; border: 1px solid black; min-height:384px; ">
+                    <img src="http://image.tmdb.org/t/p/w154/{{ movie.posterPath }}" alt="moviePicture" style="width:147px;">
+                    <div class="card-body">
+                         <h5 class="card-title wordwrap">{{ movie.name }}</h5>
+                         <p hidden class="inId" >{{ movie.idTmdb }}</p> 
+                         <a href="#"  class="removeMovie btn btn-danger" >Supprimer</a>
+
+                    </div>
+                </div>
+                {# <img src="http://image.tmdb.org/t/p/w154/{{ movie }}" alt="terrible" > #}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{# </div> #}
 
 
-<div class="movieInList">
-    {% for movie in list.movies %}
-        <p class="movieIn col-6">{{ movie.idTMDB }}</p>
-        {# <img src="http://image.tmdb.org/t/p/w154/{{ movie }}" alt="terrible" > #}
-    {% endfor %}
-</div>
-<div>
-    <p class="listId" hidden>{{ list.id }}</p>
-    <input autocomplete="off" id="test" placeholder="Search...">
-</div>
-<div class="row" id="affichage" style="margin-left: auto;"></div>
+
+{# <div class="row" id="affichage_results" style="margin-left: auto;"></div> #}
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}

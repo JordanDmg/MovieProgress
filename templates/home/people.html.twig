@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('../css/main.css') }}"></script>
+    
+
+{% endblock %}
+{% block body %}
+ {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="top_info" >
+    {% if people_details.deathday is not null and people_details.profile_path is defined %}
+    <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ people_details.profile_path }}">
+    {% else %}
+    <img class="poster" alt=""  src="{{ asset('../img/test.png') }}">
+    {% endif %}
+    <div class="movie_infos">
+        <h2>{{ people_details.name }}</h2>
+        <div class="row" style="margin-left:auto;">
+            <h5>Naissance : </h5> 
+            <h5> {{ people_details.birthday }} ({{ people_details.place_of_birth }})</h5>
+        </div>
+        {% if people_details.deathday is not null and people_details.deathday is defined %}
+        <div class="row" style="margin-left:auto;">
+            <h5>Décès : </h5> 
+            <h5> {{ people_details.deathday }}</h5>
+        </div>   
+        {% endif %}
+        
+        <div class="row" style="margin-left:auto;">
+            <h5>Biographie : </h5> 
+            {% if people_details.deathday is not null and people_details.profile_path is defined %}
+            <p id="biography">{{ people_details.biography | truncate(800, true) }} </p> 
+            {% else %}
+            <p id="biography">Aucune biographie n'est disponible pour {{ people_details.name }}</p>
+            {% endif %}
+        </div>   
+    </div>
+</div>
+
+<div style="padding-left:15px;">
+{% if people_movieCredit.cast is not empty  %}
+  <h2>Filmographie en tant qu'acteur</h2>
+    <div class="row"> 
+    
+    {% for cast in people_movieCredit.cast | slice(0,7) %}
+      <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
+          <a href=" {{ path('movie', {'id':cast.id }) }} " ><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.poster_path}}" alt="Card image cap"></a>
+          <b>{{ cast.original_title }}</b>
+          <p>{{ cast.release_date |date("d/m/Y") }}</p>
+      </div>
+    {% endfor %}
+    
+      <a href="#" >
+        <div class="card" style="width: 138px; height: 358px; margin-left:8px; text-align:center; " >
+          <i style="margin-top:178px ;" class="fas fa-arrow-right fa-2x" ></i>
+        </div></a>
+    </div>
+      {% endif %}
+{% if people_movieCredit.crew is not empty  %}
+  <h2>Filmographie technique</h2>
+    <div class="row"> 
+    {% for crew in people_movieCredit.crew | slice(0,7) %}
+      <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
+          <a href=" {{ path('movie', {'id':crew.id }) }} " ><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{crew.poster_path}}" alt="Card image cap"></a>
+          <b>{{ crew.original_title }}</b>
+          {% if crew.release_date is not null and crew.release_date is defined %}
+          <p>{{ crew.release_date |date("d/m/Y") }}</p>
+          {% else %}
+          <p>Aucune date</p>
+          {% endif %}
+          <p>{{ crew.job }}</p>
+      </div>
+    {% endfor %}
+    
+      <a href="#" >
+        <div class="card" style="width: 138px; height: 358px; margin-left:8px; text-align:center; " >
+          <i style="margin-top:178px ;" class="fas fa-arrow-right fa-2x" ></i>
+      </div></a>
+      {% endif %}
+  </div>
+  
+</div>
+
+    {% endblock %}
+
+  {% block javascripts %}
+    {{ parent() }}
+    <script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
+    <script src="{{ asset('../js/ratingBar.js') }}"></script>
+    <script src="{{ asset('../js/comment.js') }}"></script>
+   
+
+  {% endblock %}

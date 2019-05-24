@@ -43,11 +43,14 @@ class ListController extends AbstractController
      */
     public function modifyList(Listing $list)
     {
+        $currentUserId = $this->getUser()->getId();
+        if ($currentUserId === $list->getAuthorId()){
+            return $this->render('list/modifyList.html.twig', [
+                'list'    => $list,
+                
+            ]);
         
-        return $this->render('list/modifyList.html.twig', [
-            'list'    => $list,
-            
-        ]);
+        }else return $this->redirectToRoute('profil_liste');
     }
 
 
@@ -149,4 +152,25 @@ class ListController extends AbstractController
 
 
      }
+
+     /**
+      * Suppression d'une liste
+      * @Route("/profil/removeList/{id}", name="removeList")
+      */
+      public function removeList(Listing $list) {
+
+
+        $currentUserId = $this->getUser()->getId();
+        if ($currentUserId === $list->getAuthorId()){
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($list);
+            $em->flush();
+    
+            return $this->redirectToRoute('profil_liste');
+        
+        }else return $this->redirectToRoute('profil_liste');
+        
+
+
+      }
 }

@@ -15,3 +15,86 @@
     color:white;
     display:none;
 }
+
+.row {
+    margin-right:0px;
+}
+
+  .top_info {
+    background : #272b30;
+    background-size: cover;
+    position:relative; 
+    height:auto;
+    min-height: 20em;
+  }
+  
+  .poster{
+    position:absolute;
+
+    width: 200px;
+    height: 273px;
+    margin-top: 21px;
+    margin-left: 21px;
+  }
+  .movie_infos {
+    position:relative;
+    width:100%;
+    color:white;
+    padding-top:21px;
+    padding-left:240px;
+  }
+
+    @media (max-width: 768px) {
+    .top_info {
+    position:relative; 
+    background : #272b30;
+    background-size: cover;
+    height: auto;
+  }
+
+    .poster{
+    position:absolute;
+    width: 200px;
+    height: auto;
+    margin-top: 21px;
+    margin-left: 19%;
+  }
+    .movie_infos {
+    position:relative;
+    width:100%;
+    color:white;
+    padding-top:325px;
+    padding-left:20px;
+  } 
+    
+  }
+
+
+/* Bootstrap 4 text input with search icon */
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+/* Break a Very Long Word */
+.wordwrap { 
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  white-space: pre-wrap;      /* Webkit */    
+  white-space: -moz-pre-wrap; /* Firefox */     
+  white-space: -pre-wrap;     /* Opera <7 */    
+  white-space: -o-pre-wrap;   /* Opera 7 */     
+  word-wrap: break-word;      /* IE */ 
+}

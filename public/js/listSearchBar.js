@@ -1,8 +1,8 @@
 
-$("#test").keyup(function (data) {
-  search = document.getElementById("test").value
+$("#ListSearchBAr").keyup(function (data) {                     
+  search = document.getElementById("ListSearchBAr").value
   film = [];
-  $("#affichage").html('')
+  $("#affichage_results").html('')
   axios
     .get(
       "https://api.themoviedb.org/3/search/movie?page=1&language=fr-FR&api_key=5339f946394a0136198c633aa468ac5b&query=" +
@@ -16,25 +16,25 @@ $("#test").keyup(function (data) {
       films.forEach(element => {
         state = 'btn-primary'
 
-        $(".movieIn").each(function () {
+        $(".inId").each(function () {
 
           if ($(this).text() == element.id) {
             state = "btn-success"
           }
         })
-        $("#affichage").append(
-          `<div class="content">
-            <div style="width: 18rem;">
+        $("#affichage_results").append(
+          `
+            <div  style="max-width:154px; height:540px; padding-left:25px">
                        <img
                          src="http://image.tmdb.org/t/p/w154/`+ element.poster_path + `"
                          alt="terrible" class="`+ element.poster_path + `"
-                         
+                         style="width:147px;"
                        >
                        <div class="card-body">
                          <h5 class="card-title">`+ element.title + `</h5>
                          <p class="card-text">`+ element.release_date + `</p>
                          <p hidden class="card-id" >`+ element.id + `</p> 
-                         <a href="#"   class="addMovie btn `+ state + `">Ajouter a la liste</a>
+                         <a href="#"  class="addMovie btn `+ state + `">Ajouter a la liste</a>
                          </div>
             </div>`
 
@@ -50,20 +50,19 @@ $("#test").keyup(function (data) {
         listId = $(".listId").text()
         alreadyIn = false
 
-        $(".movieIn").each(function () {
+        $(".inId").each(function () {
 
           if ($(this).text() == movieId) {
-            $(this).remove()
+              $(this).parent().parent().remove()
             alreadyIn = true
           }
         })
         movieId
-        console.log(alreadyIn)
         if (alreadyIn === true) {
           axios.put('/profil/removeMovie/' + listId + '/' + movieId )
             .then(response => {
-              console.log(response.data)
               $(this).toggleClass("btn-success btn-primary")
+              console.log($(p).text(movieId))
 
             }).catch(error => {
               console.log(error.response)
@@ -74,7 +73,14 @@ $("#test").keyup(function (data) {
             .then(response => {
               console.log(response.data)
               $(this).toggleClass("btn-primary btn-success")
-              $(".movieInList").append(`<p class="movieIn col-6">` + movieId + `</p>`)
+              $(".movieInList").prepend(`<div  style="max-width:150px; margin-left:15px; border: 1px solid black; min-height:384px;">
+                                          <img src="http://image.tmdb.org/t/p/w154/`+ posterPath +`" alt="moviePicture" style="width:147px;">
+                                          <div class="card-body">
+                                            <h5 class="card-title">`+ title +`</h5> 
+                                            <p hidden class="inId" >`+ movieId +`</p> 
+                                            <a href="#"  class="removeMovie btn btn-danger" >Supprimer</a>
+                                            </div>
+                                        </div>`)
 
             }).catch(error => {
               console.log(error.response)
@@ -83,14 +89,21 @@ $("#test").keyup(function (data) {
 
         }
 
-
-
-
-
-
-
       })
     })
 
 });
+
+$(".removeMovie").click(function (data) {
+  var listId = $(".listId").text()
+  var movieId = $(this).siblings(".inId").text()
+  var cardMovie = $(this).parent().parent()
+  axios.put('/profil/removeMovie/' + listId + '/' + movieId )
+  .then(response => {
+   cardMovie.remove()
+
+  }).catch(error => {
+    console.log(error.response)
+  })
+})
 

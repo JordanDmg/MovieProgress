@@ -72,4 +72,15 @@ class ApiManager
     //         return Promise\unwrap($promises);
     //     }
     // }
+
+    public function getPeopleById($id) {
+        $promises = [
+            'details'       => $this->_client->getAsync('/3/person/' . $id . '?api_key=' . $this->_apiKey . '&language=fr-FR'),
+            'movie_credits' => $this->_client->getAsync('/3/person/' . $id . '/movie_credits?api_key=' . $this->_apiKey . '&language=fr-FR'),
+
+        ];
+
+        return Promise\unwrap($promises);
+
+    }
 }

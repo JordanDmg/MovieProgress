@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\ApiManager;
 
 class ListController extends AbstractController
 {
@@ -55,11 +56,10 @@ class ListController extends AbstractController
 
 
     /**
-     * @Route("profil/addMovie/{idList}/{id}/{title}/{posterPath}", name="addMovie")
+     * @Route("profil/addMovie/{idList}/{id}", name="addMovie")
      */
-    public function addMovie($idList, $id, $title, $posterPath ) {
+    public function addMovie($idList, $id, ApiManager $api) {
         
-        $title = \urldecode($title);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -70,12 +70,16 @@ class ListController extends AbstractController
             array('idTMDB' => $id)
         );
         if($movie === null){
+            $results = $api->getOneMovieByIdWithFullData($id);
+            $movieData = json_decode(($results['movie']->getBody())->getContents(), true);
+            $credits = json_decode(($results['credits']->getBody())->getContents(), true);
+
             $movie = new Movie();
             $movie->setIdTMDB($id);
-            $movie->setName($title);
-            $movie->setPosterPath($posterPath);
+            $movie->setName($movieData['title']);
+            $movie->setPosterPath($movieData['poster_path']);
+            $movie->setRuntime($movieData['runtime']);
             $em->persist($movie);
-            $em->flush();
         }
         
         $list = $em->getRepository(Listing::class)->findOneBy(

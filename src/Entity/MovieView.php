@@ -33,6 +33,8 @@ class MovieView
      */
     private $rate;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,4 +75,6 @@ class MovieView
 
         return $this;
     }
+
+
 }

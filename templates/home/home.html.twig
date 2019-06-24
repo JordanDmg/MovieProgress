@@ -43,7 +43,7 @@
                                         {% endif %}
                                     {% endfor %}
                                 </h5>
-                                <select class="rating" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}">
+                                <select class="rating" id="{{ movie.id }}" >
                                     <option value=""></option>
                                     {% for i in 1..10 %}
                                         <option value={{ i }} {{ i == currentRate ? "selected" }}>
@@ -52,7 +52,7 @@
                                 </select>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="" data-title="{{ movie.title }}" data-api-id="{{ movie.id }}" data-poster="{{ movie.poster_path }}" class="watch-btn btn btn-link">
+                                        <a href=""  data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
                                             {% set viewed = 0 %}
                                             {% for view in app.user.movieViews %}
                                                 {% if view.movie.idTMDB == movie.id %}

@@ -45,6 +45,11 @@ class Movie
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $runtime;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -163,6 +168,18 @@ class Movie
                 $comment->setMovie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRuntime(): ?int
+    {
+        return $this->runtime;
+    }
+
+    public function setRuntime(int $runtime): self
+    {
+        $this->runtime = $runtime;
 
         return $this;
     }

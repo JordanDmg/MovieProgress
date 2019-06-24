@@ -6,6 +6,7 @@ use App\Entity\Movie;
 use App\Entity\Comment;
 use App\Entity\Listing;
 use App\Entity\MovieView;
+use App\Service\ApiManager;
 use App\Repository\MovieViewRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,12 +26,11 @@ class PostController extends AbstractController
     }
     /**
      * Permet d'ajouter un film à une liste de films vus
-     * @Route("view/{title}/{apiId}/{posterPath}", name="view")
+     * @Route("view/{apiId}", name="view")
      */
-    public function view($title, $apiId, $posterPath)
+    public function view($apiId, ApiManager $api) 
     {
 
-        $title = \urldecode($title);
 
         $user = $this->getUser();
 
@@ -40,10 +40,15 @@ class PostController extends AbstractController
         );
 
         if($movie === null){
+            $results = $api->getOneMovieByIdWithFullData($apiId);
+            $movieData = json_decode(($results['movie']->getBody())->getContents(), true);
+            $credits = json_decode(($results['credits']->getBody())->getContents(), true);
+
             $movie = new Movie();
             $movie->setIdTMDB($apiId);
-            $movie->setName($title);
-            $movie->setPosterPath($posterPath);
+            $movie->setName($movieData['title']);
+            $movie->setPosterPath($movieData['poster_path']);
+            $movie->setRuntime($movieData['runtime']);
             $em->persist($movie);
         }
         $view = $em->getRepository(MovieView::class)->findOneByUserAndMovie($user->getId(), $movie->getId());
@@ -66,9 +71,9 @@ class PostController extends AbstractController
 
     /**
      * Permet d'ajouter un film à une liste de films vus
-     * @Route("rate/{apiId}/{rate}/{title}/{posterPath}", name="rate")
+     * @Route("rate/{apiId}/{rate}", name="rate")
      */
-    public function rate($apiId, $rate, $title, $posterPath)
+    public function rate($apiId, $rate, ApiManager $api)
     {
 
         $user = $this->getUser();
@@ -79,13 +84,21 @@ class PostController extends AbstractController
             array('idTMDB' => intval($apiId))
         );
         //S'il ny est pas l'ajoute
+
         if($movie === null){
+
+            $results = $api->getOneMovieByIdWithFullData($apiId);
+            $movieData = json_decode(($results['movie']->getBody())->getContents(), true);
+            $credits = json_decode(($results['credits']->getBody())->getContents(), true);
+
             $movie = new Movie();
             $movie->setIdTMDB($apiId);
-            $movie->setName($title);
-            $movie->setPosterPath($posterPath);
+            $movie->setName($movieData['title']);
+            $movie->setPosterPath($movieData['poster_path']);
+            $movie->setRuntime($movieData['runtime']);
             $em->persist($movie);
         }
+        
         $rating = $em->getRepository(MovieView::class)->findOneByUserAndMovie($user->getId(), $movie->getId());
 
         if($rating === null){

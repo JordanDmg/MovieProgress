@@ -69,7 +69,7 @@ $("#ListSearchBAr").keyup(function (data) {
             })
           
         } else {
-          axios.put('/profil/addMovie/' + listId + '/' + movieId + '/' + title  + posterPath)
+          axios.put('/profil/addMovie/' + listId + '/' + movieId )
             .then(response => {
               console.log(response.data)
               $(this).toggleClass("btn-primary btn-success")
@@ -78,7 +78,6 @@ $("#ListSearchBAr").keyup(function (data) {
                                           <div class="card-body">
                                             <h5 class="card-title">`+ title +`</h5> 
                                             <p hidden class="inId" >`+ movieId +`</p> 
-                                            <a href="#"  class="removeMovie btn btn-danger" >Supprimer</a>
                                             </div>
                                         </div>`)
 

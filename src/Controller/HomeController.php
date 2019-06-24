@@ -112,6 +112,7 @@ class HomeController extends AbstractController
         dump($directors);
         $title = $movie['title'];
         $posterPath = $movie['poster_path'];
+        $runtime = $movie['runtime'];
         $em = $this->getDoctrine()->getManager();
         $movieFromDatabase = $em->getRepository(Movie::class)->findOneBy(   //Recuparation de l'entité film s'il existe
             array('idTMDB' => $id)
@@ -122,13 +123,13 @@ class HomeController extends AbstractController
             $movieFromDatabase->setIdTMDB($id);
             $movieFromDatabase->setName($title);
             $movieFromDatabase->setPosterPath($posterPath);
+            $movieFromDatabase->setRuntime($runtime);
             $em->persist($movieFromDatabase);
             $em->flush();
         }
         $commentForm = $this->createForm(CommentType::class);
         
         //Change l'heure perçu en minute en heure
-        $runtime = $movie['runtime'];
         $min = $movie['runtime'] % 60;
         $hour = ($runtime - $min) / 60;
         $runtime = $hour . 'h' . $min;

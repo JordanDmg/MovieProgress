@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Movie;
 use App\Form\ListType;
-use App\Entity\Listing;
 
+use App\Entity\Listing;
 use App\Entity\MovieView;
+use App\Service\ApiManager;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Service\ApiManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 
@@ -28,21 +29,50 @@ class ProfilController extends AbstractController
         $userMovies = $em->getRepository(MovieView::class)->findMovieByUserId(
             $userId
         );
+        $totalRuntime = 0;
+        foreach ($userMovies as $movie) {
+            
+            $movieData = $em->getRepository(Movie::class)->findOneBy(
+                array('idTMDB' => $movie['id_tmdb'])
+            );
+            $totalRuntime += $movieData->getRuntime();
+            $min = $totalRuntime % 60;
+            $hour = ($totalRuntime - $min) / 60;
+            $totalRuntimeFormated = $hour . 'h' . $min;
+
+        }
+        dump($totalRuntime);
         return $this->render('profil/profil.html.twig', [
             'controller_name'   => 'Profil',
-            'user_movies'        => $userMovies
+            'user_movies'       => $userMovies,
+            'totalRuntime'      => $totalRuntimeFormated,
         ]);
     }
 
     /**
      * Fonction d'affichage du menu profil/MesListes
-     * Emplacement temporaire pour l'instant il est ici parcequ'ils fonctionnent avec l'api et je n'ai pas trouvé de solution
      * @Route("/profil/MesListes", name="profil_liste")
      */
     public function profilListes(Request $request, ObjectManager $manager, UserInterface $user)
     {
         $listing = new Listing();
         $userId = $user->getId();
+        $em = $this->getDoctrine()->getManager();
+        $userMovies = $em->getRepository(MovieView::class)->findMovieByUserId(
+            $userId
+        );
+        $totalRuntime = 0;
+        foreach ($userMovies as $movie) {
+            
+            $movieData = $em->getRepository(Movie::class)->findOneBy(
+                array('idTMDB' => $movie['id_tmdb'])
+            );
+            $totalRuntime += $movieData->getRuntime();
+            $min = $totalRuntime % 60;
+            $hour = ($totalRuntime - $min) / 60;
+            $totalRuntimeFormated = $hour . 'h' . $min;
+
+        }
         //Creation du formulaire pour le boutton créer une Liste
         $form = $this->createForm(ListType::class, $listing);
         $form->handleRequest($request);
@@ -53,7 +83,41 @@ class ProfilController extends AbstractController
         );
         return $this->render('profil/profilListe.html.twig', [
             'formListing' => $form->createView(),
-            'user_lists'    => $lists
+            'user_lists'    => $lists,
+            'totalRuntime'      => $totalRuntimeFormated,
+
+        ]);
+    }
+
+    /**
+     * Affichage de la page des listes suivie par l'utilisateur
+     * @Route("/profil/ListesSuivies", name="followed_list")
+     */
+    public function followedList(UserInterface $user ){
+        $em = $this->getDoctrine()->getManager();   
+        $listsFollowed = $user->getListings();
+        $userMovies = $em->getRepository(MovieView::class)->findMovieByUserId(
+            $user->getId()
+        );
+        $totalRuntime = 0;
+        foreach ($userMovies as $movie) {
+            
+            $movieData = $em->getRepository(Movie::class)->findOneBy(
+                array('idTMDB' => $movie['id_tmdb'])
+            );
+            $totalRuntime += $movieData->getRuntime();
+            $min = $totalRuntime % 60;
+            $hour = ($totalRuntime - $min) / 60;
+            $totalRuntimeFormated = $hour . 'h' . $min;
+
+        }
+
+        return $this->render('profil/profilListsFollowed.html.twig', [
+            'controller_name'   => 'Profil',
+            'lists_followed'    => $listsFollowed,
+            'totalRuntime'      => $totalRuntimeFormated,
+
+           
         ]);
     }
 }

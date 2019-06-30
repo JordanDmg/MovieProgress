@@ -70,13 +70,14 @@ class HomeController extends AbstractController
     public function specialDisplay(ApiManager $api, $data)
     {
         $movieBySpecialData = $api->getMovieBySpecialData($data);
+        dump($movieBySpecialData);
         return $this->render('home/moviesList.html.twig', [
             'movies' => $movieBySpecialData,
         ]);
     }
 
     /**
-     * Envoie vers une page dedié une page de film d'une categorie spécifique
+     * Envoie vers une page  une page de film d'une categorie spécifique
      * @Route("/genre/{id}/{name}", name="genre")
      */
     public function movieByGender(ApiManager $api, $id)
@@ -87,6 +88,8 @@ class HomeController extends AbstractController
             'movies' => $movieByGenre,
         ]);
     }
+
+
 
     /**
      * Affiche les informations et les details d'un films en particulier sur une page ( movie info )

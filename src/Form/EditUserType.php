@@ -46,7 +46,6 @@ class EditUserType extends AbstractType
                 'choices' => $choicesGender,
                 'expanded' => true,  // => boutons
             ])
-            // ->add('picture', FileType::class, ['label' => 'Brochure (PDF file)'])
            
         ;
     }

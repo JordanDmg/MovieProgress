@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Movie;
 use App\Form\ListType;
 use App\Entity\Listing;
+use App\Service\ApiManager;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\ApiManager;
 
 class ListController extends AbstractController
 {
@@ -52,6 +53,33 @@ class ListController extends AbstractController
             ]);
         
         }else return $this->redirectToRoute('profil_liste');
+    }
+
+     /**
+     * Permet d'afficher les films d'une liste
+     * @Route("/liste/{id}", name="readList")
+     */
+    public function readList (Listing $list)
+    {
+        $authorId = $list->getAuthorId();
+        $em = $this->getDoctrine()->getManager();
+        $follow = false;
+        $author = $em->getRepository(User::class)->findOneBy(
+            array('id'=> $authorId)
+        );        
+
+        $authorUsername = $author->getUsername();
+        foreach ($list->getUsers() as $user){
+            if ($user->getId() == $this->getUser()->getId()) {
+                $follow = "oui";
+            }
+        }
+
+        return $this->render('list/readList.html.twig', [
+            'list' => $list,
+            'authorUsername'=> $authorUsername,
+            'follow'    => $follow
+        ]);
     }
 
 

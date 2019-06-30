@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\MovieToWatch;
 
 class PostController extends AbstractController
 {
@@ -62,6 +63,50 @@ class PostController extends AbstractController
         }
         else{
             $em->remove($view);
+            $return = "pas vu !";
+        }
+        $em->flush();
+
+        return new JsonResponse($return);
+    }
+
+    /**
+     * Permet d'ajouter un film à une liste des films à voir
+     * @Route("toWatch/{apiId}", name="toWatch")
+     */
+    public function toWatch($apiId, ApiManager $api) 
+    {
+
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $movie = $em->getRepository(Movie::class)->findOneBy(
+            array('idTMDB' => $apiId)
+        );
+
+        if($movie === null){
+            $results = $api->getOneMovieByIdWithFullData($apiId);
+            $movieData = json_decode(($results['movie']->getBody())->getContents(), true);
+            $credits = json_decode(($results['credits']->getBody())->getContents(), true);
+
+            $movie = new Movie();
+            $movie->setIdTMDB($apiId);
+            $movie->setName($movieData['title']);
+            $movie->setPosterPath($movieData['poster_path']);
+            $movie->setRuntime($movieData['runtime']);
+            $em->persist($movie);
+        }
+        $toWatch = $em->getRepository(MovieToWatch::class)->findOneByUserAndMovie($user->getId(), $movie->getId());
+
+        if($toWatch === null){
+            $toWatch = new MovieToWatch();
+            $toWatch->setMovie($movie);
+            $toWatch->setUser($user);
+            $em->persist($toWatch);
+            $return = "vu !";
+        }
+        else{
+            $em->remove($toWatch);
             $return = "pas vu !";
         }
         $em->flush();
@@ -130,11 +175,25 @@ class PostController extends AbstractController
         $user->addListing($list);
         $em->persist($user);
         $em->flush();
+        $return = "Liste ajouté aux favories";
+        return new JsonResponse($return);
 
-        
+    }
 
-        return $this->render('list/test.html.twig');
+    /**
+     * Permet de retirer une listes de ses listes favorites 
+     * @Route("listes/unfollowList/{id}", name="unfollowList")
+     * 
+     */
+    public function unfollowList (Listing $list){
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $user->removeListing($list);
 
+        $em->persist($user);
+        $em->flush();
+        $return = "Liste supprimé des favories";
+        return new JsonResponse($return);
     }
 
     /**

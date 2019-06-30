@@ -3,6 +3,9 @@
     filter: grayscale(100%);
     -webkit-filter: grayscale(50%)
 }
+.btn-group {
+  display: inline;  
+}
 .over_a {
     position: relative;
     text-align: center;

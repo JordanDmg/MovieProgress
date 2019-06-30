@@ -47,4 +47,17 @@ class MovieToWatchRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findOneByUserAndMovie($userid, $movieid): ?MovieToWatch
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin("m.user", "u")
+            ->leftJoin("m.movie", "mv")
+            ->where('u.id = :user')
+            ->andWhere("mv.id = :movie")
+            ->setParameter('user', $userid)
+            ->setParameter('movie', $movieid)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

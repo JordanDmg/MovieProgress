@@ -8,14 +8,14 @@
 
 {% block content %}
 <div class="profil">
-    <img src="{{ asset('../img/chalkboard.jpg') }}" class="cover" alt="Responsive image">
-    <img src="{{ asset('../img/empty_profile.png') }}" class="profil_picture" alt="profil_picture">
+    <img src="{{ asset('../img/empty_profile.png') }}" class="profil_picture" alt="profil_picture"></img>
+    <p class="runtime">Temps passé devant des films : {{ totalRuntime}}</p>
 </div>
 <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="{{ path('profil') }}">Films Vues</a>
   <a class="navbar-brand" href="#">Films à regarder</a>
   <a class="navbar-brand" href="{{ path('profil_liste')}}">Listes créées</a>
-  <a class="navbar-brand" href="#">Activités</a>
+  <a class="navbar-brand" href="{{ path('followed_list')}}">Listes suivie</a>
   <a class="navbar-brand" href="#">Statistiques</a>
 </nav>
 {% block movingContent %}

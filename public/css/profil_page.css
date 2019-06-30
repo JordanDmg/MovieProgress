@@ -1,11 +1,11 @@
  .profil {
      position: relative;
+     background : #272b30;
+     background-size: cover;
+     height:auto;
+     min-height: 200px;
  }
 
- .cover {
-     width: 100%;
-     height: 200px;
- }
 
  .profil_picture {
      position: absolute;
@@ -25,3 +25,9 @@
     text-align:center;
 }
 
+.runtime {
+    position: absolute;
+    bottom:0;
+    right:0;
+    /* vertical-align: bottom;  */
+}

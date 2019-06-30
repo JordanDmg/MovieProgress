@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('../css/main.css') }}"></script>
+
+    <style>
+</style>    
+{% endblock %}
+{% block content %}
+    <div class="top_info">
+        <img class="poster" alt=""  src="{{ asset(list.imgPath) }}">
+        <div class="movie_infos">
+            <h2>{{ list.name }}  
+            {% if follow == false %} <a href="#" data-list-id="{{ list.id }}" class="addList btn btn-primary" >Follow</a>{% else %}<a href="#" data-list-id="{{ list.id }}" class="addList btn btn-dark">Unfollow</a>{% endif %}</h2>
+            <h4>Auteur de la liste : {{ authorUsername }}</h4>
+            <h4>Description de la liste :</h4>
+        {% if list.description is not null and list.description is defined %}
+            <p>{{ list.description }}</p>
+        {% else %}
+            <p>Il n'y a pas de description disponible</p>
+        {% endif %}
+        </div>
+    </div>
+    <div class="bot_info">
+    <div class="row ">
+    {% for movie in list.movies %}
+         
+            <div class="col-6">
+                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                    <div class="card-body d-flex flex-column align-items-start">
+                        <h3 class="mb-0">
+                        <a class="text-dark" href="#">{{movie.name}}</a>
+                        </h3>
+                        
+                    </div>
+                    <img class="card-img-right flex-auto d-none d-md-block" src="https://image.tmdb.org/t/p/w185/{{ movie.posterPath }}"  alt="">
+                </div>
+            </div>
+    
+    {% endfor %}
+        </div>
+       
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('../js/addList.js') }}"></script>
+
+{% endblock %}

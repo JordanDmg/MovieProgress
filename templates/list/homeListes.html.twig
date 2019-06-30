@@ -14,7 +14,7 @@
                   <div class="col-md-2">
                       <div class="card mb-3 shadow-sm">      
                         
-                        <img src="{{ asset(list.imgPath) }}" alt="list" style=" width:100%;"/>
+                        <a href="{{ path('readList' , {'id': list.id}) }}" ><img src="{{ asset(list.imgPath) }}" alt="list" style=" width:100%;"/></a>
                         <div class="card-body">
                             <h5 class="card-text" style="min-height:48px">{{ list.name }}</h5>
                              {# <a href="#" class="addList" data-list-id="{{ list.id }}">Ajouter la liste</a> #}

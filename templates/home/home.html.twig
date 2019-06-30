@@ -50,7 +50,7 @@
                                             {{ i }}</option>
                                     {% endfor %}
                                 </select>
-                                <div class="d-flex justify-content-between align-items-center">
+                                {# <div class="d-flex justify-content-between align-items-center"> #}
                                     <div class="btn-group">
                                         <a href=""  data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
                                             {% set viewed = 0 %}
@@ -60,13 +60,26 @@
                                                 {% endif %}
                                             {% endfor %}
                                             {% if viewed == 1 %}
-                                                <i id="{{ movie.id }}" class="btn-icon fas fa-eye-slash"></i>
+                                                <i id="{{ movie.id }}" class="btn btn-secondary ">J'ai vu ce film</i>
                                             {% else %}
-                                                <i id="{{ movie.id }}" class="btn-icon fas fa-eye"></i>
+                                                <i id="{{ movie.id }}" class="btn btn-light">J'ai vu ce film</i>
+                                            {% endif %}
+                                        </a>
+                                         <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn btn btn-link">
+                                            {% set viewed = 0 %}
+                                            {% for view in app.user.movieToWatches %}
+                                                {% if view.movie.idTMDB == movie.id %}
+                                                    {% set viewed = 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if viewed == 1 %}
+                                                <i id="{{ movie.id }}" class="btn btn-secondary ">Je veux voir ce film</i>
+                                            {% else %}
+                                                <i id="{{ movie.id }}" class="btn btn-light">Je veux voir ce film</i>
                                             {% endif %}
                                         </a>
                                     </div>
-                                </div>
+                                {# </div> #}
                             </div>
                         </div>
                     </div>
@@ -80,4 +93,5 @@
 <script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
 <script src="{{ asset('../js/ratingBar.js') }}"></script>
 <script src="{{ asset('../js/watchBtn.js') }}"></script>
+<script src="{{ asset('../js/toWatchBtn.js') }}"></script>
 {% endblock %}{# {{ movie.backdropImage|tmdb_image_html('original', 2000, 2000)|raw }} #}

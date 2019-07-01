@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('../css/profil_page.css') }}" />
+
+{% endblock %}
+{% block body %}
+ {{ parent() }}
+{% endblock %}
+
+ {% block content %}
+ <div class="small_top_info">
+    {% if user.picture is not null and user.picture is defined %}
+  <img class="small_poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ user.picture }}">
+    {% else %}
+  <img class="small_poster" alt=""  src="{{ asset('../img/empty_profile.png') }}">
+    {% endif %}
+
+  <div class="small_movie_infos">
+    <h5>{{ user.name }} {{ user.firstName }}</h5>
+    <h5>Pseudo : {{user.username }}</h5>
+    <h5>Date d'inscription : {{ user.subscribeDate | date('d/m/Y') }}</h5>
+    
+  </div>
+</div>
+    <h6>Films vues par {{ user.username }}</h6>
+  <div class="row" style="margin-left: 1%">
+
+    {% for movieView in user.movieViews %}
+
+      <div class="img-userMovie">
+        <a href="{{ path('movie', {'id':movieView.movie.idTMDB }) }}" class="mousehover over_a">
+        <img alt="" class="little_img" src="https://image.tmdb.org/t/p/w400/{{ movieView.movie.posterPath }}" style="width:138px; height: 190px ;" >
+        <i class="over_i fas fa-search fa-2x" ></i>
+        </a>
+        <p class="mx-auto" style="max-width: 138px;">{{ movieView.movie.name | length > 33  ? movieView.movie.name|slice(0, 33) ~ '...' : movieView.movie.name}}</p>
+    </div>  
+    {% endfor %}
+    </div>
+    <h6>Films à voirs par {{ user.username }}</h6>
+  <div class="row" style="margin-left: 1%">
+
+    {% for movieToWatch in user.movieToWatches %}
+
+        <div class="img-userMovie">
+            <a href="{{ path('movie', {'id':movieToWatch.movie.idTMDB }) }}" class="mousehover over_a">
+            <img alt="" class="little_img" src="https://image.tmdb.org/t/p/w400/{{ movieToWatch.movie.posterPath }}" style="width:138px; height: 190px ;" >
+            <i class="over_i fas fa-search fa-2x" ></i>
+            </a>
+            <p class="mx-auto" style="max-width: 138px;">{{ movieToWatch.movie.name | length > 33  ? movieToWatch.movie.name|slice(0, 33) ~ '...' : movieToWatch.movie.name}}</p>
+        </div>  
+        {% endfor %}
+        </div>
+        <h6>Listes créées par {{ user.username }}</h6>
+  <div class="row" style="margin-left: 1%">
+
+    {% for listing in listings %}
+        <div class="img-userMovie">
+            <a href="{{ path('readList' , {'id': listing.id}) }}" class="mousehover over_a">
+
+            <img alt="" class="little_img" src="{{ asset(listing.imgPath) }}" style="width:138px; height: 190px ;" >
+
+            <i class="over_i fas fa-search fa-2x" ></i>
+            </a>
+            <p class="mx-auto" style="max-width: 138px;">{{ listing.name | length > 33  ? listing.name|slice(0, 33) ~ '...' : listing.name}}</p>
+        </div>  
+        {% endfor %}
+        </div>
+
+
+{% endblock %}

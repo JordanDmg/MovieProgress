@@ -36,7 +36,7 @@
                                 <h5 class="card-text">
                                     {{ movie.title }}</h5>
                                 <h5 class="card-text">
-                                    {% set currentRate = 0 %}
+                                    {% set currentRate = 15 %}
                                     {% for rating in app.user.movieViews %}
                                         {% if rating.movie.idTMDB == movie.id %}
                                             {% set currentRate = rating.rate %}
@@ -44,8 +44,9 @@
                                     {% endfor %}
                                 </h5>
                                 <select class="rating" id="{{ movie.id }}" >
-                                    <option value=""></option>
-                                    {% for i in 1..10 %}
+                                <option value=""></option>
+                                    
+                                    {% for i in 0..10 %}
                                         <option value={{ i }} {{ i == currentRate ? "selected" }}>
                                             {{ i }}</option>
                                     {% endfor %}
@@ -90,7 +91,7 @@
 
 </div>{% endblock %}{% block javascripts %}
 {{ parent() }}
-<script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js"></script>
 <script src="{{ asset('../js/ratingBar.js') }}"></script>
 <script src="{{ asset('../js/watchBtn.js') }}"></script>
 <script src="{{ asset('../js/toWatchBtn.js') }}"></script>

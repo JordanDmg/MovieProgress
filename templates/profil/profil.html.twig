@@ -25,7 +25,7 @@
 {% for user_movie in user_movies %}
   <div class="img-userMovie">
     <a href="{{ path('movie', {'id':user_movie.id_tmdb }) }}" class="mousehover over_a">
-      <img alt=""  src="https://image.tmdb.org/t/p/w400/{{ user_movie.poster_path }}" style="width:138px; height: 190px ;" >
+      <img alt="" class="little_img" src="https://image.tmdb.org/t/p/w400/{{ user_movie.poster_path }}" style="width:138px; height: 190px ;" >
       <i class="over_i fas fa-search fa-2x" ></i>
     </a>
     <p class="mx-auto" style="max-width: 138px;">{{ user_movie.name | length > 33  ? user_movie.name|slice(0, 33) ~ '...' : user_movie.name}}</p>

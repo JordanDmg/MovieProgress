@@ -4,7 +4,8 @@ $(".watch-btn").click(function (e) {
     e.preventDefault()
     var apiid = $(this).data("api-id")
     var state = $(this).find('i').attr("class")
-    $.get("view/" + apiid)
+    
+    $.get("/view/" + apiid)
 
     if (state === 'btn btn-secondary') {
         var test = $('.rating#'+apiid).barrating('set',0)

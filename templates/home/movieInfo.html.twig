@@ -3,7 +3,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
-    <script src="{{ asset('../css/main.css') }}"></script>
 
 {% endblock %}
 {% block body %}
@@ -21,12 +20,47 @@
               {% set currentRate = rating.rate %}
         {% endif %}
     {% endfor %}
-    <select class="rating" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}" data-runtime="{{ movie.runtime }}" >
-      <option value=""></option>
-      {% for i in 1..10 %}
-        <option value={{ i }} {{ i == currentRate ? "selected" }}>{{ i }}</option>
-      {% endfor %}
-    </select>
+    <div class="row">
+      <div class="col-md-4">
+        <select class="rating" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}" data-runtime="{{ movie.runtime }}" >
+          <option value=""></option>
+        {% for i in 1..10 %}
+          <option value={{ i }} {{ i == currentRate ? "selected" }}>{{ i }}</option>
+        {% endfor %}
+        </select> 
+      </div>
+      <div class="col-md-4">
+        <a href=""  data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
+          {% set viewed = 0 %}
+          {% for view in app.user.movieViews %}
+              {% if view.movie.idTMDB == movie.id %}
+                  {% set viewed = 1 %}
+              {% endif %}
+          {% endfor %}
+          {% if viewed == 1 %}
+              <i id="{{ movie.id }}" class="btn btn-secondary ">J'ai vu ce film</i>
+          {% else %}
+              <i id="{{ movie.id }}" class="btn btn-light">J'ai vu ce film</i>
+          {% endif %}
+      </a>
+      </div>
+      <div class="col-md-4">
+         <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn btn btn-link">
+            {% set viewed = 0 %}
+            {% for view in app.user.movieToWatches %}
+                {% if view.movie.idTMDB == movie.id %}
+                    {% set viewed = 1 %}
+                {% endif %}
+            {% endfor %}
+            {% if viewed == 1 %}
+                <i id="{{ movie.id }}" class="btn btn-secondary ">Je veux voir ce film</i>
+            {% else %}
+                <i id="{{ movie.id }}" class="btn btn-light">Je veux voir ce film</i>
+            {% endif %}
+        </a>
+      </div>
+    </div>
+    <h6>Note actuelle : {{ avgRate }} <small>({{nbVotant}}vote)</small></h6 >
     <div class="row" style="margin-left:auto;">
       <h5>Genres : </h5> 
       {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}" style="margin-left:5px;">{{ genre.name }}</a> {% endfor %}
@@ -43,20 +77,24 @@
   </div>
 </div>
 <div style="padding-left:15px;">
+  <h2>Synopsis</h2>
+  <p style="color:black" >{{ movie.overview }}</p>
   <h2>Casting</h2>
     <div class="row"> 
-    {% for cast in credits['cast'] | slice(0,7) %}
+    {% for cast in credits['cast'] | slice(0,8) %}
       <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
+       {% if cast.profile_path is not null and cast.profile_path is defined %}
           <a href="{{ path('people', {'id': cast.id }) }}"><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.profile_path}}" alt="Card image cap"></a>
+      {% else %}
+          <a href="{{ path('people', {'id': cast.id }) }}"><img class="card-img-top" src="{{ asset('../img/empty_profile.png') }}" alt="Card image cap"></a>
+      {% endif %}     
           <b>{{ cast.name }}</b>
           <p>{{ cast.character }}</p>
       </div>
     {% endfor %}
-      <a href="#" >
-        <div class="card" style="width: 138px; height: 358px; margin-left:8px; text-align:center; " >
-          <i style="margin-top:178px ;" class="fas fa-arrow-right fa-2x" ></i>
-      </div></a>
+      
   </div>
+   <a href="{{ path('casting', {'id':movie.id }) }}" >Casting complet </a>
   <h2>Commentaires</h2>
     <section id="commentaires">
       <form  autocomplete="off">
@@ -67,7 +105,7 @@
       {% for comment in movieDB.comments | reverse %}
           <div class="row">
             <div class="col-3">
-              {{ comment.author.username }}  (<small>{{ comment.createdAt | date('d/m/y à H:i') }}</small>)
+              <a href="{{ path('userInfo', {'id':comment.author.id }) }}"> {{ comment.author.username }} </a> (<small>{{ comment.createdAt | date('d/m/y à H:i') }}</small>)
             </div>
             <div class="col">
             {{ comment.content | raw }}
@@ -97,9 +135,10 @@
 
   {% block javascripts %}
     {{ parent() }}
-    <script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
     <script src="{{ asset('../js/ratingBar.js') }}"></script>
     <script src="{{ asset('../js/comment.js') }}"></script>
+    <script src="{{ asset('../js/watchBtn.js') }}"></script>
+    <script src="{{ asset('../js/toWatchBtn.js') }}"></script>
    
 
   {% endblock %}

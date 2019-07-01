@@ -4,8 +4,84 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a91f4118d29686a3247ef3eaa06fc04",
+    "content-hash": "70f3ad01def0d18e8f93dca2927285cf",
     "packages": [
+        {
+            "name": "coka/pagination-bundle",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CedrickOka/pagination-bundle.git",
+                "reference": "e3b4ce8f64b60f15b1b8c7c741d0fe210af8fb33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CedrickOka/pagination-bundle/zipball/e3b4ce8f64b60f15b1b8c7c741d0fe210af8fb33",
+                "reference": "e3b4ce8f64b60f15b1b8c7c741d0fe210af8fb33",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "^1.2",
+                "php": ">=5.6",
+                "symfony/config": "^3.4 || ^4.0",
+                "symfony/console": "^3.4 || ^4.0",
+                "symfony/dependency-injection": "^3.4 || ^4.0",
+                "symfony/event-dispatcher": "^3.4 || ^4.0",
+                "symfony/framework-bundle": "^3.4 || ^4.0",
+                "symfony/translation": "^3.4 || ^4.1",
+                "symfony/validator": "^3.4 || ^4.1"
+            },
+            "require-dev": {
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/doctrine-bundle": "~1.4",
+                "doctrine/mongodb-odm-bundle": "^3.4",
+                "doctrine/orm": "^2.4.8",
+                "symfony/phpunit-bridge": "^3.0",
+                "twig/twig": "^2.5"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/doctrine-bundle": "~1.4",
+                "doctrine/mongodb-odm-bundle": "^3.4",
+                "doctrine/orm": "^2.4.8",
+                "twig/twig": "^2.5"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                },
+                "symfony": {
+                    "allow-contrib": "true"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Oka\\PaginationBundle\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cedrick Oka",
+                    "email": "okacedrick@gmail.com"
+                }
+            ],
+            "description": "Symfony Oka pagination bundle",
+            "homepage": "https://github.com/CedrickOka/oka-pagination",
+            "keywords": [
+                "doctrine",
+                "pagination",
+                "twig"
+            ],
+            "time": "2019-05-14T11:49:20+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.6.0",

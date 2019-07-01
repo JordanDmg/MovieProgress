@@ -38,7 +38,7 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $poster_path;
+    private $posterPath;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="movie", orphanRemoval=true)
@@ -131,12 +131,12 @@ class Movie
 
     public function getPosterPath(): ?string
     {
-        return $this->poster_path;
+        return $this->posterPath;
     }
 
-    public function setPosterPath(?string $poster_path): self
+    public function setPosterPath(?string $posterPath): self
     {
-        $this->poster_path = $poster_path;
+        $this->posterPath = $posterPath;
 
         return $this;
     }

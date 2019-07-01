@@ -12,7 +12,7 @@
 
 {% block content %}
 <div class="top_info" >
-    {% if people_details.deathday is not null and people_details.profile_path is defined %}
+    {% if people_details.profile_path is not null and people_details.profile_path is defined %}
     <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ people_details.profile_path }}">
     {% else %}
     <img class="poster" alt=""  src="{{ asset('../img/test.png') }}">
@@ -32,7 +32,7 @@
         
         <div class="row" style="margin-left:auto;">
             <h5>Biographie : </h5> 
-            {% if people_details.deathday is not null and people_details.profile_path is defined %}
+            {% if people_details.biography is not empty and people_details.biography is defined %}
             <p id="biography">{{ people_details.biography | truncate(800, true) }} </p> 
             {% else %}
             <p id="biography">Aucune biographie n'est disponible pour {{ people_details.name }}</p>
@@ -42,46 +42,54 @@
 </div>
 
 <div style="padding-left:15px;">
-{% if people_movieCredit.cast is not empty  %}
-  <h2>Filmographie en tant qu'acteur</h2>
+{% if know_for.results is not empty  %}
+  <h3>Connu (e) pour :</h3>
     <div class="row"> 
     
-    {% for cast in people_movieCredit.cast | slice(0,7) %}
+    {% for bestMovie in know_for.results | slice(0,8) %}
       <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
-          <a href=" {{ path('movie', {'id':cast.id }) }} " ><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.poster_path}}" alt="Card image cap"></a>
-          <b>{{ cast.original_title }}</b>
-          <p>{{ cast.release_date |date("d/m/Y") }}</p>
+        {% if bestMovie.poster_path is not null and bestMovie.poster_path is defined %}
+          <a href=" {{ path('movie', {'id':bestMovie.id }) }} " ><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{bestMovie.poster_path}}" alt="Card image cap"></a>
+        {% else %}
+          <a href=" {{ path('movie', {'id':bestMovie.id }) }} " ><img class="card-img-top" src="{{ asset('../img/emptyImg.jpg') }}" alt="Card image cap"></a>
+        {% endif %}
+            
+          <b>{{ bestMovie.original_title }}</b>
+          <p>{{ bestMovie.release_date |date("d/m/Y") }}</p>
       </div>
     {% endfor %}
     
-      <a href="#" >
-        <div class="card" style="width: 138px; height: 358px; margin-left:8px; text-align:center; " >
-          <i style="margin-top:178px ;" class="fas fa-arrow-right fa-2x" ></i>
-        </div></a>
     </div>
-      {% endif %}
-{% if people_movieCredit.crew is not empty  %}
-  <h2>Filmographie technique</h2>
-    <div class="row"> 
-    {% for crew in people_movieCredit.crew | slice(0,7) %}
-      <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
-          <a href=" {{ path('movie', {'id':crew.id }) }} " ><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{crew.poster_path}}" alt="Card image cap"></a>
-          <b>{{ crew.original_title }}</b>
-          {% if crew.release_date is not null and crew.release_date is defined %}
-          <p>{{ crew.release_date |date("d/m/Y") }}</p>
-          {% else %}
-          <p>Aucune date</p>
+       {% endif %}
+      <div class="row">
+        <div class="col-md-6">
+          {% if people_movieCast.results is not empty  %}
+          <h2>Interpretation</h2>
+          {% for cast in people_movieCast.results  %}
+            {% if cast.release_date is not null and cast.release_date is defined %}
+              <div><a href=" {{ path('movie', {'id':cast.id }) }} " >{{ cast.release_date |date("d/m/Y") }} <strong>{{ cast.original_title }}</strong></a></div>
+            {% else %}
+              <div><a href=" {{ path('movie', {'id':cast.id }) }} " >Aucune date <strong>{{ cast.original_title }}</strong></a></div>
+            {% endif %}
+          {% endfor %}
           {% endif %}
-          <p>{{ crew.job }}</p>
+        
+        </div>
+        <div class="col-md-6">
+          {% if people_movieCrew.results is not empty  %}
+          <h2>Filmographie technique</h2>
+          {% for crew in people_movieCrew.results  %}
+            {% if crew.release_date is not null and crew.release_date is defined %}
+              <div><a href=" {{ path('movie', {'id':crew.id }) }} " >{{ crew.release_date |date("d/m/Y") }} <strong>{{ crew.original_title }}</strong></a></div>
+            {% else %}
+              <div><a href=" {{ path('movie', {'id':crew.id }) }} " >Aucune date <strong>{{ crew.original_title }}</strong></a></div>
+            {% endif %}
+          {% endfor %}
+          {% endif %}
+        </div>
       </div>
-    {% endfor %}
-    
-      <a href="#" >
-        <div class="card" style="width: 138px; height: 358px; margin-left:8px; text-align:center; " >
-          <i style="margin-top:178px ;" class="fas fa-arrow-right fa-2x" ></i>
-      </div></a>
-      {% endif %}
-  </div>
+
+  </div> 
   
 </div>
 
@@ -89,9 +97,7 @@
 
   {% block javascripts %}
     {{ parent() }}
-    <script src="http://antenna.io/demo/jquery-bar-rating/jquery.barrating.js"></script>
-    <script src="{{ asset('../js/ratingBar.js') }}"></script>
-    <script src="{{ asset('../js/comment.js') }}"></script>
+
    
 
   {% endblock %}

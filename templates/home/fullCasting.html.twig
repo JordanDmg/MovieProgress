@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
+
+{% endblock %}
+{% block body %}
+ {{ parent() }}
+{% endblock %}
+
+ {% block content %}
+ <div class="small_top_info">
+  <img class="small_poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">
+  <div class="small_movie_infos">
+    <h2>{{ movie.title }} ({{ movie.release_date |date("Y") }})</h2>
+    <p><a href="{{ path('movie', {'id':movie.id }) }}"><i class="fas fa-arrow-left"></i> Page précédente </a></p>
+  </div>
+</div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-6">
+      <h6>Distribution</h6>
+      {% for cast in credits['cast'] %}
+      
+      {% if cast.profile_path is not null and cast.profile_path is defined %}
+          <a href="{{ path('people', {'id': cast.id }) }}"><img class="little_img" src="https://image.tmdb.org/t/p/w400{{cast.profile_path}}" alt="Card image cap"></a>
+      {% else %}
+          <a href="{{ path('people', {'id': cast.id }) }}"><img class="little_img" src="{{ asset('../img/empty_profile.png') }}" alt="Card image cap"></a>
+      {% endif %}
+          <b>{{ cast.name }}</b>
+          <p>{{ cast.character }}</p>
+      {% endfor %}
+    </div>
+    <div class="col-md-6">
+      <h6>Equipe technique</h6>
+
+      {% for crew in credits['crew'] %}
+      {% if crew.profile_path is not null and crew.profile_path is defined %}
+          <a href="{{ path('people', {'id': crew.id }) }}"><img class="little_img" src="https://image.tmdb.org/t/p/w400{{crew.profile_path}}" alt="Card image cap"></a>
+      {% else %}
+          <a href="{{ path('people', {'id': crew.id }) }}"><img class="little_img" src="{{ asset('../img/empty_profile.png') }}" alt="Card image cap"></a>
+      {% endif %}
+          
+          <b>{{ crew.name }}</b>
+          <p>{{ crew.job }}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

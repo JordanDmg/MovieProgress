@@ -22,32 +22,32 @@ class ApiManager
 
 
     //Permet la recuperation depuis l'api de films en fonction d'un genre ou plusieurs donné
-    public function getMovieByGenres($genres)
+    public function getMovieByGenres($genres, $page)
     {
 
         $promises = array();
         if (is_array($genres)) {
             foreach ($genres as $key => $genre) {
-                $promises[$key] = $this->_client->getAsync('/3/discover/movie?api_key=' . $this->_apiKey . '&language=fr-FR&sort_by=popularity.desc&include_video=false&page=1&with_genres=' . $genre);
+                $promises[$key] = $this->_client->getAsync('/3/discover/movie?api_key=' . $this->_apiKey . '&language=fr-FR&sort_by=popularity.desc&include_video=false&page='.$page.'&with_genres=' . $genre);
             }
             return Promise\unwrap($promises);
         } else {
-            $response = $this->_client->request('GET', '/3/discover/movie?api_key=' . $this->_apiKey . '&language=fr-FR&sort_by=popularity.desc&include_video=false&page=1&with_genres=' . $genres);
+            $response = $this->_client->request('GET', '/3/discover/movie?api_key=' . $this->_apiKey . '&language=fr-FR&sort_by=popularity.desc&include_video=false&page='.$page.'&with_genres=' . $genres);
             return json_decode(($response->getBody())->getContents());
         }
     }
     //Permet la recuperation depuis l'api de films en fonction d'une ou plusieurs donnée spécial ( top rated, popular ... )
-    public function getMovieBySpecialData($specialData)
+    public function getMovieBySpecialData($specialData, $page)
     {
         $promises = array();
         if (is_array($specialData)) {
             foreach ($specialData as $key => $value) {
-                $promises[$key] = $this->_client->getAsync('/3/movie/' . $value . '?api_key=' . $this->_apiKey . '&language=fr-FR&page=1');
+                $promises[$key] = $this->_client->getAsync('/3/movie/' . $value . '?api_key=' . $this->_apiKey . '&language=fr-FR&page='.$page.'');
             }
 
             return Promise\unwrap($promises);
         } else {
-            $response = $this->_client->request('GET', 'http://api.themoviedb.org/3/movie/' . $specialData . '?api_key=' . $this->_apiKey . '&language=fr-FR&page=1');
+            $response = $this->_client->request('GET', 'http://api.themoviedb.org/3/movie/' . $specialData . '?api_key=' . $this->_apiKey . '&language=fr-FR&page='.$page.'');
             return json_decode(($response->getBody())->getContents());
         }
     }
@@ -76,11 +76,25 @@ class ApiManager
     public function getPeopleById($id) {
         $promises = [
             'details'       => $this->_client->getAsync('/3/person/' . $id . '?api_key=' . $this->_apiKey . '&language=fr-FR'),
-            'movie_credits' => $this->_client->getAsync('/3/person/' . $id . '/movie_credits?api_key=' . $this->_apiKey . '&language=fr-FR'),
-
+            'movie_cast' => $this->_client->getAsync('/3/discover/movie?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&with_cast=' . $id . ''),
+            'movie_crew' => $this->_client->getAsync('/3/discover/movie?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&with_crew=' . $id . ''),
+            'know_for' => $this->_client->getAsync('/3/discover/movie?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_cast=' . $id . ''),
+            // 'know_for'      
         ];
 
         return Promise\unwrap($promises);
 
     }
+
+    // public function getPeopleById($id) {
+    //     $promises = [
+    //         'details'       => $this->_client->getAsync('/3/person/' . $id . '?api_key=' . $this->_apiKey . '&language=fr-FR'),
+    //         'movie_credits' => $this->_client->getAsync('/3/person/' . $id . '/movie_credits?api_key=' . $this->_apiKey . '&language=fr-FR&sort_by=release_date.asc'),
+    //         // 'know_for'      
+    //     ];
+
+    //     return Promise\unwrap($promises);
+
+    // }
+
 }

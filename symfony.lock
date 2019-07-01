@@ -1,4 +1,16 @@
 {
+    "coka/pagination-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "9341636f08baec071f5c9f03fe5819446cae325b"
+        },
+        "files": [
+            "./config/packages/oka_pagination.yaml"
+        ]
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

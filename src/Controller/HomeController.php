@@ -4,7 +4,10 @@ namespace App\Controller;
 
 
 
+use App\Entity\User;
 use App\Entity\Movie;
+use App\Entity\Listing;
+use App\Entity\MovieView;
 use App\Form\CommentType;
 use App\Service\ApiManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,14 +34,14 @@ class HomeController extends AbstractController
 
         //Liste des genres a afficher sur la HomePage pour ajouter un genre il faut l'ajouter aussi dans la tableau moviesArrayHome plus bas
         $genderForHomepage = array("drame" => "18", "comedie" => "35", "histoire" => "36", "scienceFiction" => "878", "horreur" => "27");
-        $apiGender = $api->getMovieByGenres($genderForHomepage);
+        $apiGender = $api->getMovieByGenres($genderForHomepage, 1);
         foreach ($apiGender as $key => $value) {
             $array[$key] = json_decode(($value->getBody())->getContents());
         }
 
         $specialDataForHomepage = array("popular" => "popular", "upcoming" => "upcoming", "top_rated" => "top_rated");
 
-        $apiSpecialData = $api->getMovieBySpecialData($specialDataForHomepage);
+        $apiSpecialData = $api->getMovieBySpecialData($specialDataForHomepage, 1);
 
         foreach ($apiSpecialData as $key => $value) {
             $array[$key] = json_decode(($value->getBody())->getContents());
@@ -64,28 +67,40 @@ class HomeController extends AbstractController
     /**
      * Affiche tous les films en fonction d'une donnée proposé par l'api 
      * 
-     *@Route ("/specialDisplay/{data}", name="specialDisplay")
+     *@Route ("/specialDisplay/{data}/{page}", name="specialDisplay")
      */
 
-    public function specialDisplay(ApiManager $api, $data)
+    public function specialDisplay(ApiManager $api, $data, $page=1)
     {
-        $movieBySpecialData = $api->getMovieBySpecialData($data);
+        $movieBySpecialData = $api->getMovieBySpecialData($data, $page);
+        $pageType = 'specialDisplay';
+
         dump($movieBySpecialData);
         return $this->render('home/moviesList.html.twig', [
-            'movies' => $movieBySpecialData,
+            'pageName'  => $data,
+            'movies'    => $movieBySpecialData,
+            'id'        => $api,
+            'pageType'  => $pageType
+
+
         ]);
     }
 
     /**
      * Envoie vers une page  une page de film d'une categorie spécifique
-     * @Route("/genre/{id}/{name}", name="genre")
+     * @Route("/genre/{id}/{name}/{page}", name="genre")
      */
-    public function movieByGender(ApiManager $api, $id)
+    public function movieByGender(ApiManager $api, $id, $name, $page=1)
     {
-        $movieByGenre = $api->getMovieByGenres($id);
 
+        $movieByGenre = $api->getMovieByGenres($id, $page);
+        $pageType = 'gender';
+        dump($movieByGenre);
         return $this->render('home/moviesList.html.twig', [
-            'movies' => $movieByGenre,
+            'pageName'  => $name,
+            'movies'    => $movieByGenre,
+            'id'   => $id, 
+            'pageType'  => $pageType
         ]);
     }
 
@@ -112,7 +127,6 @@ class HomeController extends AbstractController
                 
             }
         }
-        dump($directors);
         $title = $movie['title'];
         $posterPath = $movie['poster_path'];
         $runtime = $movie['runtime'];
@@ -130,8 +144,36 @@ class HomeController extends AbstractController
             $em->persist($movieFromDatabase);
             $em->flush();
         }
+        $moviesRates = $em->getRepository(MovieView::class)->findBy (
+            array('movie' => $movieFromDatabase->getId() )
+        );
+        dump($moviesRates);
+        $i=0;
+
+        if (!empty($moviesRates)){
+
+            $allrate = 0;
+            foreach ($moviesRates as $movieRate){
+                if (!is_null($movieRate->getRate())){
+                $i++;
+                $allrate += $movieRate->getRate();
+                }
+            }
+            if($i != 0  ){
+                dump($i);
+            $avgRate = $allrate/$i;
+
+            }
+            else {
+            $avgRate = "Aucune note";
+
+            }
+
+        }else {
+            $avgRate = "Aucune note";
+        }
+
         $commentForm = $this->createForm(CommentType::class);
-        
         //Change l'heure perçu en minute en heure
         $min = $movie['runtime'] % 60;
         $hour = ($runtime - $min) / 60;
@@ -143,11 +185,27 @@ class HomeController extends AbstractController
             'credits'       => $credits,
             'runtime'       => $runtime,
             'movieDB'       => $movieFromDatabase,
-            'form'          => $commentForm->createView()    
+            'form'          => $commentForm->createView(),
+            'avgRate'       => $avgRate,
+            'nbVotant'      => $i   
 
         ]);
     }
-
+    /**
+     * Affiche les information d'un autre utilisateur
+     * @Route("/utilisateur/{id}", name="userInfo")
+     */
+    public function showUser(User $user ){
+        dump($user->getId());
+        $em = $this->getDoctrine()->getManager();
+        $listings = $em->getRepository(Listing::class)->findBy(   //Recuparation de l'entité film s'il existe
+            array('authorId' => $user->getId())
+        );  
+        return $this->render('home/userInfo.html.twig',[
+            'user'          => $user,
+            'listings'      => $listings
+        ]);
+    }
     /**
      * Affiche les information d'une personnalité selectionné 
      * @Route("/personnalite/{id}", name="people")
@@ -155,11 +213,30 @@ class HomeController extends AbstractController
     public function showPeople($id, ApiManager $api) {
         $apiPeople = $api->getPeopleById($id);
         $people_details = json_decode(($apiPeople["details"]->getBody())->getContents());
-        $people_movieCredits = json_decode(($apiPeople["movie_credits"]->getBody())->getContents());
-        dump($people_movieCredits);
+        $people_cast = json_decode(($apiPeople["movie_cast"]->getBody())->getContents());
+        $people_crew = json_decode(($apiPeople["movie_crew"]->getBody())->getContents());
+        $know_for = json_decode(($apiPeople["know_for"]->getBody())->getContents());
+        dump($people_cast);
         return $this->render('home/people.html.twig', [
             'people_details'            => $people_details,
-            'people_movieCredit'        => $people_movieCredits,
+            'people_movieCast'        => $people_cast,
+            'people_movieCrew'        => $people_crew,
+            'know_for'                => $know_for
+
+        ]);
+    }
+    /**
+     * Affiche le casting complet d'un film
+    * @Route("/casting/{id}", name="casting")
+     */
+    public function fullCasting ($id, ApiManager $api){
+        $results = $api->getOneMovieByIdWithFullData($id);
+        $movie = json_decode(($results['movie']->getBody())->getContents(), true);
+        $credits = json_decode(($results['credits']->getBody())->getContents(), true);
+        dump($credits);
+        return $this->render('home/fullCasting.html.twig', [
+            'movie'     => $movie,
+            'credits'   => $credits
 
         ]);
     }

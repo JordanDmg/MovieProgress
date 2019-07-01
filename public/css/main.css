@@ -22,6 +22,10 @@
 .row {
     margin-right:0px;
 }
+.little_img {
+  width:138px; 
+  height: 190px ;
+}
 
   .top_info {
     background : #272b30;
@@ -46,6 +50,30 @@
     padding-top:21px;
     padding-left:240px;
   }
+
+  .small_top_info {
+    background : #272b30;
+    background-size: cover;
+    position:relative; 
+    height:auto;
+    min-height: 10em;
+  }
+  .small_poster{
+    position:absolute;
+
+    width: 100px;
+    height: 132px;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  .small_movie_infos {
+    position:relative;
+    width:100%;
+    color:white;
+    padding-top:10px;
+    padding-left:120px;
+  }
+
 
     @media (max-width: 768px) {
     .top_info {

@@ -61,7 +61,7 @@ class Listing
     /**
      * @ORM\Column(type="string", length=255, nullable=true )
      */
-    private $img_path;
+    private $imgPath;
 
     public function __construct()
     {
@@ -188,12 +188,12 @@ class Listing
 
     public function getImgPath(): ?string
     {
-        return $this->img_path;
+        return $this->imgPath;
     }
 
-    public function setImgPath(?string $img_path): self
+    public function setImgPath(?string $imgPath): self
     {
-        $this->img_path = $img_path;
+        $this->imgPath = $imgPath;
 
         return $this;
     }

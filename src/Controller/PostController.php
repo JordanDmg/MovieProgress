@@ -32,7 +32,6 @@ class PostController extends AbstractController
     public function view($apiId, ApiManager $api) 
     {
 
-
         $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();

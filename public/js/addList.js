@@ -1,16 +1,20 @@
 $(".addList").click(function (e) {
     e.preventDefault()
     id = $(this).data("list-id")
-    if ($(this).attr('class') === "addList btn btn-primary"){
+    if ($(this).attr('class') === "addList btn btn-light"){
         
        $.get("/listes/addliste/"+ id)
-    
+
+       $(this).removeClass("btn btn-light")
+
+       $(this).toggleClass("btn btn-secondary")
     }else 
     {
         $.get("/listes/unfollowList/" + id)
+        $(this).removeClass("btn btn-secondary")
 
+        $(this).toggleClass("btn btn-light")
     }
-    $(this).toggleClass("btn-dark")
     
 
     

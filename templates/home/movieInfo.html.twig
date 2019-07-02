@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
 
 {% endblock %}
+{% block title %}
+{{ movie.title }} - MovieProgress
+{% endblock %}
 {% block body %}
  {{ parent() }}
 {% endblock %}
@@ -98,9 +101,11 @@
   <h2>Commentaires</h2>
     <section id="commentaires">
       <form  autocomplete="off">
-          {{ form(form) }}
-          <button id="addComment" class="btn9 btn-primary btn-block" data-id-movie="{{ movie.id }}" data-is-authenticated="{{ app.user.username }}" type="submit">Ajouter un commentaires</button>
+          {{ form_start(form) }}
+        {{ form_row(form.content, {'label':false,'attr' : {'placeholder': 'Commentaire', 'class':'form-control'}}) }}
+          <button id="addComment" class="btn9 btn-secondary btn-block" data-id-movie="{{ movie.id }}" data-is-authenticated="{{ app.user.username }}" type="submit">Ajouter un commentaires</button>
       </form>
+      {{ form_end(form) }}
       <div class="comment"> 
       {% for comment in movieDB.comments | reverse %}
           <div class="row">

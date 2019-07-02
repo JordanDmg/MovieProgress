@@ -4,7 +4,9 @@
     <link rel="stylesheet" href="{{ asset('../css/profil_page.css') }}" />
     
 {% endblock %}
-
+{% block title %}
+{{ app.user.username }} - Profil - MovieProgress
+{% endblock %}
 
 {% block content %}
 <div class="profil">
@@ -13,10 +15,10 @@
 </div>
 <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="{{ path('profil') }}">Films Vues</a>
-  <a class="navbar-brand" href="#">Films à regarder</a>
+  <a class="navbar-brand" href="{{ path('profil_movieToWatch') }}">Films à regarder</a>
   <a class="navbar-brand" href="{{ path('profil_liste')}}">Listes créées</a>
   <a class="navbar-brand" href="{{ path('followed_list')}}">Listes suivie</a>
-  <a class="navbar-brand" href="#">Statistiques</a>
+
 </nav>
 {% block movingContent %}
 <h4>Film de {{ app.user.username }} </h4>

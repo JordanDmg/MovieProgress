@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ListController!
+{% block title %}
+{{ list.name }} - Modification - MovieProgress
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
@@ -11,7 +12,12 @@
 {% endblock %}
 {% block content %}
 <div class="top_info">
+{% if list.imgPath == "../img/emptyImg.jpg" %}
+
   <img class="poster" alt=""  src="{{ asset(list.imgPath) }}">
+  {% else %}
+      <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ list.imgPath }}">
+{% endif %}
   <div class="movie_infos">
     <h2>{{ list.name }} <a href="{{ path('removeList', {"id": list.id}) }}" class="btn btn-danger">Supprimer la liste</a></h2>
     <div class="row" style="margin-left:auto;">

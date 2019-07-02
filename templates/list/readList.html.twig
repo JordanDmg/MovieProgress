@@ -1,20 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Listes
+{% block title %}{{ list.name }} - Lecture - MovieProgress
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
     <script src="{{ asset('../css/main.css') }}"></script>
+    <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
 
     <style>
 </style>    
 {% endblock %}
 {% block content %}
     <div class="top_info">
-        <img class="poster" alt=""  src="{{ asset(list.imgPath) }}">
+        {% if list.imgPath == "../img/emptyImg.jpg" %}
+            <img class="poster" alt=""  src="{{ asset(list.imgPath) }}">
+        {% else %}
+        <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ list.imgPath }}">
+        {% endif %}
+        
         <div class="movie_infos">
             <h2>{{ list.name }}  
-            {% if follow == false %} <a href="#" data-list-id="{{ list.id }}" class="addList btn btn-primary" >Follow</a>{% else %}<a href="#" data-list-id="{{ list.id }}" class="addList btn btn-dark">Unfollow</a>{% endif %}</h2>
+            {% if follow == false %} <a href="#" data-list-id="{{ list.id }}" class="addList btn btn-light" >Follow</a>{% else %}<a href="#" data-list-id="{{ list.id }}" class="addList btn btn-secondary">Unfollow</a>{% endif %}</h2>
             <h4>Auteur de la liste : {{ authorUsername }}</h4>
             <h4>Description de la liste :</h4>
         {% if list.description is not null and list.description is defined %}
@@ -22,11 +28,17 @@
         {% else %}
             <p>Il n'y a pas de description disponible</p>
         {% endif %}
+
+
+
         </div>
     </div>
     <div class="bot_info">
     <div class="row ">
+                             {% set numberMovieView = 0 %}
+                             {% set numberMovie = 0 %}
     {% for movie in list.movies %}
+        {% set numberMovie = numberMovie + 1 %}
          
             <div class="col-6">
                 <div class="card flex-md-row mb-4 box-shadow h-md-250">
@@ -34,18 +46,75 @@
                         <h3 class="mb-0">
                         <a class="text-dark" href="#">{{movie.name}}</a>
                         </h3>
-                        
+                         {% set currentRate = 15 %}
+
+                         
+                                    {% for rating in app.user.movieViews %}
+                                        {% if rating.movie.idTMDB == movie.id %}
+                                            {% set currentRate = rating.rate %}
+                                            {% set numberMovieView = numberMovieView + 1 %}
+
+                                        {% endif %}
+                                    {% endfor %}
+
+
+                                    
+                                </h5>
+                                <div class="text-center">
+                                <select class="rating" id="{{ movie.id }}" >
+                                <option value=""></option>
+                                    
+                                    {% for i in 0..10 %}
+                                        <option value={{ i }} {{ i == currentRate ? "selected" }}>
+                                            {{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                          </div>
+                        <div class="btn-group">
+                            <a href=""  data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
+                                {% set viewed = 0 %}
+                                {% for view in app.user.movieViews %}
+                                    {% if view.movie.idTMDB == movie.id %}
+                                        {% set viewed = 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if viewed == 1 %}
+                                    <i id="{{ movie.id }}" class="btn btn-secondary ">J'ai vu ce film</i>
+                                {% else %}
+                                    <i id="{{ movie.id }}" class="btn btn-light">J'ai vu ce film</i>
+                                {% endif %}
+                            </a>
+                            <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn btn btn-link">
+                                {% set viewed = 0 %}
+                                {% for view in app.user.movieToWatches %}
+                                    {% if view.movie.idTMDB == movie.id %}
+                                        {% set viewed = 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if viewed == 1 %}
+                                    <i id="{{ movie.id }}" class="btn btn-secondary ">Je veux voir ce film</i>
+                                {% else %}
+                                    <i id="{{ movie.id }}" class="btn btn-light">Je veux voir ce film</i>
+                                {% endif %}
+                            </a>
+                        </div>
                     </div>
                     <img class="card-img-right flex-auto d-none d-md-block" src="https://image.tmdb.org/t/p/w185/{{ movie.posterPath }}"  alt="">
                 </div>
             </div>
     
     {% endfor %}
-        </div>
+            </div>
+    {% if numberMovie != 0 %}
+    {% set percentMovieView = numberMovieView / numberMovie * 100 %}
+        <div style="text-align:center; widht:100%;" ><p>Pourcentage de films vu dans cette liste : {{ percentMovieView }}%</p></div>
+    {% endif %}
        
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
     <script src="{{ asset('../js/addList.js') }}"></script>
-
+    <script src="{{ asset('../js/ratingBar.js') }}"></script>
+    <script src="{{ asset('../js/watchBtn.js') }}"></script>
+    <script src="{{ asset('../js/toWatchBtn.js') }}"></script>
 {% endblock %}

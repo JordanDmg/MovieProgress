@@ -88,7 +88,6 @@ class ListController extends AbstractController
      */
     public function addMovie($idList, $id, ApiManager $api) {
         
-
         $em = $this->getDoctrine()->getManager();
 
         // Recherche dans la bdd l'id TMDB reçu, et l'ajoute s'il est completement 
@@ -114,6 +113,8 @@ class ListController extends AbstractController
             array('id'  => $idList)
         );
         $list->addMovie($movie);
+        
+        $list->setImgPath($movie->getPosterPath());
             $em->persist($list);
             $return = "vu !";
 
@@ -205,4 +206,5 @@ class ListController extends AbstractController
 
 
       }
+
 }

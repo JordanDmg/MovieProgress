@@ -5,12 +5,11 @@ $(function () {
         
         onSelect: function (value, text, event) {
             var apiid = this.$elem.attr('id')
-            console.log($('#'+apiid+'.btn').attr("class").split(' ')[1])
             iconWatchButtonState = $('#'+apiid+'.btn').attr("class").split(' ')[1]
-           
-            if (iconWatchButtonState === 'fa-eye'){
-                $('#'+apiid+'.btn-icon').removeClass('fa-eye')
-                $('#'+apiid+'.btn-icon').toggleClass('fa-eye-slash')
+           console.log(iconWatchButtonState);
+            if (iconWatchButtonState === 'btn-light'){
+                $('#'+apiid+'.btn-icon').removeClass('btn-light')
+                $('#'+apiid+'.btn-icon').toggleClass('btn-secondary')
             }
             if(value){
             $.get("/rate/" + apiid + "/" + value + "/" , function( data ) {
@@ -18,7 +17,9 @@ $(function () {
               });
 
             }else {
-            
+                $.get("/removeRate/" + apiid  + "/" , function( data ) {
+                    console.log( "Data Loaded: " + data );
+                  });
             }
         },
         

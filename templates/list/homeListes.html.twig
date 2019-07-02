@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}
+Explorer - Listes - MovieProgress
+{% endblock %}
 {% block content %}
     <nav class="navbar navbar-dark bg-dark">
         <a href="{{ path('explorer') }}" style="color:white; width: 50%; text-align: center;">Films</a>
@@ -7,6 +9,7 @@
     </nav>
     
 <h1>Liste populaires</h1>
+
         <div class="row">
         
                 {% for list in lists %}
@@ -14,11 +17,31 @@
                   <div class="col-md-2">
                       <div class="card mb-3 shadow-sm">      
                         
-                        <a href="{{ path('readList' , {'id': list.id}) }}" ><img src="{{ asset(list.imgPath) }}" alt="list" style=" width:100%;"/></a>
+                        <a href="{{ path('readList' , {'id': list.id}) }}" >
+                          {% if list.imgPath == "../img/emptyImg.jpg" %}
+
+                              <img src="{{ asset(list.imgPath) }}" alt="list" style=" width:100%;"/>
+                          {% else %}
+                              <img src="https://image.tmdb.org/t/p/w400/{{ list.imgPath }}" alt="list" style=" width:100%;"/>
+
+                          {% endif %}
+                        
+                        
+                        </a>
                         <div class="card-body">
                             <h5 class="card-text" style="min-height:48px">{{ list.name }}</h5>
-                             {# <a href="#" class="addList" data-list-id="{{ list.id }}">Ajouter la liste</a> #}
-                             <a href="{{ path('addList' , {'id': list.id}) }}"  data-list-id="{{ list.id }}">Ajouter la liste</a>
+                             {% set viewed = 0 %}
+                              {% for view in list.users %}
+                                {% if view.id == app.user.id %}
+                                    {% set viewed = 1 %}
+                                {% endif %}
+                              {% endfor %} 
+                              {% if viewed == 1 %}
+                                <a data-list-id="{{ list.id }}" class="addList btn btn-secondary ">Ajouter cette liste</a>
+                              {% else %}
+                                <a data-list-id="{{ list.id }}" class="addList btn btn-light">Ajouter cette liste</a>
+                              {% endif %}
+                             {# <a href="{{ path('addList' , {'id': list.id}) }}"  data-list-id="{{ list.id }}">Ajouter la liste</a> #}
                         </div>
                         
                       </div>    
@@ -35,10 +58,30 @@
                   <div class="col-md-2">
                       <div class="card mb-3 shadow-sm">      
                        
-                        <img src="{{ asset(list.imgPath) }}" alt="list" style="width:100%;"/>
+                        <a href="{{ path('readList' , {'id': list.id}) }}" >
+                          {% if list.imgPath == "../img/emptyImg.jpg" %}
+
+                              <img src="{{ asset(list.imgPath) }}" alt="list" style=" width:100%;"/>
+                          {% else %}
+                              <img src="https://image.tmdb.org/t/p/w400/{{ list.imgPath }}" alt="list" style=" width:100%;"/>
+
+                          {% endif %}
+                        
+                        </a>
                         <div class="card-body">
                             <h5 class="card-text" style="min-height:48px">{{ list.name }}</h5>
-                            <a href="{{ path('addList' , {'id': list.id}) }}"  data-list-id="{{ list.id }}">Ajouter la liste</a>
+                             {% set viewed = 0 %}
+                              {% for view in list.users %}
+                                {% if view.id == app.user.id %}
+                                    {% set viewed = 1 %}
+                                {% endif %}
+                              {% endfor %} 
+                              {% if viewed == 1 %}
+                                <a data-list-id="{{ list.id }}" class="addList btn btn-secondary ">Ajouter cette liste</a>
+                              {% else %}
+                                <a data-list-id="{{ list.id }}" class="addList btn btn-light">Ajouter cette liste</a>
+                              {% endif %}
+                             {# <a href="{{ path('addList' , {'id': list.id}) }}"  data-list-id="{{ list.id }}">Ajouter la liste</a> #}
                         </div>
                        
                       </div>    
@@ -47,7 +90,7 @@
                 {% endfor %}
           
         </div>
-<h1>Personnalités populaires</h1>{% endblock %}
+{% endblock %}
 {% block javascripts %}
 {{ parent() }}
 

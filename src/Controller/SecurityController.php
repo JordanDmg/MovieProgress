@@ -9,6 +9,7 @@ use App\Form\EditUserType;
 use App\Form\EditPasswordType;
 use App\Form\RegistrationType;
 use App\Controller\ApiController;
+use App\Form\EditUserPictureType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -19,6 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\File\File; 
 
 class SecurityController extends AbstractController
 {
@@ -85,9 +87,11 @@ class SecurityController extends AbstractController
     /**
      * @Route("/parametre", name="parameter")
      */
-    public function parameter (ObjectManager $manager, Request $request, UserPasswordEncoderInterface $encoder, UserInterface $user) {
+    public function parameter ( Request $request, UserInterface $user) {
+        $user = $this->getUser();
 
         $form = $this->createForm(EditUserType::class, $user);
+        
         $form->handleRequest($request);
             
 
@@ -99,9 +103,10 @@ class SecurityController extends AbstractController
 
             return $this->redirectToRoute('parameter');
         }
+       
 
         return $this->render('security/parameter.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
         // dump($user);
         // return $this->render('security/parameter.html.twig');

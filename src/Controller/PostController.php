@@ -163,6 +163,30 @@ class PostController extends AbstractController
         return new JsonResponse($return);
     }
 
+    /**
+     * Permet de supprimer une note
+     * @Route("/removeRate/{apiId}", name="removeRate")
+     */
+    public function removeRate($apiId){
+        $user = $this->getUser();
+        
+
+        $em = $this->getDoctrine()->getManager();
+        $movie = $em->getRepository(Movie::class)->findOneBy(
+            array('idTMDB' => intval($apiId))
+        );
+        
+        $rating = $em->getRepository(MovieView::class)->findOneByUserAndMovie($user->getId(), $movie->getId());
+
+            $rating->setRate(NULL);
+
+            $em->persist($rating);
+            $return = "note supprimé";
+            $em->flush();
+
+        return new JsonResponse($return);
+    }
+
      /**
      * Permet d'ajouter une list a ses listes favorites
      * @Route("listes/addliste/{id}", name="addList")

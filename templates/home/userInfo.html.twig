@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="{{ asset('../css/profil_page.css') }}" />
 
 {% endblock %}
+{% block title %}
+{{ user.username }} - MovieProgress
+{% endblock %}
 {% block body %}
  {{ parent() }}
 {% endblock %}

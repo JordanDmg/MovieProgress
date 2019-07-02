@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
+{% block title %}
+Paramètre - MovieProgress
+{% endblock %}
 {% block content %}
     <div class="container" style="border:solid 2px #000000;">
         <div class="row">
             <img src="{{ asset('../img/empty_profile.png') }}" class="profil_picture" alt="profil_picture" style="width:156px; height:156px; border:solid 2px #000000;">
-            
-            
+
         </div>
         <form class="form-signin" action="{{ path('parameter') }}" method="post" autocomplete="off">
         <h1 class="h3 mb-3 font-weight-normal">Inscription !</h1>
@@ -26,7 +28,7 @@
 
         <!-- Button trigger modal -->
     <button class="btn btn-danger" data-target="#exampleModal" data-toggle="modal" type="button">
-        Supression du compte
+        Suppression du compte
     </button>
 
     <!-- Modal -->

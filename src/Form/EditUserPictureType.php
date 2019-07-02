@@ -13,7 +13,10 @@ class EditUserPictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('picture',FileType::class,array('data_class'=> null, 'label' => 'Image'))
+        ->add('picture',FileType::class,[
+            'mapped'    => false, 
+            'label'     => 'avatar'   
+        ])
 
         ;
     }

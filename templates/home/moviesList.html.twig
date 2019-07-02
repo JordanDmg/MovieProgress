@@ -2,7 +2,9 @@
 {% block body %}
  {{ parent() }}
 {% endblock %}
-
+{% block title %}
+{{ pageName }} - MovieProgress
+{% endblock %}
 {% block content %}
 <h4>{{ pageName }} </h4>
 {% for movie in movies.results %}

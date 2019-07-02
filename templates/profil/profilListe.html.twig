@@ -2,6 +2,9 @@
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
+{% block title %}
+{{ app.user.username }} - Profil - MovieProgress
+{% endblock %}
 {% block content %}
     {{ parent() }}
 
@@ -49,7 +52,13 @@
                 {% if list.type == 1 and list.visibility == 1 %}
                     <div class="img-userMovie">
                         <a href="{{ path('modifyList', {"id": list.id}) }}" >
+                        {% if list.imgPath == "../img/emptyImg.jpg" %}
+
                             <img src="{{ asset(list.imgPath) }}" alt="list"  class="mousehover" style="width:138px; height: 190px ;">
+                        {% else %}
+                            <img src="https://image.tmdb.org/t/p/w400/{{ list.imgPath }}" alt="list"  class="mousehover" style="width:138px; height: 190px ;">
+
+                        {% endif %}
                         <a>
                         <p class="mx-auto" style="max-width: 138px;">{{ list.name | length > 33  ? list.name|slice(0, 33) ~ '...' : list.name}}</p>
                     </div>
@@ -64,8 +73,14 @@
                     {% for list in user_lists %}
                         {% if list.type == 0 and list.visibility == 1 %}
                             <div class="img-userMovie">
-                                <a href="{{ path('modifyList', {"id": list.id}) }}">
-                                    <img src="{{ asset(list.imgPath) }}" alt="list"  class="mousehover" style="width:138px; height: 190px ;">
+                        {% if list.imgPath == "../img/emptyImg.jpg" %}
+
+                            <img src="{{ asset(list.imgPath) }}" alt="list"  class="mousehover" style="width:138px; height: 190px ;">
+                        {% else %}
+                            <img src="https://image.tmdb.org/t/p/w400/{{ list.imgPath }}" alt="list"  class="mousehover" style="width:138px; height: 190px ;">
+
+                        {% endif %}
+                                    
                                 <a>
                                 <p class="mx-auto" style="max-width: 138px;">{{ list.name | length > 33  ? list.name|slice(0, 33) ~ '...' : list.name}}</p>
                             </div>

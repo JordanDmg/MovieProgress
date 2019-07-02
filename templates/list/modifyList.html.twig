@@ -21,15 +21,12 @@
   <div class="movie_infos">
     <h2>{{ list.name }} <a href="{{ path('removeList', {"id": list.id}) }}" class="btn btn-danger">Supprimer la liste</a></h2>
     <div class="row" style="margin-left:auto;">
-      {# <h5>Genres : </h5> 
-      {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}" style="margin-left:5px;">{{ genre.name }}</a> {% endfor %}
-    </div> #}
+     
     
     </div>
   </div>
 </div>
-{# <div class="container"> #}
-<!-- Another variation with a button -->
+    
     <div class="input-group">
         <p class="listId" hidden>{{ list.id }}</p>
         <input type="text" id="ListSearchBAr" autocomplete="off" class="form-control" placeholder="Search this blog">
@@ -54,7 +51,6 @@
 
                     </div>
                 </div>
-                {# <img src="http://image.tmdb.org/t/p/w154/{{ movie }}" alt="terrible" > #}
             {% endfor %}
             </div>
         </div>

@@ -27,9 +27,7 @@ class EditUserType extends AbstractType
                  'data' => $options['data']->getEmail(),
                 
             ])
-            ->add('username', TextType::class, [
-                'data'  =>$options['data']->getUsername(),
-            ])
+
             ->add('name', TextType::class, [
                 'data'  =>$options['data']->getName(),
             ])

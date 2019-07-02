@@ -1,31 +1,49 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-Inscription ! - MovieProgress
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('../css/register.css') }}"/>
 {% endblock %}
+    {% block title %}Inscription ! - MovieProgress{% endblock %}
+
 {% block body %}
+    <div class="register-screen">
+    </div>
+    <div class="centered">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+                    <form class="form-signin" action="{{ path('security_registration') }}" method="post">
+                        {{ form_start(form) }}
+                        <div class="row-form">
+                            <div class="col-form" style="margin-right:20px;">
+                                {{ form_row(form.username, {'label':false,'attr' : {'placeholder': 'Pseudo', 'class':'form-control space-form'}}) }}
+                                {{ form_row(form.email, {'label':false,'attr' : {'placeholder': 'Adresse mail', 'class':'form-control space-form'}}) }}
+                                {{ form_row(form.password, {'label':false,'attr' : {'placeholder': 'Nouveau mot de passe', 'class':'form-control space-form'}}) }}
+                                {{ form_row(form.confirm_password, {'label':false,'attr' : {'placeholder': 'Confirmation mot de passe', 'class':'form-control space-form'}}) }}
+                            </div>
+                            <div class="col-form">
+                                {{ form_row(form.firstName, {'label':false,'attr' : {'placeholder': 'Prénom', 'class':'form-control space-form'}}) }}
+                                {{ form_row(form.name, {'label':false,'attr' : {'placeholder': 'Nom de famille', 'class':'form-control space-form'}}) }}
+                                {{ form_row(form.birthdate, {'label':'Date de naissance', 'attr' : {'class':'birthdate'}}) }}
+                                {{ form_row(form.gender, {'label':'Genre', 'attr' : {'type' : 'radio', 'class': 'form-genre'}}) }}
+                            </div>
+                        </div>
 
-<div class="container">
-    <form class="form-signin" action="{{ path('security_registration') }}" method="post">
-        <h1 class="h3 mb-3 font-weight-normal">Inscription !</h1>
-        {{ form_start(form) }}
-        {{ form_row(form.firstName, {'label':false,'attr' : {'placeholder': 'Prénom', 'class':'form-control'}}) }}
-        {{ form_row(form.name, {'label':false,'attr' : {'placeholder': 'Nom de famille', 'class':'form-control'}}) }}
-        {{ form_row(form.username, {'label':false,'attr' : {'placeholder': 'Pseudo', 'class':'form-control'}}) }}
-        {{ form_row(form.email, {'label':false,'attr' : {'placeholder': 'Adresse mail', 'class':'form-control'}}) }}
-        {{ form_row(form.password, {'label':false,'attr' : {'placeholder': 'Nouveau mot de passe', 'class':'form-control'}}) }}
-        {{ form_row(form.confirm_password, {'label':false,'attr' : {'placeholder': 'Confirmation mot de passe', 'class':'form-control'}}) }}
-        {{ form_row(form.birthdate, {'label':'Date de naissance'}) }}
-        {{ form_row(form.gender, {'label':'Genre', 'attr' : {'type' : 'radio'}}) }}
+                        <div class="btn-center">
+                            <div class="btn-subsc">
+                                <a href="{{ path('security_login') }}">Connexion</a>
+                            </div>
+                            <button class="btn-co" style="margin-right: 20px;" type="submit">Inscription</button>
+                        </div>
+                        
+                        {{ form_end(form) }}
+                    </form>
+                    {# <div style="text-align:center; widht:100%;" ><a href="{{ path('userChartes') }}">Chartes d'utilisation</a></div> #}
+                    
+                
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-{{ form_end(form) }}
-
-        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
-    </form>
-    <a href="{{ path('security_login') }}">Connexion</a>
-</div>
-            
-
-
-
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

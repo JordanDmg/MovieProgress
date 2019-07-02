@@ -161,4 +161,12 @@ class SecurityController extends AbstractController
 
         return $this->redirectToRoute('security_login');
     }
+
+    /**
+     * page chartes d'utilisation 
+     * @Route("/userChartes", name="userChartes")
+     */
+    public function userChartes () {
+        return $this->render('security/chartesUtilisation.html.twig');
+    }
 }

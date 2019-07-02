@@ -9,6 +9,9 @@ $("#test").keyup(function (data) {
 
     }else {
         $("#content").hide()
+
+
+
         axios
         .get(
           "https://api.themoviedb.org/3/search/movie?page=1&language=fr-FR&api_key=5339f946394a0136198c633aa468ac5b&query=" +

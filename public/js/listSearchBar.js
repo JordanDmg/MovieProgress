@@ -27,7 +27,7 @@ $("#ListSearchBAr").keyup(function (data) {
             <div  style="max-width:154px; height:540px; padding-left:25px">
                        <img
                          src="http://image.tmdb.org/t/p/w154/`+ element.poster_path + `"
-                         alt="terrible" class="`+ element.poster_path + `"
+                         alt="poster" class="`+ element.poster_path + `"
                          style="width:147px;"
                        >
                        <div class="card-body">

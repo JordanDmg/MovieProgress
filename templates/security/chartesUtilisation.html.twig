@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('../css/register.css') }}"/>
+{% endblock %}
+    {% block title %}Charte d'utilisation - MovieProgress{% endblock %}
+
+{% block body %}
+    <div class="register-screen">
+    </div>
+    <div class="centered">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="h3 mb-3 font-weight-normal">Charte d'utilisation</h1>
+                    
+                  <p>Conformement à la loi RGPD : 
+                  <p>-MovieProgess s'engagent à n'utiliser que les données qui sont nécessaire.</p>
+                  <p>-MovieProgess s'engagent à permettre la modication et la desactivation des données à parir de l'onglet paramètre.</p>
+                  <p>-MovieProgess s'engagent à permettre suppression definitive du compte à parir de l'onglet paramètre.</p>
+
+
+                
+
+            </div>
+                    <a href="{{ path('security_registration') }}"><Retour></Retour></a>
+
+        </div>
+    </div>
+{% endblock %}

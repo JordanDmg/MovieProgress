@@ -3,7 +3,7 @@
 Projet fin d'année titre professionnel de niveau III Developpeur web et web mobile
 
 Installation: 
-- Dans le dossier de destination git clone https://github.com/JordanDmg/MovieProgress.git
+- Dans le dossier de destination connecté à une base de données phpmyadmin : git clone https://github.com/JordanDmg/MovieProgress.git
 - cd MovieProgress 
 - composer install
 - php bin/console doctrine:database:create

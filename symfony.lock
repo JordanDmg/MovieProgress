@@ -80,15 +80,6 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
-    "easycorp/easy-log-handler": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
-        }
-    },
     "egulias/email-validator": {
         "version": "2.1.7"
     },
@@ -100,9 +91,6 @@
             "version": "7.0",
             "ref": "e5e657ce5a4ebc99f3c76916938aa0a5f8ef7736"
         }
-    },
-    "facebook/webdriver": {
-        "version": "1.6.0"
     },
     "fig/link-util": {
         "version": "1.0.0"
@@ -142,6 +130,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
+    },
+    "php": {
+        "version": "7.3"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -323,9 +314,6 @@
     "symfony/orm-pack": {
         "version": "v1.0.6"
     },
-    "symfony/panther": {
-        "version": "v0.2.0"
-    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -337,6 +325,9 @@
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.15.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"

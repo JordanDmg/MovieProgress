@@ -10,24 +10,23 @@
         {% block stylesheets %}
             <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
             <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" rel="stylesheet">
-            <link rel="stylesheet" href="{{ asset('../css/sidebar.css') }}"/>
             <link rel="stylesheet" href="{{ asset('../css/main.css') }}"/>
+            {# <link rel="stylesheet" href="{{ asset('../css/sidebar.css') }}"/> #}
+            <link rel="stylesheet" href="{{ asset('../css/navbar.css') }}"/>
         {% endblock %}
     </head>
     <body>
         {% block body %}
 
             <!-- Sidebar -->
-            <nav id="sidebar" class="fixed-top active">
+            {# <nav id="sidebar" class="fixed-top active">
                 <div class="sidebar-header">
                     <h3 class="longTitle"style="text-align:center; display:none;">Movie</BR>Progress</h3>
                     <h3 class="shortTitle"style="text-align:center; " >M</BR>P</h3>
                 </div>
                 <ul
                     class="list-unstyled components">
-                    {# <div id="app">
-                                                <searchbar></searchbar>
-                                            </div> #}
+
                     <li>
                         <a href="#" id="searchCollapse"><i class="fas fa-search"></i><input autocomplete="off" id="test" placeholder="Search..." style="display:none;"></a>
                     </li>
@@ -50,13 +49,64 @@
                         </a>
                     </li>
                 </ul>
+            </nav> #}
+            <!-- Navbar --> 
+            <nav class="navbar navbar-expand">
+                <div class="navbar-container">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto ml-auto ">
+                                <li>
+                                    <a class="navbar-brand" href="{{ path('explorer') }}">M P</a>
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('explorer') }}">Menu <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-form">
+                                    <form>
+                                    <input id="homeSearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  >
+            <div id="test"></div>
+                                    
+                                    </form>
+                                    {# <a href="#" class="form-control mr-sm-2"><input autocomplete="off" id="test" placeholder="Search..." ></a> #}
+                                </li>
+                                 <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ app.user.firstname |capitalize }}
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ path('profil') }}">Profil</a>
+                                        <a class="dropdown-item" href="{{ path('parameter') }}">Paramètres</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a>
+                                    </div>
+                                </li>
+                                {# <li class="nav-item">
+                                    <a class="nav-link" href="#">Link</a>
+                                </li> #}
+                                
+                                {# <li class="nav-item">
+                                    <a class="nav-link disabled" href="#">Disabled</a>
+                                </li> #}
+                                {# <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" >
+                                <i class="fas fa-search"></i>
+                                </form> #}
+                            </ul>
+                            
+                        </div>
+                </div>
             </nav>
-
+                
 
             <!-- Page Content -->
+            
 
             <div class="active row" id="affichage"  ></div>
             <div id="content" class="active" style="width: 100%;  ">
+
                
                 {# <div class="container" style="margin-left:8%; margin-top:6%"> #}
                 {% block content %}
@@ -64,7 +114,6 @@
                 {% endblock %}
                 {# </div> #}
             </div>
-
         {% endblock %}
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

@@ -3,6 +3,8 @@
   filter: grayscale(100%);
   -webkit-filter: grayscale(50%)
 }
+
+
 .btn-group {
 display: inline;  
 }
@@ -82,7 +84,11 @@ height: 190px ;
   background-size: cover;
   height: auto;
 }
-
+@media (min-width: 768px) {
+  .navbar-header {
+    float: none;
+  }
+}
   .poster{
   position:absolute;
   width: 200px;

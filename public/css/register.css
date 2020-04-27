@@ -92,3 +92,29 @@
         place-content: center;
         align-items: center;
     }
+
+
+    @media (max-width: 768px) {
+        
+        .centered {
+            height: 100%;
+            width: 100%;
+        }
+        .row-form{
+            display:block;
+        }
+        .col-form{
+            width: 100%;
+            margin-right: 0px;;
+        }
+        .btn-center{
+            display:block;
+        }
+        .btn-co{
+            width:100%;
+        }
+        .btn-subsc{
+            width: 100%;
+        }
+
+      }

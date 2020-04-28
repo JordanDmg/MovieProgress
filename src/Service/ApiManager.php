@@ -36,6 +36,15 @@ class ApiManager
             return json_decode(($response->getBody())->getContents());
         }
     }
+    //Permet de recuperer les films acutellement en salle 
+    public function getActualsMovies($page)
+    {
+
+        $response = $this->_client->request('GET','/3/movie/now_playing?api_key=' . $this->_apiKey . '&language=fr-FR&page='.$page.'&region=FR');
+        return json_decode(($response->getBody())->getContents());    
+            
+        
+    }
     //Permet la recuperation depuis l'api de films en fonction d'une ou plusieurs donnée spécial ( top rated, popular ... )
     public function getMovieBySpecialData($specialData, $page)
     {

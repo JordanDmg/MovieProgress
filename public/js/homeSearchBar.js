@@ -37,7 +37,7 @@ $("#homeSearch").keyup(function (data) {
             $("#test").append(
             `<div class="col">
               <a href="`+ Routing.generate('movie', {'id':element.id }) +`" class="mousehover over_a">
-                <div class="card flex-md-row mb-3 shadow-sm" style="background-color: #272b30">
+                <div class="card flex-md-row mb-3 shadow-sm" style="background-color: #272b30; max-height:87px;">
                  
                         <img alt="" class="bd-placeholder-img " style="width:48px;"src="https://image.tmdb.org/t/p/w154/`+ element.poster_path + `">
                        

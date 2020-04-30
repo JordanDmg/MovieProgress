@@ -39,13 +39,14 @@ class HomeController extends AbstractController
         //     $array[$key] = json_decode(($value->getBody())->getContents());
         // }
 
-        // $specialDataForHomepage = array("popular" => "popular", "upcoming" => "upcoming", "top_rated" => "top_rated");
+        $specialDataForHomepage = array("popular" => "popular", "upcoming" => "upcoming", "top_rated" => "top_rated", "now_playing" => "now_playing");
 
-        // $apiSpecialData = $api->getMovieBySpecialData($specialDataForHomepage, 1);
-
-        // foreach ($apiSpecialData as $key => $value) {
-        //     $array[$key] = json_decode(($value->getBody())->getContents());
-        // }
+        $apiSpecialData = $api->getMovieBySpecialData($specialDataForHomepage, 1);
+        $apiTrendingsMovie= $api->getTrendingsMovie(1);
+        $apiTrendingsPeoples= $api->getTrendingsPeoples(1);
+        foreach ($apiSpecialData as $key => $value) {
+            $array[$key] = json_decode(($value->getBody())->getContents());
+        }
         // //Tableau de données utiles pour le twig qui permet l'affichage de la HomePage à modifié en cas d'ajout dun genre ou d'une specialData
 
         // $moviesArraysHome = array(
@@ -63,10 +64,12 @@ class HomeController extends AbstractController
 
         // ]);
         
-        $apiActualsMovies = $api->getActualsMovies(1);
-        dump($apiActualsMovies);
+        
          return $this->render('home/home.html.twig', [
-            'ActualsMovies'          => $apiActualsMovies
+            'ActualsMovies'         => $array['now_playing'], 
+            'UpcomingMovies'        => $array['upcoming'],
+            'TendingsMovies'        => $apiTrendingsMovie,
+            'TrendingsPeoples'       => $apiTrendingsPeoples
 
         ]);
        

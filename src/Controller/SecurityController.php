@@ -96,7 +96,6 @@ class SecurityController extends AbstractController
             
 
         if ($form->isSubmitted() && $form->isValid()) { 
-            dump($form->getData());
             
             $manager->persist($user);
             $manager->flush();

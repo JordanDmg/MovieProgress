@@ -195,7 +195,6 @@ class PostController extends AbstractController
     public function addList (Listing $list) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        dump($list);
         $user->addListing($list);
         $em->persist($user);
         $em->flush();

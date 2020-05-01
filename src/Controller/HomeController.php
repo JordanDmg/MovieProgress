@@ -64,7 +64,6 @@ class HomeController extends AbstractController
 
         // ]);
         
-        dump($array['upcoming']);
          return $this->render('home/home.html.twig', [
             'ActualsMovies'         => $array['now_playing'], 
             'UpcomingMovies'        => $array['upcoming'],
@@ -86,7 +85,6 @@ class HomeController extends AbstractController
         $movieBySpecialData = $api->getMovieBySpecialData($data, $page);
         $pageType = 'specialDisplay';
 
-        dump($movieBySpecialData);
         return $this->render('home/moviesList.html.twig', [
             'pageName'  => $data,
             'movies'    => $movieBySpecialData,
@@ -106,7 +104,6 @@ class HomeController extends AbstractController
 
         $movieByGenre = $api->getMovieByGenres($id, $page);
         $pageType = 'gender';
-        dump($movieByGenre);
         return $this->render('home/moviesList.html.twig', [
             'pageName'  => $name,
             'movies'    => $movieByGenre,
@@ -158,7 +155,6 @@ class HomeController extends AbstractController
         $moviesRates = $em->getRepository(MovieView::class)->findBy (
             array('movie' => $movieFromDatabase->getId() )
         );
-        dump($moviesRates);
         $i=0;
 
         if (!empty($moviesRates)){
@@ -171,7 +167,6 @@ class HomeController extends AbstractController
                 }
             }
             if($i != 0  ){
-                dump($i);
             $avgRate = $allrate/$i;
 
             }
@@ -207,7 +202,6 @@ class HomeController extends AbstractController
      * @Route("/utilisateur/{id}", name="userInfo")
      */
     public function showUser(User $user ){
-        dump($user->getId());
         $em = $this->getDoctrine()->getManager();
         $listings = $em->getRepository(Listing::class)->findBy(   //Recuparation de l'entité film s'il existe
             array('authorId' => $user->getId())
@@ -227,7 +221,6 @@ class HomeController extends AbstractController
         $people_cast = json_decode(($apiPeople["movie_cast"]->getBody())->getContents());
         $people_crew = json_decode(($apiPeople["movie_crew"]->getBody())->getContents());
         $know_for = json_decode(($apiPeople["know_for"]->getBody())->getContents());
-        dump($people_cast);
         return $this->render('home/people.html.twig', [
             'people_details'            => $people_details,
             'people_movieCast'        => $people_cast,
@@ -244,7 +237,6 @@ class HomeController extends AbstractController
         $results = $api->getOneMovieByIdWithFullData($id);
         $movie = json_decode(($results['movie']->getBody())->getContents(), true);
         $credits = json_decode(($results['credits']->getBody())->getContents(), true);
-        dump($credits);
         return $this->render('home/fullCasting.html.twig', [
             'movie'     => $movie,
             'credits'   => $credits

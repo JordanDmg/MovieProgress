@@ -42,7 +42,6 @@ class ProfilController extends AbstractController
             $totalRuntimeFormated = $hour . 'h' . $min;
 
         }
-        dump($totalRuntime);
         return $this->render('profil/profil.html.twig', [
             'controller_name'   => 'Profil',
             'user_movies'       => $userMovies,

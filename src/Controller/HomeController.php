@@ -33,35 +33,46 @@ class HomeController extends AbstractController
     {
 
         //Liste des genres a afficher sur la HomePage pour ajouter un genre il faut l'ajouter aussi dans la tableau moviesArrayHome plus bas
-        $genderForHomepage = array("drame" => "18", "comedie" => "35", "histoire" => "36", "scienceFiction" => "878", "horreur" => "27");
-        $apiGender = $api->getMovieByGenres($genderForHomepage, 1);
-        foreach ($apiGender as $key => $value) {
-            $array[$key] = json_decode(($value->getBody())->getContents());
-        }
+        // $genderForHomepage = array("drame" => "18", "comedie" => "35", "histoire" => "36", "scienceFiction" => "878", "horreur" => "27");
+        // $apiGender = $api->getMovieByGenres($genderForHomepage, 1);
+        // foreach ($apiGender as $key => $value) {
+        //     $array[$key] = json_decode(($value->getBody())->getContents());
+        // }
 
-        $specialDataForHomepage = array("popular" => "popular", "upcoming" => "upcoming", "top_rated" => "top_rated");
+        $specialDataForHomepage = array("popular" => "popular", "upcoming" => "upcoming", "top_rated" => "top_rated", "now_playing" => "now_playing");
 
         $apiSpecialData = $api->getMovieBySpecialData($specialDataForHomepage, 1);
-
+        $apiTrendingsMovie= $api->getTrendingsMovie(1);
+        $apiTrendingsPeoples= $api->getTrendingsPeoples(1);
         foreach ($apiSpecialData as $key => $value) {
             $array[$key] = json_decode(($value->getBody())->getContents());
         }
-        //Tableau de données utiles pour le twig qui permet l'affichage de la HomePage à modifié en cas d'ajout dun genre ou d'une specialData
+        // //Tableau de données utiles pour le twig qui permet l'affichage de la HomePage à modifié en cas d'ajout dun genre ou d'une specialData
 
-        $moviesArraysHome = array(
-            array('Films populaires', 'popular', $array['popular']),
-            array('Prochaines sorties', 'upcoming', $array['upcoming']),
-            array('Films les mieux notés', 'top_rated', $array['top_rated']),
-            array('Drame', '18', $array['drame'], true),
-            array('Comedie', '35', $array['comedie'], true),
-            array('Horreur', '27', $array['horreur'], true),
-            array('Science-Fiction', '878', $array['scienceFiction'], true),
-            array('Histoire', '36', $array['histoire'], true)
-        );
-        return $this->render('home/home.html.twig', [
-            'moviesArraysHome'          => $moviesArraysHome
+        // $moviesArraysHome = array(
+        //     array('Films populaires', 'popular', $array['popular']),
+        //     array('Prochaines sorties', 'upcoming', $array['upcoming']),
+        //     array('Films les mieux notés', 'top_rated', $array['top_rated']),
+        //     array('Drame', '18', $array['drame'], true),
+        //     array('Comedie', '35', $array['comedie'], true),
+        //     array('Horreur', '27', $array['horreur'], true),
+        //     array('Science-Fiction', '878', $array['scienceFiction'], true),
+        //     array('Histoire', '36', $array['histoire'], true)
+        // );
+             // return $this->render('home/home.html.twig', [
+        //     'moviesArraysHome'          => $moviesArraysHome
+
+        // ]);
+        
+        dump($array['upcoming']);
+         return $this->render('home/home.html.twig', [
+            'ActualsMovies'         => $array['now_playing'], 
+            'UpcomingMovies'        => $array['upcoming'],
+            'TendingsMovies'        => $apiTrendingsMovie,
+            'TrendingsPeoples'       => $apiTrendingsPeoples
 
         ]);
+       
     }
 
     /**

@@ -96,7 +96,8 @@ class PostController extends AbstractController
             $em->persist($movie);
         }
         $toWatch = $em->getRepository(MovieToWatch::class)->findOneByUserAndMovie($user->getId(), $movie->getId());
-
+        // $count = $em->getRepository(MovieToWatch::class)->CountMovieView($user->getId());
+        // dump($count);
         if($toWatch === null){
             $toWatch = new MovieToWatch();
             $toWatch->setMovie($movie);

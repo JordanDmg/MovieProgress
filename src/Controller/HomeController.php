@@ -64,7 +64,7 @@ class HomeController extends AbstractController
 
         // ]);
         
-        dump($array['upcoming']);
+        
          return $this->render('home/home.html.twig', [
             'ActualsMovies'         => $array['now_playing'], 
             'UpcomingMovies'        => $array['upcoming'],

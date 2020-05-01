@@ -30,7 +30,7 @@ display: inline;
 }
 
 .row {
-  margin-right:0px;
+  margin:0px auto;
 }
 .little_img {
 /* width:138px;  */

@@ -47,6 +47,12 @@ class MovieToWatchRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function CountMovieView($userid): ?MovieToWatch
+    {
+       $query = $this->_em->createQuery("SELECT COUNT(*) FROM movie_to_watch WHERE user_id = 1");
+       return $query->getResult();
+        ;
+    }
     public function findOneByUserAndMovie($userid, $movieid): ?MovieToWatch
     {
         return $this->createQueryBuilder('m')

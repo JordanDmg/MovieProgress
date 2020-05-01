@@ -4,14 +4,14 @@ $(".toWatch-btn").click(function (e) {
     var state = $(this).find('i').attr("class")
     $.get("/toWatch/" + apiid)
 
-    if (state === 'btn btn-secondary') {
+    if (state === 'fas fa-bookmark fa-2x') {
         var test = $('.rating#'+apiid).barrating('set',0)
-        $(this).find('i').removeClass("btn btn-secondary")
-        $(this).find('i').toggleClass("btn btn-light")
+        $(this).find('i').removeClass("fas fa-bookmark fa-2x")
+        $(this).find('i').toggleClass("far fa-bookmark fa-2x")
 
     } else {
-        $(this).find('i').removeClass("btn btn-light"),
-        $(this).find('i').toggleClass("btn btn-secondary")
+        $(this).find('i').removeClass("far fa-bookmark fa-2x"),
+        $(this).find('i').toggleClass("fas fa-bookmark fa-2x")
         
     }
 });

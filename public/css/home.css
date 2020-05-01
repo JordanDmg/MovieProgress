@@ -5,13 +5,37 @@
   @media screen and (min-width: 1280px){
     .contentHome {
       max-width: 1280px;
-  }
-  }
+      
+    }
+     
+   }
+  
   @media screen and (min-width: 1024px) {
     .contentHome {
       max-width: 1024px;
     }
+    
+   }
+  
+  @media screen and (max-width: 800px){
+    .full-home-card {
+
+      padding: 0 10px;
+      flex: 33.33333%;
+      max-width: 33.33333%;
+     
+   }
   }
+  @media screen and (min-width: 800px){
+    .full-home-card {
+
+      padding: 0 10px;
+      flex: 16.66667%;
+      max-width: 16.666667%;
+     
+   }
+  }
+
 
   
   #carouselExampleControls {
@@ -29,20 +53,19 @@
 
   }
 
-  .upcoming-movie {
+  .wrapper-home {
       margin-left: auto;
       margin-right: auto;
       padding : 12px 0px;
       background-color: black;;
   }
+  .wrapper-home-img{
+    width:100%; 
+    height: 190px ;
+  }
 
-  .full-home-card {
-
-    padding: 0 10px;
-    flex: 16.66667%;
-    max-width: 16.666667%;
-   
- }
+  
+  
   .homecard{
     text-align: left;
     font-size: 0.875em;
@@ -54,44 +77,24 @@
     border-radius: .25rem;
   }
 
-  .full-card{
-    padding: 0 10px;
-   
-  }
-  .card {
-      background-color: #212529;
-      color : #FFF;
-      min-width: 120px;;
-      height: 255px;
-  }
-  .card-body {
-      padding: 5px 5px;
-  }
-
-  .card-img-top {
-    
-  height: 150px;
-  
-  
-  }
   .home-card-text {
       margin: 0px;
       padding-left: 5px;
 
   }
 
-  .people.card {
+  .people.homecard {
     background-color: transparent;
     color : #FFF;
     min-width: 120px;;
     height: 255px;
   }
-  .people.card-img-top {
+  .people.wrapper-home-img {
     border-radius: 50%;
     height: 150px;
     
     
     }
-    .people.card-text {
+    .people.home-card-text {
         text-align: center;
     }

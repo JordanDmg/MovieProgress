@@ -72,6 +72,12 @@
                                     </form>
                                     {# <a href="#" class="form-control mr-sm-2"><input autocomplete="off" id="test" placeholder="Search..." ></a> #}
                                 </li>
+                                <li class="nav-item active" style="padding-top:5px;" >
+                                    <a class="nav-link" href="{{ path('profil_movieToWatch') }}"> <i class="far fa-bookmark fa-lg" style="position:absolute; z-index:2;"> </i></a>
+                                </li>
+                                <li class="nav-item active" style="padding-left:5px">
+                                    <a class="nav-link" href="{{ path('profil_movieToWatch') }}"><p>Watchist</p>  <span class="sr-only">(current)</span></a>
+                                </li>
                                  <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ app.user.firstname |capitalize }}

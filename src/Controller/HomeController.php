@@ -218,14 +218,77 @@ class HomeController extends AbstractController
     public function showPeople($id, ApiManager $api) {
         $apiPeople = $api->getPeopleById($id);
         $people_details = json_decode(($apiPeople["details"]->getBody())->getContents());
-        $people_cast = json_decode(($apiPeople["movie_cast"]->getBody())->getContents());
-        $people_crew = json_decode(($apiPeople["movie_crew"]->getBody())->getContents());
+        $people_credit = json_decode(($apiPeople["moviecredit"]->getBody())->getContents());
         $know_for = json_decode(($apiPeople["know_for"]->getBody())->getContents());
+
+        $directing = array();
+        $writing = array();
+        $production = array();
+        $camera = array();
+        $sound = array();
+        $editing = array();
+        $art = array();
+        $casting = array();
+        $equipe_technique = array();
+        
+
+        foreach($people_credit->crew as $crew) {
+            if (isset($crew->release_date)){
+                switch ($crew->department) {
+                    case "Directing":
+                        $directing[$crew->release_date] =  $crew;
+                        break;
+                    case "Production":
+                        $production[$crew->release_date] =  $crew;
+                        break;
+                    case "Writing":
+                        $writing[$crew->release_date] =  $crew;
+                        break;
+                    case "Camera":
+                        $camera[$crew->release_date] =  $crew;
+                        break;
+                    case "Sound":
+                        $sound[$crew->release_date] =  $crew;
+                        break;
+                    case "Editing":
+                        $editing[$crew->release_date] =  $crew;
+                        break;
+                    case "Art":
+                        $art[$crew->release_date] =  $crew;
+                        break;
+                    default:
+                        $equipe_technique[$crew->release_date] =  $crew;
+                        break;
+                        
+                }        
+            }
+           
+        };
+        foreach ($people_credit->cast as $cast){
+            if (isset($cast->release_date)){
+            $casting[$cast->release_date] = $cast;
+            }
+        }
+
+
+        krsort($casting);
+        krsort($directing);
+        krsort($writing);
+        krsort($production);
+        krsort($equipe_technique);
+        krsort($camera);
+        krsort($sound);
+        krsort($editing);
+        krsort($art);
+
+        $crewed =array_filter( array( "Réalisation" => $directing, "Production" => $production, "Écriture" => $writing, "Montage" => $editing, "Son" =>  $sound, "Image" => $camera    , "Artistique" => $art, "equipe_technique" => $equipe_technique));
+
+        dump($people_details);
         return $this->render('home/people.html.twig', [
             'people_details'            => $people_details,
-            'people_movieCast'        => $people_cast,
-            'people_movieCrew'        => $people_crew,
-            'know_for'                => $know_for
+            'cast'                      => $casting,
+            'know_for'                  => $know_for,
+            'crews'                     => $crewed
 
         ]);
     }

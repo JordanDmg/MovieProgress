@@ -12,7 +12,6 @@
 {% block body %}
  {{ parent() }}
 {% endblock %}
-
 {% block content %}
 <div class="top_info" >
     {% if people_details.profile_path is not null and people_details.profile_path is defined %}
@@ -40,7 +39,8 @@
             {% else %}
             <p id="biography">Aucune biographie n'est disponible pour {{ people_details.name }}</p>
             {% endif %}
-        </div>   
+        </div>  
+        <button>Ajouter au favoris</button> 
     </div>
 </div>
 
@@ -66,20 +66,47 @@
        {% endif %}
       <div class="row">
         <div class="col-md-6">
-          {% if people_movieCast.results is not empty  %}
-          <h2>Interpretation</h2>
-          {% for cast in people_movieCast.results  %}
-            {% if cast.release_date is not null and cast.release_date is defined %}
-              <div><a href=" {{ path('movie', {'id':cast.id }) }} " >{{ cast.release_date |date("d/m/Y") }} <strong>{{ cast.original_title }}</strong></a></div>
-            {% else %}
-              <div><a href=" {{ path('movie', {'id':cast.id }) }} " >Aucune date <strong>{{ cast.original_title }}</strong></a></div>
-            {% endif %}
-          {% endfor %}
-          {% endif %}
-        
+          
+          {% for key, crew in crews %}
+              <h3>{{ key }}</h3>
+              {% for movieinfo in crew %}
+               <div>
+                <a href=" {{ path('movie', {'id':movieinfo.id }) }} " > 
+                  {% if movieinfo.release_date is not null and movieinfo.release_date is defined %}
+                    {{ movieinfo.release_date |date("Y") }} 
+                  {% endif %} 
+                  <strong>{{ movieinfo.original_title }}</strong> en tant que {{ movieinfo.job }}
+                </a>
+              </div>
+              {% endfor %}
+               {# {% for directored in directors  %}
+              
+              
+                  {% if directored.release_date is not null and directored.release_date is defined %}
+                    <div><a href=" {{ path('movie', {'id':directored.id }) }} " ><strong>{{ directored.original_title }}</strong></a></div>
+                    <div class="time">{{ directored.release_date |date("Y") }} </div>
+                  {% else %}
+                    <div><a href=" {{ path('movie', {'id':directored.id }) }} " >Aucune date <strong>{{ directored.original_title }}</strong></a></div>
+              
+                {% endif %}
+              {% endfor %}  #}
+           {% endfor %}
+         
         </div>
         <div class="col-md-6">
-          {% if people_movieCrew.results is not empty  %}
+              <h3>Interprétation</h3>
+      {% for movieinfo in cast %}
+        <div>
+          <a href=" {{ path('movie', {'id':movieinfo.id }) }} " > 
+            {% if movieinfo.release_date is not null and movieinfo.release_date is defined %}
+              {{ movieinfo.release_date |date("Y") }} 
+            {% endif %} 
+            <strong>{{ movieinfo.original_title }}</strong> en tant que {{ movieinfo.character }}
+          </a>
+        </div>
+
+      {% endfor %}
+          {# {% if people_movieCrew.results is not empty  %}
           <h2>Filmographie technique</h2>
           {% for crew in people_movieCrew.results  %}
             {% if crew.release_date is not null and crew.release_date is defined %}
@@ -88,7 +115,7 @@
               <div><a href=" {{ path('movie', {'id':crew.id }) }} " >Aucune date <strong>{{ crew.original_title }}</strong></a></div>
             {% endif %}
           {% endfor %}
-          {% endif %}
+          {% endif %} #}
         </div>
       </div>
 

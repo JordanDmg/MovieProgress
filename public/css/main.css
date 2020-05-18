@@ -33,28 +33,9 @@ display: inline;
   margin:0px auto;
 }
 .little_img {
-/* width:138px;  */
 height: 190px ;
 }
 
-
-
-
-/* .poster{
-  position:absolute;
-
-  width: 200px;
-  height: 273px;
-  margin-top: 21px;
-  margin-left: 21px;
-} */
-/* .movie_infos {
-  position:relative;
-  width:100%;
-  color:white;
-  padding-top:21px;
-  padding-left:240px;
-} */
 
 .small_top_info {
   background : #272b30;
@@ -92,15 +73,7 @@ height: 190px ;
     float: none;
   }
 }
-/* .poster{
-  position:absolute;
-  width: 200px;
-  height: auto;
-  margin-top: 21px;
-  margin-left: 19%;
 
-  
-} */
   .movie_infos {
   position:relative;
   width:100%;
@@ -175,10 +148,6 @@ html, body {
   
   }
 
-  /* .full-home-card + .full-home-card {
-    padding: 0 10px;
-
-  } */
 @media screen and (max-width: 800px){
   .full-home-card {
 

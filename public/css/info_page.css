@@ -40,13 +40,10 @@
   }
 
   .movie_infos {
-    /* position:relative; */
     width:100%;
     padding-top:65px;
 
-    /* color:white; */
-    /* padding-top:21px;
-    padding-left:240px; */
+
   }
 .watch-btn:hover {
   text-decoration:none;
@@ -74,7 +71,6 @@
     padding-top:80px;
     width:100%;
     
-    /* display: inline-block;  */
   }
 
 

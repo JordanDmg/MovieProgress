@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('../css/info_page.css') }}"/>
 
 {% endblock %}
 {% block title %}
@@ -13,42 +14,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="top_info">
-  <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">
-  <div class="movie_infos">
-    <h2>{{ movie.title }} ({{ movie.release_date |date("Y") }})</h2>
-    {% set currentRate = 0 %}
-    {% for rating in app.user.movieViews %}
-        {% if rating.movie.idTMDB == movie.id %}
-              {% set currentRate = rating.rate %}
-        {% endif %}
-    {% endfor %}
-    <div class="row">
-      <div class="col-md-4">
-        <select class="rating" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}" data-runtime="{{ movie.runtime }}" >
-          <option value=""></option>
-        {% for i in 1..10 %}
-          <option value={{ i }} {{ i == currentRate ? "selected" }}>{{ i }}</option>
-        {% endfor %}
-        </select> 
-      </div>
-      <div class="col-md-4">
-        <a href=""  data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
-          {% set viewed = 0 %}
-          {% for view in app.user.movieViews %}
-              {% if view.movie.idTMDB == movie.id %}
-                  {% set viewed = 1 %}
-              {% endif %}
-          {% endfor %}
-          {% if viewed == 1 %}
-              <i id="{{ movie.id }}" class="btn btn-secondary ">J'ai vu ce film</i>
-          {% else %}
-              <i id="{{ movie.id }}" class="btn btn-light">J'ai vu ce film</i>
-          {% endif %}
-      </a>
-      </div>
-      <div class="col-md-4">
-         <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn btn btn-link">
+<div id="content_info_page">
+
+    <div class="top_info">
+      {# <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">#}
+          <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" style="position:absolute; margin-top:21px; margin-left:1px;">
             {% set viewed = 0 %}
             {% for view in app.user.movieToWatches %}
                 {% if view.movie.idTMDB == movie.id %}
@@ -56,83 +26,225 @@
                 {% endif %}
             {% endfor %}
             {% if viewed == 1 %}
-                <i id="{{ movie.id }}" class="btn btn-secondary ">Je veux voir ce film</i>
+                    <i id="{{ movie.id }}" class="fas fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>
+                {% else %}
+                    <i id="{{ movie.id }}" class="far fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
+          </a>
+          {% if movie.poster_path is not null and movie.poster_path is defined %}
+                  <img alt="" class="poster" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" >
+          {% else %}
+                  <img alt="" class="poster" src="{{ asset('../img/emptyImg.jpg') }}"  >
+          {% endif %}    
+                                  
+      <div class="movie_infos">
+        <h2>{{ movie.title }} ({{ movie.release_date |date("Y") }})</h2>
+
+            <div class="rating">
+                  {% set currentRate = 0 %}
+                  {% for rating in app.user.movieViews %}
+                    {% if rating.movie.idTMDB == movie.id %}
+                      {% set currentRate = rating.rate %}
+                    {% endif %}
+                  {% endfor %}
+                  <div class="my-rating">
+                          <select class="rating-bar" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}" data-runtime="{{ movie.runtime }}" >
+                                <option value=""></option>
+                              {% for i in 1..10 %}
+                                <option value={{ i }} {{ i == currentRate ? "selected" }} >{{ i }}</option>
+                              {% endfor %}
+                            </select> 
+                  </div>
+
+                  <div class="mpRate">
+                      <small>MP : {{ avgRate }}/10 ({{nbVotant}}vote)</small>
+
+                  </div>
+                  
+                  <div class="averageRate">
+                      <small>TMDB :</small> <i class="fas fa-star fa-lg" style="color: #EDB867;"></i><span><small> {{ movie.vote_average }}/10</small></span>
+                  </div> 
+
+                  <div class="watchDiv" style="display:flex;"> 
+                      <a href=""  data-api-id="{{ movie.id }}" class="watch-btn">
+                          {% set viewed = 0 %}
+                          {% for view in app.user.movieViews %}
+                              {% if view.movie.idTMDB == movie.id %}
+                                  {% set viewed = 1 %}
+                              {% endif %}
+                          {% endfor %}
+                          {% if viewed == 1 %}
+                              <i id="{{ movie.id }}" class="seenIcone seen far fa-eye fa-lg" ></i>
+                          {% else %}
+                              <i id="{{ movie.id }}" class="seenIcone notSeen far fa-eye fa-lg"></i>
+
+                          {% endif %}
+                          
+                      </a>
+                        {% if viewed == 1 %}
+                            <span id="seenText" style="color:white; margin-left:5px"><small> Vu</small></span>
+
+                        {% else %}
+                            <span id="seenText" class="d-none"style="color:white; margin-left:5px;"><small> Vu</small></span>
+
+                        {% endif %}
+
+                  </div>
+            </div>
+
+          <div class="rldate-runtime-genre">
+
+            {% set hour = movie.runtime /60  %}
+            {% set minute = movie.runtime %60 %}
+
+            {# {{ movie.release_date |date("d/m/y") }} / {{ movie.runtime |date('H:i') }} #}
+            {{movie.release_date|localizeddate('none', 'none', null, null, 'd MMMM Y')}} / {{ hour | split('.')[0] }}h {{ minute }} / {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}" style="margin-left:5px;">{% if loop.last %}{{ genre.name }} {% else %}{{ genre.name }},{% endif %}</a> {% endfor %}
+          </div> 
+          <div class="director">
+            de 
+            {% if (directors|length < 3) %}
+                {% for director in directors %}
+                    {% if loop.first %}
+                      <a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a>
+                    {% elseif loop.last %}
+
+                      et <a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a>
+                    {% else %}
+                      ,<a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a>
+                    {% endif %}
+                {% endfor %}
             {% else %}
-                <i id="{{ movie.id }}" class="btn btn-light">Je veux voir ce film</i>
+              {% for director in directors %}
+                  {% if loop.last %}
+                    <a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a>
+                  {% else %}
+                    <a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }},</a>
+                  {% endif %}
+              {% endfor %}
             {% endif %}
-        </a>
-      </div>
-    </div>
-    <h6>Note actuelle : {{ avgRate }} <small>({{nbVotant}}vote)</small></h6 >
-    <div class="row" style="margin-left:auto;">
-      <h5>Genres : </h5> 
-      {% for genre in movie.genres %}<a href="{{ path('genre', {'id': genre.id, 'name':genre.name }) }}" style="margin-left:5px;">{{ genre.name }}</a> {% endfor %}
-    </div>
-    <h5>Équipe technique principal :</h5>
-    <div class="row">
-      {% for director in directors %}
-        <div class="col-sm-4" style="line-height:1; margin-bottom: 10p  x; "><a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Réalisateur</font></div> 
-        {% endfor %}
-      {% for screenplay in screenplays %}
-        <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="{{ path('people', {'id': screenplay['id'] }) }}" >{{ screenplay['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Scénariste</font></div> 
-        {% endfor %}
-    </div>
-  </div>
-</div>
-<div style="padding-left:15px;">
-  <h2>Synopsis</h2>
-  <p style="color:black" >{{ movie.overview }}</p>
-  <h2>Casting</h2>
-    <div class="row"> 
-    {% for cast in credits['cast'] | slice(0,8) %}
-      <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
-       {% if cast.profile_path is not null and cast.profile_path is defined %}
-          <a href="{{ path('people', {'id': cast.id }) }}"><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.profile_path}}" alt="Card image cap"></a>
-      {% else %}
-          <a href="{{ path('people', {'id': cast.id }) }}"><img class="card-img-top" src="{{ asset('../img/empty_profile.png') }}" alt="Card image cap"></a>
-      {% endif %}     
-          <b>{{ cast.name }}</b>
-          <p>{{ cast.character }}</p>
-      </div>
-    {% endfor %}
-      
-  </div>
-   <a href="{{ path('casting', {'id':movie.id }) }}" >Casting complet </a>
-  <h2>Commentaires</h2>
-    <section id="commentaires">
-      <form  autocomplete="off">
-          {{ form_start(form) }}
-        {{ form_row(form.content, {'label':false,'attr' : {'placeholder': 'Commentaire', 'class':'form-control'}}) }}
-          <button id="addComment" class="btn9 btn-secondary btn-block" data-id-movie="{{ movie.id }}" data-is-authenticated="{{ app.user.username }}" type="submit">Ajouter un commentaires</button>
-      </form>
-      {{ form_end(form) }}
-      <div class="comment"> 
-      {% for comment in movieDB.comments | reverse %}
-          <div class="row">
-            <div class="col-3">
-              <a href="{{ path('userInfo', {'id':comment.author.id }) }}"> {{ comment.author.username }} </a> (<small>{{ comment.createdAt | date('d/m/y à H:i') }}</small>)
-            </div>
-            <div class="col">
-            {{ comment.content | raw }}
-            </div>
-
-            {% if comment.author.email == app.user.email %}
-            <div class="col-1">
-                <a class="deleteComment" href="#" data-id-comment="{{ comment.id }}">x</a>
-
-            </div>
-            {% endif %}
-            
+          
           </div>
+          <div class="star">
+          avec
+          {% if (credits['cast']|length < 3) %}
+              {% for people in credits['cast'] | slice(0,3) %} 
+                  {% if loop.first %}
+                    <a href="{{ path('people', {'id': people['id'] }) }}" >{{ people['name'] }}</a>
+                  {% else %}
+                    et <a href="{{ path('people', {'id': people['id'] }) }}" >{{ people['name'] }}</a>
+                  {% endif %}
+              {% endfor %}
+          {% else %}
+              {% for people in credits['cast'] | slice(0,3) %} 
+                  {% if loop.last %}
+                    <a href="{{ path('people', {'id': people['id'] }) }}" >{{ people['name'] }} </a>
+                  {% else %}
+                    <a href="{{ path('people', {'id': people['id'] }) }}" >{{ people['name'] }},</a>
+                  {% endif %}
+              {% endfor %}
+          {% endif %}
+          </div>
+          {# </div> #}
+          {# <div class="col-md-4"> #}
+            {# <a href=""  data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
+              {% set viewed = 0 %}
+              {% for view in app.user.movieViews %}
+                  {% if view.movie.idTMDB == movie.id %}
+                      {% set viewed = 1 %}
+                  {% endif %}
+              {% endfor %}
+              {% if viewed == 1 %}
+                  <i id="{{ movie.id }}" class="btn btn-secondary ">J'ai vu ce film</i>
+              {% else %}
+                  <i id="{{ movie.id }}" class="btn btn-light">J'ai vu ce film</i>
+              {% endif %}
+          </a> #}
+          {# </div> #}
+          {# <div class="col-md-4"> #}
+            
+          {# </div> #}
+        {# </div> #}
         
-        {% endfor %}
+        {# <h5>Équipe technique principal :</h5>
+        <div class="row">
+          {% for director in directors %}
+            <div class="col-sm-4" style="line-height:1; margin-bottom: 10p  x; "><a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Réalisateur</font></div> 
+            {% endfor %}
+          {% for screenplay in screenplays %}
+            <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="{{ path('people', {'id': screenplay['id'] }) }}" >{{ screenplay['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Scénariste</font></div> 
+            {% endfor %}
+        </div> #}
+      </div>
     </div>
-  </section>
+    <div>
+      <h3>Synopsis</h3>
+      <p class="synopsis">{{ movie.overview }}</p>
+      <h3>Casting</h3>
+        <div class="row"> 
+        {% for people in credits['cast'] | slice(0,6) %}
+          {# <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
+          {% if cast.profile_path is not null and cast.profile_path is defined %}
+              <a href="{{ path('people', {'id': cast.id }) }}"><img class="card-img-top" src="https://image.tmdb.org/t/p/w400{{cast.profile_path}}" alt="Card image cap"></a>
+          {% else %}
+              <a href="{{ path('people', {'id': cast.id }) }}"><img class="card-img-top" src="{{ asset('../img/empty_profile.png') }}" alt="Card image cap"></a>
+          {% endif %}     
+              <b>{{ cast.name }}</b>
+              <p>{{ cast.character }}</p>
+          </div> #}
+           <div class="full-home-card">
+                    <div class="people homecard"> 
+                        
+                        <a href="{{ path('people', {'id':people.id }) }}" class="mousehover over_a">
+                            {% if people.profile_path is not null and people.profile_path is defined %}
+                                    <img alt="" class="people wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ people.profile_path }}" style="width:100%; height: 190px ;" >
+                            {% else %}
+                                    <img alt="" class="people wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
+                            {% endif %}    
+                            
+                            <i class="over_i fas fa-search fa-2x" ></i>
+                        </a>
+                        <p class="people home-card-text" style="max-width: 138px;">{{ people.name | length > 33  ? people.name|slice(0, 33) ~ '...' : people.name}}</p>
+                    </div>
+                </div>
+        {% endfor %}
+          
+      </div>
+      <a href="{{ path('casting', {'id':movie.id }) }}" >Casting complet </a>
+      <h2>Commentaires</h2>
+        <section id="commentaires">
+          <form  autocomplete="off">
+              {{ form_start(form) }}
+            {{ form_row(form.content, {'label':false,'attr' : {'placeholder': 'Commentaire', 'class':'form-control'}}) }}
+              <button id="addComment" class="btn9 btn-secondary btn-block" data-id-movie="{{ movie.id }}" data-is-authenticated="{{ app.user.username }}" type="submit">Ajouter un commentaires</button>
+          </form>
+          {{ form_end(form) }}
+          <div class="comment"> 
+          {% for comment in movieDB.comments | reverse %}
+              <div class="row">
+                <div class="col-3">
+                  <a href="{{ path('userInfo', {'id':comment.author.id }) }}"> {{ comment.author.username }} </a> (<small>{{ comment.createdAt | date('d/m/y à H:i') }}</small>)
+                </div>
+                <div class="col">
+                {{ comment.content | raw }}
+                </div>
+
+                {% if comment.author.email == app.user.email %}
+                <div class="col-1">
+                    <a class="deleteComment" href="#" data-id-comment="{{ comment.id }}">x</a>
+
+                </div>
+                {% endif %}
+                
+              </div>
+            
+            {% endfor %}
+        </div>
+      </section>
 
 
 
 
 
+    </div>
 </div>
 
 
@@ -144,6 +256,7 @@
     <script src="{{ asset('../js/comment.js') }}"></script>
     <script src="{{ asset('../js/watchBtn.js') }}"></script>
     <script src="{{ asset('../js/toWatchBtn.js') }}"></script>
+
    
 
   {% endblock %}

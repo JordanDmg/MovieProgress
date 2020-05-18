@@ -17,24 +17,7 @@
     
    }
   
-  @media screen and (max-width: 800px){
-    .full-home-card {
 
-      padding: 0 10px;
-      flex: 33.33333%;
-      max-width: 33.33333%;
-     
-   }
-  }
-  @media screen and (min-width: 800px){
-    .full-home-card {
-
-      padding: 0 10px;
-      flex: 16.66667%;
-      max-width: 16.666667%;
-     
-   }
-  }
 
 
   
@@ -66,35 +49,7 @@
 
   
   
-  .homecard{
-    text-align: left;
-    font-size: 0.875em;
-    background-color: #212529;
-    color : #FFF;
-    min-width: 138px;
-    height: 255px;
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-  }
 
-  .home-card-text {
-      margin: 0px;
-      padding-left: 5px;
-
-  }
-
-  .people.homecard {
-    background-color: transparent;
-    color : #FFF;
-    min-width: 120px;;
-    height: 255px;
-  }
-  .people.wrapper-home-img {
-    border-radius: 50%;
-    height: 150px;
-    
-    
-    }
     .people.home-card-text {
         text-align: center;
     }

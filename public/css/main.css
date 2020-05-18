@@ -37,29 +37,24 @@ display: inline;
 height: 190px ;
 }
 
-.top_info {
-  background : #272b30;
-  background-size: cover;
-  position:relative; 
-  height:auto;
-  min-height: 20em;
-}
 
-.poster{
+
+
+/* .poster{
   position:absolute;
 
   width: 200px;
   height: 273px;
   margin-top: 21px;
   margin-left: 21px;
-}
-.movie_infos {
+} */
+/* .movie_infos {
   position:relative;
   width:100%;
   color:white;
   padding-top:21px;
   padding-left:240px;
-}
+} */
 
 .small_top_info {
   background : #272b30;
@@ -97,13 +92,15 @@ height: 190px ;
     float: none;
   }
 }
-  .poster{
+/* .poster{
   position:absolute;
   width: 200px;
   height: auto;
   margin-top: 21px;
   margin-left: 19%;
-}
+
+  
+} */
   .movie_infos {
   position:relative;
   width:100%;
@@ -146,4 +143,57 @@ word-wrap: break-word;      /* IE */
 
 html, body {
   height: 100%;
+}
+/* ------------------------------------------------------------------------- */
+.homecard{
+  text-align: left;
+  font-size: 0.875em;
+  background-color: #212529;
+  color : #FFF;
+  min-width: 138px;
+  height: 255px;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
+
+.home-card-text {
+    margin: 0px;
+    padding-left: 5px;
+
+}
+
+.people.homecard {
+  background-color: transparent;
+  color : #FFF;
+  min-width: 120px;;
+  height: 255px;
+}
+.people.wrapper-home-img {
+  border-radius: 50%;
+  height: 150px;
+  
+  
+  }
+
+  /* .full-home-card + .full-home-card {
+    padding: 0 10px;
+
+  } */
+@media screen and (max-width: 800px){
+  .full-home-card {
+
+    padding: 0 10px;
+    flex: 33.33333%;
+    max-width: 33.33333%;
+   
+ }
+}
+@media screen and (min-width: 800px){
+  .full-home-card {
+
+    padding: 0 10px;
+    flex: 16.66667%;
+    max-width: 16.666667%;
+   
+ }
 }

@@ -7,14 +7,18 @@ $(".watch-btn").click(function (e) {
     
     $.get("/view/" + apiid)
 
-    if (state === 'btn btn-secondary') {
+    if (state === 'notSeen far fa-eye fa-lg') {
         var test = $('.rating#'+apiid).barrating('set',0)
-        $(this).find('i').removeClass("btn btn-secondary")
-        $(this).find('i').toggleClass("btn btn-light")
+        $(this).find('i').removeClass("notSeen far fa-eye fa-lg")
+        $(this).find('i').toggleClass("seen far fa-eye fa-lg")
+        $('#'+apiid+'.btn-icon')
+        $('#seenText').toggleClass("d-none")
 
     } else {
-        $(this).find('i').removeClass("btn btn-light"),
-        $(this).find('i').toggleClass("btn btn-secondary")
+        $(this).find('i').removeClass("far fa-eye fa-lg"),
+        $(this).find('i').toggleClass("seen notSeen far fa-eye fa-lg")
+        $('#seenText').toggleClass("d-none")
+
         
     }
 });

@@ -63,6 +63,11 @@ class Listing
      */
     private $imgPath;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $peopleId;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -194,6 +199,18 @@ class Listing
     public function setImgPath(?string $imgPath): self
     {
         $this->imgPath = $imgPath;
+
+        return $this;
+    }
+
+    public function getPeopleId(): ?int
+    {
+        return $this->peopleId;
+    }
+
+    public function setPeopleId(?int $peopleId): self
+    {
+        $this->peopleId = $peopleId;
 
         return $this;
     }

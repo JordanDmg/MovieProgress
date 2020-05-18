@@ -54,7 +54,13 @@ class ApiManager
             
         
     }
-     //Permet de recuperer les personnalité populaires
+    
+    public function getTest($page){
+        $response = $this->_client->request('GET','/3/movie/now_playing?api_key=' . $this->_apiKey . '&language=fr-FR&page='.$page.'&region=FR');
+        return json_decode(($response->getBody())->getContents());    
+    }
+
+    //Permet de recuperer les personnalité populaires
      public function getTrendingsPeoples($page)
      {
  
@@ -101,11 +107,21 @@ class ApiManager
     // }
 
     public function getPeopleById($id) {
+
+        $response = $this->_client->request('GET', 'http://api.themoviedb.org/3/person/' . $id . '?api_key=' . $this->_apiKey . '&language=fr-FR');
+        $people = json_decode(($response->getBody())->getContents());
+        $credit = 'with_cast';
+        
+        if (isset($people->known_for_department)){
+            if ($people->known_for_department != "Acting"){
+                $credit = 'with_crew';
+            }
+        }
+        
         $promises = [
             'details'       => $this->_client->getAsync('/3/person/' . $id . '?api_key=' . $this->_apiKey . '&language=fr-FR'),
-            'movie_cast' => $this->_client->getAsync('/3/discover/movie?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&with_cast=' . $id . ''),
-            'movie_crew' => $this->_client->getAsync('/3/discover/movie?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&with_crew=' . $id . ''),
-            'know_for' => $this->_client->getAsync('/3/discover/movie?api_key=5339f946394a0136198c633aa468ac5b&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_cast=' . $id . ''),
+            'moviecredit'   => $this->_client->getAsync('/3/person/' . $id . '/movie_credits?api_key=' . $this->_apiKey . '&language=fr-FR'),
+            'know_for'      => $this->_client->getAsync('/3/discover/movie?api_key=' . $this->_apiKey . '&language=fr-FR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&'.$credit.'=' . $id . ''),
             // 'know_for'      
         ];
 

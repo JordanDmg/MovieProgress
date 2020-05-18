@@ -54,7 +54,13 @@ class ApiManager
             
         
     }
-     //Permet de recuperer les personnalité populaires
+    
+    public function getTest($page){
+        $response = $this->_client->request('GET','/3/movie/now_playing?api_key=' . $this->_apiKey . '&language=fr-FR&page='.$page.'&region=FR');
+        return json_decode(($response->getBody())->getContents());    
+    }
+
+    //Permet de recuperer les personnalité populaires
      public function getTrendingsPeoples($page)
      {
  

@@ -46,9 +46,14 @@ class Movie
     private $comments;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $runtime;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $release_date;
 
     public function __construct()
     {
@@ -177,9 +182,21 @@ class Movie
         return $this->runtime;
     }
 
-    public function setRuntime(int $runtime): self
+    public function setRuntime(?int $runtime): self
     {
         $this->runtime = $runtime;
+
+        return $this;
+    }
+
+    public function getReleaseDate(): ?\DateTimeInterface
+    {
+        return $this->release_date;
+    }
+
+    public function setReleaseDate(?\DateTimeInterface $release_date): self
+    {
+        $this->release_date = $release_date;
 
         return $this;
     }

@@ -1,5 +1,5 @@
 .br-theme-bars-1to10 .br-widget {
-    height: 50px;
+    /* height: 50px; */
     white-space: nowrap;
   }
   .br-theme-bars-1to10 .br-widget a {
@@ -17,11 +17,9 @@
     background-color: #EDB867;
   }
   .br-theme-bars-1to10 .br-widget .br-current-rating {
-    font-size: 20px;
-    line-height: 2;
+    margin-left:5px;
     float: left;
-    padding: 0 20px 0 20px;
-    color: #EDB867;
+    color: white;
     font-weight: 400;
   }
   .br-theme-bars-1to10 .br-readonly a {

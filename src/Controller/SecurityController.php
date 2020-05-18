@@ -107,7 +107,6 @@ class SecurityController extends AbstractController
         return $this->render('security/parameter.html.twig', [
             'form' => $form->createView(),
         ]);
-        // dump($user);
         // return $this->render('security/parameter.html.twig');
     }
 

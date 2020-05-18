@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-
-
 use App\Entity\User;
 use App\Entity\Movie;
 use App\Entity\Listing;
@@ -171,12 +169,12 @@ class HomeController extends AbstractController
 
             }
             else {
-            $avgRate = "Aucune note";
+            $avgRate = "null";
 
             }
 
         }else {
-            $avgRate = "Aucune note";
+            $avgRate = "null";
         }
 
         $commentForm = $this->createForm(CommentType::class);
@@ -230,45 +228,70 @@ class HomeController extends AbstractController
         $art = array();
         $casting = array();
         $equipe_technique = array();
+        $lighting = array();
+        $visual_effects = array();
+        $costume_makeup = array();
         
+        $jobs_list = array();
 
         foreach($people_credit->crew as $crew) {
-            if (isset($crew->release_date)){
-                switch ($crew->department) {
-                    case "Directing":
-                        $directing[$crew->release_date] =  $crew;
-                        break;
-                    case "Production":
-                        $production[$crew->release_date] =  $crew;
-                        break;
-                    case "Writing":
-                        $writing[$crew->release_date] =  $crew;
-                        break;
-                    case "Camera":
-                        $camera[$crew->release_date] =  $crew;
-                        break;
-                    case "Sound":
-                        $sound[$crew->release_date] =  $crew;
-                        break;
-                    case "Editing":
-                        $editing[$crew->release_date] =  $crew;
-                        break;
-                    case "Art":
-                        $art[$crew->release_date] =  $crew;
-                        break;
-                    default:
-                        $equipe_technique[$crew->release_date] =  $crew;
-                        break;
-                        
-                }        
+            if (isset($crew->release_date) && !empty($crew->release_date) ){
+                $release_date = $crew->release_date;
+            }else{
+                $release_date= "9999-99-99";
             }
-           
+            switch ($crew->department) {
+                case "Directing":
+                    $directing[$release_date] =  $crew;
+                    $jobs_list[] = "réalisateur";
+                    break;
+                case "Production":
+                    $production[$release_date] =  $crew;
+                    $jobs_list[] = "producteur";
+
+                    break;
+                case "Writing":
+                    $writing[$release_date] =  $crew;
+                    $jobs_list[] = "scenariste";
+
+                    break;
+                case "Camera":
+                    $camera[$release_date] =  $crew;
+                    break;
+                case "Sound":
+                    $sound[$release_date] =  $crew;
+                    break;
+                case "Editing":
+                    $editing[$release_date] =  $crew;
+                    break;
+                case "Lighting":
+                    $lighting[$release_date]  = $crew;
+                case "Visual Effects":
+                    $visual_effects[$release_date] = $crew;
+                case "Costume & Make-Up":
+                    $costume_makeup[$release_date]= $crew;
+                case "Art":
+                    $art[$release_date] =  $crew;
+                    break;
+                default:
+                    $equipe_technique[$release_date] =  $crew;
+                    break;
+                    
+            }        
+            
         };
         foreach ($people_credit->cast as $cast){
-            if (isset($cast->release_date)){
+            $jobs_list[] = "acteur";
+            
+            if (isset($cast->release_date)&& !empty($cast->release_date)){
             $casting[$cast->release_date] = $cast;
-            }
+            }else 
+            $casting["9999-99-99"] = $cast;
         }
+
+        $jobs_list = array_unique($jobs_list);
+        ksort($jobs_list);
+
 
 
         krsort($casting);
@@ -279,16 +302,24 @@ class HomeController extends AbstractController
         krsort($camera);
         krsort($sound);
         krsort($editing);
+        krsort($lighting);
+        krsort($visual_effects);
+        krsort($costume_makeup);
         krsort($art);
+        switch ($people_details->known_for_department) {
 
-        $crewed =array_filter( array( "Réalisation" => $directing, "Production" => $production, "Écriture" => $writing, "Montage" => $editing, "Son" =>  $sound, "Image" => $camera    , "Artistique" => $art, "equipe_technique" => $equipe_technique));
+            case "Directing":
+            }
+        $crewed =  array_filter(array( "Interprétation" => $casting, "Réalisation" => $directing, "Production" => $production, "Écriture" => $writing, "Montage" => $editing,
+         "Son" =>  $sound, "Image" => $camera    , "Artistique" => $art, "Equipe Technique" => $equipe_technique, "Éclairage" => $lighting,
+        "Effets visuels" => $visual_effects, "Costumes et Maquillage" => $costume_makeup ));
+        array_multisort(array_map('count', $crewed), SORT_DESC, $crewed);
 
-        dump($people_details);
         return $this->render('home/people.html.twig', [
             'people_details'            => $people_details,
-            'cast'                      => $casting,
             'know_for'                  => $know_for,
-            'crews'                     => $crewed
+            'crews'                     => $crewed, 
+            'jobs_list'                 => $jobs_list, 
 
         ]);
     }
@@ -296,7 +327,7 @@ class HomeController extends AbstractController
      * Affiche le casting complet d'un film
     * @Route("/casting/{id}", name="casting")
      */
-    public function fullCasting ($id, ApiManager $api){
+    public function fullCasting($id, ApiManager $api){
         $results = $api->getOneMovieByIdWithFullData($id);
         $movie = json_decode(($results['movie']->getBody())->getContents(), true);
         $credits = json_decode(($results['credits']->getBody())->getContents(), true);

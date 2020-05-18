@@ -185,11 +185,7 @@
             "ref": "410b9325a37ef86f1e47262c61738f6202202bca"
         },
         "files": [
-<<<<<<< Updated upstream
             "./public/.htaccess"
-=======
-            "public/.htaccess"
->>>>>>> Stashed changes
         ]
     },
     "symfony/asset": {

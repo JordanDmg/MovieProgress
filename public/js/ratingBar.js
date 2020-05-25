@@ -1,3 +1,4 @@
+
 $(function () {
     $('.rating-bar').barrating({
         theme: 'bars-1to10',

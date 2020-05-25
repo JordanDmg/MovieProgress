@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('../css/home.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('../build/css/ratingBar.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('../build/css/home.css') }}"/>
 {% endblock %}
 {% block title %}Explorer - Films - MovieProgress
 {% endblock %}
 {% block content %}
-    <div class="contentHome">
     <div id="carouselExampleControls" class="carousel slide mx" data-ride="carousel">
         <div class="carousel-inner " >
             <div class="carousel-item active">
@@ -174,9 +173,9 @@
                                     {% endif %}
                                 {% endfor %}
                                 {% if viewed == 1 %}
-                                        <i id="{{ movie.id }}" class="fas fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>
+                                        <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
                                     {% else %}
-                                        <i id="{{ movie.id }}" class="far fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
+                                        <i id="{{ movie.id }}" class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
                         </a>
 
 
@@ -213,9 +212,9 @@
                                     {% endif %}
                                 {% endfor %}
                                 {% if viewed == 1 %}
-                                        <i id="{{ movie.id }}" class="fas fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>
+                                        <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
                                     {% else %}
-                                        <i class="far fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
+                                        <i class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
                         </a>
 
 
@@ -342,7 +341,6 @@
         {% endfor %}
     </div> #}
 {# </div> #}
-</div>
 {% endblock %}{% block javascripts %}
 {{ parent() }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js"></script>

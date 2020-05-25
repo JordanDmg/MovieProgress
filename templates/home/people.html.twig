@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-        <link rel="stylesheet" href="{{ asset('../css/info_page.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('../build/css/info_page.css') }}"/>
     
 {% endblock %}
 {% block title %}
@@ -12,7 +12,7 @@
  {{ parent() }}
 {% endblock %}
 {% block content %}
-<div id="content_info_page">
+{# <div id="content_info_page"> #}
   <div class="top_info" >
       
         {% if people_details.profile_path is not null and people_details.profile_path is defined %}
@@ -57,9 +57,9 @@
                                       {% endif %}
                                   {% endfor %}
                                   {% if viewed == 1 %}
-                                          <i id="{{ movie.id }}" class="fas fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>
+                                          <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
                                       {% else %}
-                                          <i id="{{ movie.id }}" class="far fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
+                                          <i id="{{ movie.id }}" class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
                           </a>
                           <a href="{{ path('movie', {'id':movie.id }) }}" class="mousehover over_a">
                               {% if movie.poster_path is not null and movie.poster_path is defined %}
@@ -218,7 +218,7 @@
     </div> 
     
   </div> #}
-</div>
+{# </div> #}
 
     {% endblock %}
 

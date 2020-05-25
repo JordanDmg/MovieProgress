@@ -2,8 +2,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('../css/ratingBar.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('../css/info_page.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('../build/css/ratingBar.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('../build/css/info_page.css') }}"/>
 
 {% endblock %}
 {% block title %}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="content_info_page">
+{# <div id="content_info_page"> #}
 
     <div class="top_info">
       {# <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">#}
@@ -26,9 +26,9 @@
                 {% endif %}
             {% endfor %}
             {% if viewed == 1 %}
-                    <i id="{{ movie.id }}" class="fas fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>
+                    <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
                 {% else %}
-                    <i id="{{ movie.id }}" class="far fa-bookmark fa-2x" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
+                    <i id="{{ movie.id }}" class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
           </a>
           {% if movie.poster_path is not null and movie.poster_path is defined %}
                   <img alt="" class="poster" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" >
@@ -143,36 +143,7 @@
               {% endfor %}
           {% endif %}
           </div>
-          {# </div> #}
-          {# <div class="col-md-4"> #}
-            {# <a href=""  data-api-id="{{ movie.id }}" class="watch-btn btn btn-link">
-              {% set viewed = 0 %}
-              {% for view in app.user.movieViews %}
-                  {% if view.movie.idTMDB == movie.id %}
-                      {% set viewed = 1 %}
-                  {% endif %}
-              {% endfor %}
-              {% if viewed == 1 %}
-                  <i id="{{ movie.id }}" class="btn btn-secondary ">J'ai vu ce film</i>
-              {% else %}
-                  <i id="{{ movie.id }}" class="btn btn-light">J'ai vu ce film</i>
-              {% endif %}
-          </a> #}
-          {# </div> #}
-          {# <div class="col-md-4"> #}
-            
-          {# </div> #}
-        {# </div> #}
-        
-        {# <h5>Équipe technique principal :</h5>
-        <div class="row">
-          {% for director in directors %}
-            <div class="col-sm-4" style="line-height:1; margin-bottom: 10p  x; "><a href="{{ path('people', {'id': director['id'] }) }}" >{{ director['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Réalisateur</font></div> 
-            {% endfor %}
-          {% for screenplay in screenplays %}
-            <div class="col-sm-4" style="line-height:1; margin-bottom: 10px; "><a href="{{ path('people', {'id': screenplay['id'] }) }}" >{{ screenplay['name'] }}</a></br><font size="2.5" face="Poppins" color="white">Scénariste</font></div> 
-            {% endfor %}
-        </div> #}
+      
       </div>
     </div>
     <div>
@@ -245,7 +216,7 @@
 
 
     </div>
-</div>
+{# </div> #}
 
 
     {% endblock %}

@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('../build/css/info_page.css') }}"/>
+   
+{% endblock %}
+
+{% block title %}
+{{ list.name }} - Liste - MovieProgress
+{% endblock %}
+
+{% block content %}
+    <div class="top_info">
+    {% if people_details.profile_path is not null and people_details.profile_path is defined %}
+        <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ people_details.profile_path }}">
+    {% else %}
+        <img class="poster" alt=""  src="{{ asset('../img/test.png') }}">
+    {% endif %}
+        <div class="right_info" style="padding-top:65px;" >    
+            <h2><a class="mp" href="{{ path('people', {'id': people_details.id }) }}" class="mp">{{people_details.name}}</a></h2>
+        
+            <div class="progressNumber">
+                Vous avez vu :    
+                <h6 id="movieViews" class="d-inline" data-count="{{ count_movieView }}">{{ count_movieView }}</h6>
+                / 
+                <h6 id="movieTotal" class="d-inline" data-total="{{ released_movies | length }}">{{ released_movies | length }}</h6>
+
+            {# {{ released_movies | length / count_movieView }} #}
+            </div>
+            <div id="progressbar" class="w-100">
+
+            </div>
+            {% if follow == false %} 
+            <a href="#" data-list-id="{{ list.id }}" class="addList btn btn-light" >Ajouter au realisateurs favoris</a>
+            {% else %}
+            <a href="#" data-list-id="{{ list.id }}" class="addList btn btn-secondary">Supprimer des realisateurs favoris</a>
+            {% endif %}
+        </div>
+    
+
+
+
+    </div>
+<h3>Films de {{people_details.name}}</h3>
+
+    <table id="tableFilmography" style="border-spacing:2px;">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"> <p class="table">TITRE</p></th>
+                <th scope="col"><p class="table">Vos</p><p class="table">films vu</p></th>
+                <th scope="col"><p class="table">Votre</p><p class="table"> Watchlist</p></th>
+            </tr>
+        </thead>
+      
+        <tbody>
+            {% for Rdate, movie in released_movies %}
+            <tr>
+            <th style="width:5%">
+                 <a href="{{ path('movie', {'id':movie.idTMDB }) }}" class="mousehover over_a">
+                    {% if movie.posterPath is not null and movie.posterPath is defined %}
+                            <img alt="" class="wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ movie.posterPath }}" style="width:45px; height: 67px ;" >
+                    {% else %}
+                            <img alt="" class="wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:45px; height: 67pxpx ;" >
+                    {% endif %}    
+                    
+                    <i class="over_i fas fa-search fa-2x" ></i>
+                </a>
+            </th>
+            <td style="width:75%"> <a href=" {{ path('movie', {'id':movie.idTMDB }) }} " >{{movie.name}} ({{ Rdate |date("Y") }})</a></td>
+            <td style="width:10%">
+            <a href=""  data-api-id="{{ movie.idTMDB }}" class="watch-btn">
+                {% set viewed = 0 %}
+                {% for view in app.user.movieViews %}
+                    {% if view.movie.idTMDB == movie.idTMDB %}
+                        {% set viewed = 1 %}
+                    {% endif %}
+                {% endfor %}
+                {% if viewed == 1 %}
+                    <i id="{{ movie.idTMDB }}" class="seenIcone seen far fa-eye fa-lg" ></i>
+                {% else %}
+                    <i id="{{ movie.idTMDB }}" class="seenIcone notSeen far fa-eye fa-lg"></i>
+
+                {% endif %}
+                
+            </a>
+            {% if viewed == 1 %}
+                <span id="seenText" style="color:white; margin-left:5px"><small> Vu</small></span>
+
+            {% else %}
+                <span id="seenText" class="d-none"style="color:white; margin-left:5px;"><small> Vu</small></span>
+
+            {% endif %}
+            
+            
+            </td>
+            <td style="width:10%">    
+                <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn">
+                    {% set viewed = 0 %}
+                    {% for view in app.user.movieToWatches %}
+                        {% if view.movie.idTMDB == movie.id %}
+                            {% set viewed = 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if viewed == 1 %}
+                            <i id="{{ movie.id }}" class="fa-bookmark fa-lg fas" style="color:  #EDB867; "></i>
+                        {% else %}
+                            <i id="{{ movie.id }}" class="fa-bookmark fa-lg far" style=" color:  #EDB867; "></i>                            
+                    {% endif %}
+                </a>
+            </td>
+            </tr>
+    
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% if not_released_movies is not empty %}
+    <h3>Films à venir</h3>
+    <table id="tableFilmography" style="border-spacing:2px;">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"><p class="table">TITRE</p></th>
+                    <th scope="col"></th>
+                    <th scope="col"><p class="table">Votre</p><p class="table"> Watchlist</p></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for movie in not_released_movies %}
+              <tr>
+                <th style="width:5%">
+                    <a href="{{ path('movie', {'id':movie.idTMDB }) }}" class="mousehover over_a">
+                        {% if movie.posterPath is not null and movie.posterPath is defined %}
+                                <img alt="" class="wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ movie.posterPath }}" style="width:45px; height: 67px ;" >
+                        {% else %}
+                                <img alt="" class="wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:45px; height: 67pxpx ;" >
+                        {% endif %}    
+                        
+                        <i class="over_i fas fa-search fa-2x" ></i>
+                    </a>
+                </th>
+                <td style="width:75%"> <a href=" {{ path('movie', {'id':movie.idTMDB }) }} " >{{movie.name}}</a></td>
+                <td style="width:10%"></td>  
+                <td style="width:10%">
+                <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn">
+                    {% set viewed = 0 %}
+                    {% for view in app.user.movieToWatches %}
+                        {% if view.movie.idTMDB == movie.id %}
+                            {% set viewed = 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if viewed == 1 %}
+                            <i id="{{ movie.id }}" class="fa-bookmark fa-lg fas" style="color:  #EDB867; "></i>
+                        {% else %}
+                            <i id="{{ movie.id }}" class="fa-bookmark fa-lg far" style=" color:  #EDB867; "></i>                            
+                    {% endif %}
+                </a>
+                </td>  
+            </tr>
+            {% endfor %}
+            
+            </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('../js/addList.js') }}"></script>
+    <script src="{{ asset('../js/ratingBar.js') }}"></script>
+    <script src="{{ asset('../js/watchBtn.js') }}"></script>
+    <script src="{{ asset('../js/toWatchBtn.js') }}"></script>
+    <script src="{{ asset('../js/progressbar.js') }}"></script>
+    <script src="{{ asset('../js/my_progressbar.js') }}"></script>
+    
+{% endblock %}

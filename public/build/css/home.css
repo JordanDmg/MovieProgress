@@ -1,0 +1,35 @@
+
+  #carouselExampleControls {
+      width:100%;
+      height:50%;
+      margin: 0 auto;
+      margin-top:20px;
+      padding-bottom: 0.5em;
+      background-color: black;
+  }
+
+  .carousel-item img{
+      width: 100%;
+      height:50vh;
+
+  }
+
+  .wrapper-home {
+      margin-left: auto;
+      margin-right: auto;
+      padding : 12px 0px;
+      background-color: black;;
+  }
+  .wrapper-home-img{
+    width:100%; 
+    height: 190px ;
+  }
+
+  
+  
+
+    .people.home-card-text {
+        text-align: center;
+    }
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vaG9tZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtFQUNFO01BQ0ksVUFBVTtNQUNWLFVBQVU7TUFDVixjQUFjO01BQ2QsZUFBZTtNQUNmLHFCQUFxQjtNQUNyQix1QkFBdUI7RUFDM0I7O0VBRUE7TUFDSSxXQUFXO01BQ1gsV0FBVzs7RUFFZjs7RUFFQTtNQUNJLGlCQUFpQjtNQUNqQixrQkFBa0I7TUFDbEIsa0JBQWtCO01BQ2xCLHVCQUF1QjtFQUMzQjtFQUNBO0lBQ0UsVUFBVTtJQUNWLGNBQWM7RUFDaEI7Ozs7O0lBS0U7UUFDSSxrQkFBa0I7SUFDdEIsQyIsImZpbGUiOiJjc3MvaG9tZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcclxuICAjY2Fyb3VzZWxFeGFtcGxlQ29udHJvbHMge1xyXG4gICAgICB3aWR0aDoxMDAlO1xyXG4gICAgICBoZWlnaHQ6NTAlO1xyXG4gICAgICBtYXJnaW46IDAgYXV0bztcclxuICAgICAgbWFyZ2luLXRvcDoyMHB4O1xyXG4gICAgICBwYWRkaW5nLWJvdHRvbTogMC41ZW07XHJcbiAgICAgIGJhY2tncm91bmQtY29sb3I6IGJsYWNrO1xyXG4gIH1cclxuXHJcbiAgLmNhcm91c2VsLWl0ZW0gaW1ne1xyXG4gICAgICB3aWR0aDogMTAwJTtcclxuICAgICAgaGVpZ2h0OjUwdmg7XHJcblxyXG4gIH1cclxuXHJcbiAgLndyYXBwZXItaG9tZSB7XHJcbiAgICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xyXG4gICAgICBtYXJnaW4tcmlnaHQ6IGF1dG87XHJcbiAgICAgIHBhZGRpbmcgOiAxMnB4IDBweDtcclxuICAgICAgYmFja2dyb3VuZC1jb2xvcjogYmxhY2s7O1xyXG4gIH1cclxuICAud3JhcHBlci1ob21lLWltZ3tcclxuICAgIHdpZHRoOjEwMCU7IFxyXG4gICAgaGVpZ2h0OiAxOTBweCA7XHJcbiAgfVxyXG5cclxuICBcclxuICBcclxuXHJcbiAgICAucGVvcGxlLmhvbWUtY2FyZC10ZXh0IHtcclxuICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICB9Il0sInNvdXJjZVJvb3QiOiIifQ==*/

@@ -1,0 +1,68 @@
+{
+  "entrypoints": {
+    "css/home": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/home.css"
+      ]
+    },
+    "css/info_page": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/info_page.css"
+      ]
+    },
+    "css/login": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/login.css"
+      ]
+    },
+    "css/main": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/main.css"
+      ]
+    },
+    "css/navbar": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/navbar.css"
+      ]
+    },
+    "css/profil_page": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/profil_page.css"
+      ]
+    },
+    "css/ratingBar": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/ratingBar.css"
+      ]
+    },
+    "css/register": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/register.css"
+      ]
+    }
+  }
+}

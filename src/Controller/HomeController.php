@@ -146,6 +146,9 @@ class HomeController extends AbstractController
             $movieFromDatabase->setIdTMDB($id);
             $movieFromDatabase->setName($title);
             $movieFromDatabase->setPosterPath($posterPath);
+            if (isset($movie['release_date'])&& !empty($movie['release_date'])){
+                $movieFromDatabase->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$movie['release_date']));
+            }
             $movieFromDatabase->setRuntime($runtime);
             $em->persist($movieFromDatabase);
             $em->flush();

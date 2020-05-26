@@ -5,13 +5,38 @@ h3, h4 {
   color: #EDB867;
 }
 
+a.mp {
+  color:white
+}
+a.mp:hover{
+  color : #EDB867;
+  text-decoration: none;
+}
+
+#content {
+  margin : 0 auto;
+}
+
+@media screen and (min-width: 1280px){
+  #content {
+    max-width: 1280px;
+    
+  }
+   
+ }
+
+@media screen and (min-width: 1024px) {
+  #content {
+    max-width: 1024px;
+  }
+  
+ }
 
 .hover {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 5);
   filter: grayscale(100%);
   -webkit-filter: grayscale(50%)
 }
-
 
 .btn-group {
 display: inline;  

@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\User;
 use App\Entity\Movie;
 use App\Form\ListType;
 use App\Entity\Listing;
+use App\Entity\MovieView;
 use App\Service\ApiManager;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -45,21 +47,22 @@ class ListController extends AbstractController
      */
     public function peopleList(Request $request, ObjectManager $manager, UserInterface $user, ApiManager $api, $id)
     {
-
+        $follow = false;
         $apiPeople = $api->getPeopleById($id);
         $people_details = json_decode(($apiPeople["details"]->getBody())->getContents());
         $people_credit = json_decode(($apiPeople["moviecredit"]->getBody())->getContents());
 
-        
+        //Verifi si la personnalité est bien un realisateur, sinon la création de liste est impossible
         if($people_details->known_for_department === "Directing"){
 
             $em = $this->getDoctrine()->getManager();
 
-          
+            //Verrifie si la liste associer a ce realisateur existe déja dans la base de donnée
             $listFromDatabase = $em->getRepository(Listing::class)->findOneBy(   //Recuparation de l'entité listing s'il existe
                 array('peopleId' => $id)
             );
             
+            //Si la liste n'existe pas, l'à créer 
             if($listFromDatabase === null){  
                 $listFromDatabase = new Listing();
                 $listFromDatabase->setName($people_details->name);
@@ -72,10 +75,12 @@ class ListController extends AbstractController
                 $manager->persist($listFromDatabase);
             
         
-        
+                // Pour chaque film sur lequelle la personnalité a travaillé (hors acteur)
                 foreach($people_credit->crew as $crew){
-
+                    //Isole les films sur lesquelles il était realisateur
                     if ($crew->department == "Directing"){
+                        //Verifie si le film existe deja dans la base de données
+                        // dump(\DateTime::createFromFormat('Y-m-d',$crew->release_date));
                         $movie = $em->getRepository(Movie::class)->findOneBy(
                                                 array('idTMDB' => $crew->id)
                                             );
@@ -85,7 +90,8 @@ class ListController extends AbstractController
                             $movie->setIdTMDB($crew->id);
                             $movie->setName($crew->title);
                             $movie->setPosterPath($crew->poster_path);
-                            if (isset($crew->release_date)){
+                            if (isset($crew->release_date)&& !empty($crew->release_date)){
+
                             $movie->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$crew->release_date));
 
                             }
@@ -97,8 +103,9 @@ class ListController extends AbstractController
                         $em->persist($listFromDatabase);
                     }
                 }
-            }
+            }                   // Si la liste existe deja dans la base de données
             else{
+                //On compare le nombre de films dans la liste BDD avec le nombre de film presente dans l'API
                 $countMovieInList = $listFromDatabase->getMovies()->Count();
                 $countMovieRealised = 0;
                 foreach($people_credit->crew as $test){
@@ -106,6 +113,7 @@ class ListController extends AbstractController
                     $countMovieRealised ++ ;
                     }
                 }
+                //S'il y en a plus dans l'API Alors la liste necessite une mise à jour
                 if ($countMovieInList < $countMovieRealised) {
                     $tchekMovie = false;
                     foreach($people_credit->crew as $crewMovie){
@@ -126,7 +134,9 @@ class ListController extends AbstractController
                                     $movie->setIdTMDB($crewMovie->id);
                                     $movie->setName($crewMovie->title);
                                     $movie->setPosterPath($crewMovie->poster_path);
-                                    $movie->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$crewMovie->release_date));
+                                    if (isset($crew->release_date)&& !empty($crew->release_date)){
+                                        $movie->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$crewMovie->release_date));
+                                    }
                                     $em->persist($movie);
                                     
 
@@ -143,10 +153,51 @@ class ListController extends AbstractController
 
         $em->flush();
 
-        return $this->render('list/readList.html.twig', [
+        // Calcul du nombre de film vu dans cette liste en pourcentage : 
+        $today = new DateTime();
+        $released_movies = array();
+        $not_released_movies = array();
+        $count_movieView = 0;
+        foreach ($listFromDatabase->getMovies() as $movie){
+
+            if (is_null($movie->getReleaseDate())){
+                $not_released_movies['9999-99-99'] = $movie;
+            }else
+            {
+
+                if($movie->getReleaseDate() < $today) {             // si le films est deja sorti
+                    $released_movies[$movie->getReleaseDate()->format('Y-m-d')] = $movie;
+                    $movieView = $em->getRepository(MovieView::class)->findOneBy(
+                        array('movie' => $movie->getID())
+                    );
+                    if(isset($movieView) && !is_null($movieView)){
+                        $count_movieView ++;
+                    }
+                }else{                                              // si le film n'est pas encore sorti
+                    $not_released_movies[$movie->getReleaseDate()->format('Y-m-d')] = $movie;
+                }
+            }
+
+        }   
+        krsort($released_movies);
+        ksort($not_released_movies);
+
+
+        foreach ($listFromDatabase->getUsers() as $user){
+            if ($user->getId() == $this->getUser()->getId()) {
+                $follow = "oui";
+            }
+        }
+
+        dump($listFromDatabase->getId());
+        return $this->render('list/peopleList.html.twig', [
             'list' => $listFromDatabase,
-            'authorUsername'=> '$authorUsername',
-            'follow'    => $follow = false
+            'authorUsername'        => '$authorUsername',
+            'follow'                => $follow,
+            'people_details'        => $people_details, 
+            'released_movies'       => $released_movies, 
+            'not_released_movies'   => $not_released_movies,
+            'count_movieView'       => $count_movieView
         ]);
         // return $this->redirectToRoute('readList', [
         //           'id'  =>  $listFromDatabase->getId()

@@ -80,7 +80,6 @@ class ListController extends AbstractController
                     //Isole les films sur lesquelles il était realisateur
                     if ($crew->department == "Directing"){
                         //Verifie si le film existe deja dans la base de données
-                        // dump(\DateTime::createFromFormat('Y-m-d',$crew->release_date));
                         $movie = $em->getRepository(Movie::class)->findOneBy(
                                                 array('idTMDB' => $crew->id)
                                             );
@@ -189,7 +188,6 @@ class ListController extends AbstractController
             }
         }
 
-        dump($listFromDatabase->getId());
         return $this->render('list/peopleList.html.twig', [
             'list' => $listFromDatabase,
             'authorUsername'        => '$authorUsername',

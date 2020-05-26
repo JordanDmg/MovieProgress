@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         color: '#f2cd95',
         // trailColor: '#eee',
         // trailWidth: 1,
-        svgStyle: {width: '100%', height: '100%', border: '1px solid white'},
+        svgStyle: {width: '100%', border: '1px solid white'},
         text: {
           style: {
             // Text color.

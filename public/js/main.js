@@ -19,3 +19,12 @@ $( ".mousehover" ).hover(
           container.hide();
       }
   });
+  $(document).click(function(e) {
+
+    // check that your clicked
+    // element has no id=info
+  
+    if( e.target.id != 'search_frame' && e.target.id != 'homeSearch' ) {
+      $("#search_frame").hide();
+    }
+  });

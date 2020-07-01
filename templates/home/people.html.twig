@@ -14,14 +14,15 @@
 {% block content %}
 {# <div id="content_info_page"> #}
   <div class="top_info" >
-      
-        {% if people_details.profile_path is not null and people_details.profile_path is defined %}
-        <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ people_details.profile_path }}">
-        {% else %}
-        <img class="poster" alt=""  src="{{ asset('../img/test.png') }}">
-      {% endif %}
-      
-      <div class="text-information">
+      <div class="left_infos">  
+
+            {% if people_details.profile_path is not null and people_details.profile_path is defined %}
+            <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ people_details.profile_path }}">
+            {% else %}
+            <img class="poster" alt=""  src="{{ asset('../img/test.png') }}">
+          {% endif %}
+      </div>
+      <div class="right_info">
           <h2>{{ people_details.name }}</h2>
           <p class="biographie">
             {% for job in jobs_list %}
@@ -45,9 +46,8 @@
   </div>
 {% if know_for.results is not empty  %}
     <h3>Connu (e) pour :</h3>
-    <div class="row">
+    <div class="row_mp">
               {% for movie in know_for.results | slice(0,6) %}
-                  <div class="full-home-card">
                       <div class="homecard"> 
                           <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" style="position:absolute;">
                                   {% set viewed = 0 %}
@@ -63,17 +63,16 @@
                           </a>
                           <a href="{{ path('movie', {'id':movie.id }) }}" class="mousehover over_a">
                               {% if movie.poster_path is not null and movie.poster_path is defined %}
-                                      <img alt="" class="wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" style="width:100%; height: 190px ;" >
+                                      <img alt="" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" style="width:100%; height: 190px ;" >
                               {% else %}
-                                      <img alt="" class="wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
+                                      <img alt="" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
                               {% endif %}    
                               
                               <i class="over_i fas fa-search fa-2x" ></i>
                           </a>
-                          <p class="home-card-text"> {{ movie.release_date | date("d/m/Y") }}  </p>
-                          <p class="home-card-text" style="max-width: 138px;">{{ movie.title | length > 30  ? movie.title|slice(0, 30) ~ '...' : movie.title}}</p>
+                          <p class="text"> {{ movie.release_date | date("d/m/Y") }}  </p>
+                          <p class="text" style="max-width: 138px;">{{ movie.title | length > 30  ? movie.title|slice(0, 30) ~ '...' : movie.title}}</p>
                       </div>
-                  </div>
               {% endfor %} 
 
         </div>

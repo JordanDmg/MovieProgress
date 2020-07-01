@@ -17,26 +17,30 @@
 {# <div id="content_info_page"> #}
 
     <div class="top_info">
+      <div class="left_infos">  
+          <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" >
+              {% set viewed = 0 %}
+              {% for view in app.user.movieToWatches %}
+                  {% if view.movie.idTMDB == movie.id %}
+                      {% set viewed = 1 %}
+                  {% endif %}
+              {% endfor %}
+              {% if viewed == 1 %}
+                      <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style=" z-index:2; color:  #EDB867; "></i>
+                  {% else %}
+                      <i id="{{ movie.id }}" class="fa-bookmark fa-2x far" style=" z-index:2; color:  #EDB867; "></i>                            
+              {% endif %}
+            </a>
+            {% if movie.poster_path is not null and movie.poster_path is defined %}
+                <img alt="" class="poster" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" >
+            {% else %}
+                <img alt="" class="poster" src="{{ asset('../img/emptyImg.jpg') }}"  >
+            {% endif %}    
+      </div>
       {# <img class="poster" alt=""  src="https://image.tmdb.org/t/p/w400/{{ movie.poster_path }}">#}
-          <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" style="position:absolute; margin-top:21px; margin-left:1px;">
-            {% set viewed = 0 %}
-            {% for view in app.user.movieToWatches %}
-                {% if view.movie.idTMDB == movie.id %}
-                    {% set viewed = 1 %}
-                {% endif %}
-            {% endfor %}
-            {% if viewed == 1 %}
-                    <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
-                {% else %}
-                    <i id="{{ movie.id }}" class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
-          </a>
-          {% if movie.poster_path is not null and movie.poster_path is defined %}
-                  <img alt="" class="poster" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" >
-          {% else %}
-                  <img alt="" class="poster" src="{{ asset('../img/emptyImg.jpg') }}"  >
-          {% endif %}    
+         
                                   
-      <div class="movie_infos">
+      <div class="right_info">
         <h2>{{ movie.title }} ({{ movie.release_date |date("Y") }})</h2>
 
             <div class="rating">
@@ -46,6 +50,7 @@
                       {% set currentRate = rating.rate %}
                     {% endif %}
                   {% endfor %}
+                  
                   <div class="my-rating">
                           <select class="rating-bar" id="{{ movie.id }}" data-title="{{ movie.title }}" data-poster="{{ movie.poster_path }}" data-runtime="{{ movie.runtime }}" >
                                 <option value=""></option>
@@ -150,7 +155,7 @@
       <h3>Synopsis</h3>
       <p class="synopsis">{{ movie.overview }}</p>
       <h3>Casting</h3>
-        <div class="row"> 
+        <div class="row_mp"> 
         {% for people in credits['cast'] | slice(0,6) %}
           {# <div class="card" style="width: 138px; max-height: 358px; margin-left:8px;" >
           {% if cast.profile_path is not null and cast.profile_path is defined %}
@@ -161,21 +166,18 @@
               <b>{{ cast.name }}</b>
               <p>{{ cast.character }}</p>
           </div> #}
-           <div class="full-home-card">
-                    <div class="people homecard"> 
-                        
-                        <a href="{{ path('people', {'id':people.id }) }}" class="mousehover over_a">
-                            {% if people.profile_path is not null and people.profile_path is defined %}
-                                    <img alt="" class="people wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ people.profile_path }}" style="width:100%; height: 190px ;" >
-                            {% else %}
-                                    <img alt="" class="people wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
-                            {% endif %}    
-                            
-                            <i class="over_i fas fa-search fa-2x" ></i>
-                        </a>
-                        <p class="people home-card-text" style="max-width: 138px;">{{ people.name | length > 33  ? people.name|slice(0, 33) ~ '...' : people.name}}</p>
-                    </div>
-                </div>
+            <div class="homecard people"> 
+                <a href="{{ path('people', {'id':people.id }) }}" class="mousehover over_a">
+                    {% if people.profile_path is not null and people.profile_path is defined %}
+                            <img alt=""  src="https://image.tmdb.org/t/p/w500/{{ people.profile_path }}" style="width:100%; height: 190px ;" >
+                    {% else %}
+                            <img alt=""  src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
+                    {% endif %}    
+                    
+                    <i class="over_i fas fa-search fa-2x" ></i>
+                </a>
+                <p class="text" style="max-width: 138px;">{{ people.name | length > 33  ? people.name|slice(0, 33) ~ '...' : people.name}}</p>
+            </div>
         {% endfor %}
           
       </div>

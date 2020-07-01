@@ -2,10 +2,10 @@
 $("#homeSearch").keyup(function (data) {
 
      search = document.getElementById("homeSearch").value
-     $("#test").show();
+     $("#search_frame").show();
      i = 0;
      film = [];
-    $("#test").html('')
+    $("#search_frame").html('')
     if (!search){
         
 
@@ -22,35 +22,37 @@ $("#homeSearch").keyup(function (data) {
     
         .then((response) => {
           const films = response.data.results
-            console.log(films);
+            // console.log(films);
           
           films.forEach(element => {
-            state = 'btn-primary'
+           
             i++; 
             if ( i <= 5){
-            $(".movieIn").each(function () {
-    
-              if ($(this).text() == element.id) {
-                state = "btn-success"
+
+              if (element.poster_path != null){
+                img_url = "https://image.tmdb.org/t/p/w154/" + element.poster_path
+              }else {
+                img_url = "/../img/emptyImg.jpg"
+
               }
-            })
-            $("#test").append(
-            `<div class="col">
-              <a href="`+ Routing.generate('movie', {'id':element.id }) +`" class="mousehover over_a">
-                <div class="card flex-md-row mb-3 shadow-sm" style="background-color: #272b30; max-height:87px;">
-                 
-                        <img alt="" class="bd-placeholder-img " style="width:48px;"src="https://image.tmdb.org/t/p/w154/`+ element.poster_path + `">
-                       
-                    
-                    <div  style="color:#FFF;">
-                        <h8 class="card-text">`+ element.title+`</h8></BR>
-                        <h8 class="card-text">`+ element.release_date.substr(0,4) +`</h8>       
-                    </div>                
-                </div>
-              </a>
-            </div>  `
-    
-            );
+              console.log(img_url);
+              $("#search_frame").append(
+              `<div class="search_results">
+                <a href="`+ Routing.generate('movie', {'id':element.id }) +`" class="search_link">
+                  <div class="search_result card flex-md-row shadow-sm" >
+                  
+                          <img alt="" src="`+ img_url + `">
+                        
+                      
+                      <div class="search_info">
+                          <h8 >`+ element.title+`</h8></BR>
+                          <p>`+ element.release_date.substr(0,4) +`</p>       
+                      </div>                
+                  </div>
+                </a>
+              </div>  `
+      
+              );
           }   
           });
 
@@ -73,11 +75,30 @@ $("#homeSearch").keyup(function (data) {
   });
 
 
+  $('.fa-search').click(function(e) {
+      
+
+
+    console.log($(this).attr("class"))
+    $("#homeSearch").toggleClass("onclick_form");
+    if ($(this).attr("class") == "fas fa-search"){
+      $(this).removeClass("fas fa-search");
+      $(this).addClass("fas fa-times")
+    }else{
+      $(this).removeClass();
+      $(this).addClass("fas fa-search")
+
+
+    }
+
+
+  });
 
 
 
-//   $("#test").keyup(function (data) {
-//     search = document.getElementById("test").value
+
+//   $("#search_frame").keyup(function (data) {
+//     search = document.getElementById("search_frame").value
 //     film = [];
 //    $("#affichage").html('')
 //    if (!search){

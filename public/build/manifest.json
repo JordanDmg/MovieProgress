@@ -1,11 +1,10 @@
 {
-  "build/css/home.css": "/build/css/home.css",
   "build/css/info_page.css": "/build/css/info_page.css",
   "build/css/login.css": "/build/css/login.css",
-  "build/css/main.css": "/build/css/main.css",
   "build/css/navbar.css": "/build/css/navbar.css",
   "build/css/profil_page.css": "/build/css/profil_page.css",
   "build/css/ratingBar.css": "/build/css/ratingBar.css",
   "build/css/register.css": "/build/css/register.css",
+  "build/css/style.css": "/build/css/style.css",
   "build/runtime.js": "/build/runtime.js"
 }

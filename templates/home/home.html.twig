@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('../build/css/ratingBar.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('../build/css/home.css') }}"/>
 {% endblock %}
 {% block title %}Explorer - Films - MovieProgress
 {% endblock %}
@@ -11,7 +9,7 @@
         <div class="carousel-inner " >
             <div class="carousel-item active">
                 <img id="BigCarouselImg" class="d-block w-100" src="https://image.tmdb.org/t/p/w780/{{ ActualsMovies.results[0].backdrop_path }}" alt="First slide">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption d-md-block">
 
                 
                     <h1>Disponible en salle</h1>
@@ -22,7 +20,7 @@
             {% for ActualMovie in ActualsMovies.results | slice(1, 5) %}
             <div class="carousel-item">
                 <img id="BigCarouselImg"class="d-block w-100" src="https://image.tmdb.org/t/p/w780/{{ ActualMovie.backdrop_path }}" alt="img {{ ActualMovie.title }}">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption d-md-block">
                     <h1>Disponible en salle</h1>
                     <p>{{ ActualMovie.title }}</p>
                 </div>
@@ -161,37 +159,36 @@
         <!--/.Carousel Wrapper-->     #}
     <div class="wrapper-home mx">
         <h3>Films à Venir</h3>
-        <div class="row">
+        <div class="row_mp">
             {% for movie in UpcomingMovies.results | slice(0,6) %}
-                <div class="full-home-card">
-                    <div class="homecard"> 
-                        <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" style="position:absolute;">
-                                {% set viewed = 0 %}
-                                {% for view in app.user.movieToWatches %}
-                                    {% if view.movie.idTMDB == movie.id %}
-                                        {% set viewed = 1 %}
-                                    {% endif %}
-                                {% endfor %}
-                                {% if viewed == 1 %}
-                                        <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
-                                    {% else %}
-                                        <i id="{{ movie.id }}" class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
-                        </a>
-
-
-                        <a href="{{ path('movie', {'id':movie.id }) }}" class="mousehover over_a">
-                            {% if movie.poster_path is not null and movie.poster_path is defined %}
-                                    <img alt="" class="wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" style="width:100%; height: 190px ;" >
+            <div class="homecard"> 
+                <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" style="position:absolute;">
+                        {% set viewed = 0 %}
+                        {% for view in app.user.movieToWatches %}
+                            {% if view.movie.idTMDB == movie.id %}
+                                {% set viewed = 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if viewed == 1 %}
+                                <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
                             {% else %}
-                                    <img alt="" class="wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
-                            {% endif %}    
-                            
-                            <i class="over_i fas fa-search fa-2x" ></i>
-                        </a>
-                        <p class="home-card-text"> {{ movie.release_date | date("d/m/Y") }}  </p>
-                        <p class="home-card-text" style="max-width: 138px;">{{ movie.title | length > 30  ? movie.title|slice(0, 30) ~ '...' : movie.title}}</p>
-                    </div>
-                </div>
+                                <i id="{{ movie.id }}" class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
+                </a>
+
+
+                <a href="{{ path('movie', {'id':movie.id }) }}" class="mousehover over_a">
+                    {% if movie.poster_path is not null and movie.poster_path is defined %}
+                            <img alt="{{movie.title}}"  src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" style="width:100%; height: 190px ;" >
+                    {% else %}
+                            <img alt="{{movie.title}}"  src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
+                    {% endif %}    
+                    
+                    <i class="over_i fas fa-search fa-2x" ></i>
+                </a>
+                <p class="text"> {{ movie.release_date | date("d/m/Y") }}  </p>
+                <p class="text" style="max-width: 138px;">{{ movie.title | length > 30  ? movie.title|slice(0, 30) ~ '...' : movie.title}}</p>
+            </div>
+               
             {% endfor %} 
 
         </div>
@@ -200,58 +197,53 @@
 
     <div class="wrapper-home mx">
         <h3>Tendances cette semaine</h3>
-        <div class="row">
+        <div class="row_mp">
             {% for movie in TendingsMovies.results | slice(0,6) %}
-                <div class="full-home-card">
-                    <div class="homecard"> 
-                        <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" style="position:absolute;">
-                                {% set viewed = 0 %}
-                                {% for view in app.user.movieToWatches %}
-                                    {% if view.movie.idTMDB == movie.id %}
-                                        {% set viewed = 1 %}
-                                    {% endif %}
-                                {% endfor %}
-                                {% if viewed == 1 %}
-                                        <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
-                                    {% else %}
-                                        <i class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
-                        </a>
+                <div class="homecard"> 
+                    <a href=""  data-api-id="{{ movie.id }}" class="toWatch-btn" style="position:absolute;">
+                            {% set viewed = 0 %}
+                            {% for view in app.user.movieToWatches %}
+                                {% if view.movie.idTMDB == movie.id %}
+                                    {% set viewed = 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if viewed == 1 %}
+                                    <i id="{{ movie.id }}" class="fa-bookmark fa-2x fas" style="position:absolute; z-index:2; color:  #EDB867; "></i>
+                                {% else %}
+                                    <i class="fa-bookmark fa-2x far" style="position:absolute; z-index:2; color:  #EDB867; "></i>                            {% endif %}
+                    </a>
 
 
-                        <a href="{{ path('movie', {'id':movie.id }) }}" class="mousehover over_a">
-                            {% if movie.poster_path is not null and movie.poster_path is defined %}
-                                    <img alt="" class="wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" style="width:100%; height: 190px ;" >
-                            {% else %}
-                                    <img alt="" class="wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
-                            {% endif %}    
-                            
-                            <i class="over_i fas fa-search fa-2x" ></i>
-                        </a>
-                        <p class="home-card-text"><i class="fas fa-star" style="color:  #EDB867;"></i> {{ movie.vote_average }}  </p>
-                        <p class="home-card-text" style="max-width: 138px;">{{ movie.title | length > 30  ? movie.title|slice(0, 30) ~ '...' : movie.title}}</p>
-                    </div>
+                    <a href="{{ path('movie', {'id':movie.id }) }}" class="mousehover over_a">
+                        {% if movie.poster_path is not null and movie.poster_path is defined %}
+                                <img alt="" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" style="width:100%; height: 190px ;" >
+                        {% else %}
+                                <img alt="" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
+                        {% endif %}    
+                        
+                        <i class="over_i fas fa-search fa-2x" ></i>
+                    </a>
+                    <p class="text"><i class="fas fa-star" style="color:  #EDB867;"></i> {{ movie.vote_average }}  </p>
+                    <p class="text" style="max-width: 138px;">{{ movie.title | length > 30  ? movie.title|slice(0, 30) ~ '...' : movie.title}}</p>
                 </div>
             {% endfor %} 
         </div>
     </div>
         <div class="wrapper-home mx">
         <h3>Personnalités populaires </h3>
-        <div class="row">
-                     {% for people in TrendingsPeoples.results | slice(0,6) %}
-                <div class="full-home-card">
-                    <div class="people homecard"> 
+        <div class="row_mp">
+            {% for people in TrendingsPeoples.results | slice(0,6) %}
+                <div class="homecard people "> 
+                    <a href="{{ path('people', {'id':people.id }) }}" class="mousehover over_a">
+                        {% if people.profile_path is not null and people.profile_path is defined %}
+                                <img alt=""  src="https://image.tmdb.org/t/p/w500/{{ people.profile_path }}" style="width:100%; height: 190px ;" >
+                        {% else %}
+                                <img alt=""  src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
+                        {% endif %}    
                         
-                        <a href="{{ path('people', {'id':people.id }) }}" class="mousehover over_a">
-                            {% if people.profile_path is not null and people.profile_path is defined %}
-                                    <img alt="" class="people wrapper-home-img" src="https://image.tmdb.org/t/p/w500/{{ people.profile_path }}" style="width:100%; height: 190px ;" >
-                            {% else %}
-                                    <img alt="" class="people wrapper-home-img" src="{{ asset('../img/emptyImg.jpg') }}" style="width:100%; height: 190px ;" >
-                            {% endif %}    
-                            
-                            <i class="over_i fas fa-search fa-2x" ></i>
-                        </a>
-                        <p class="people home-card-text" style="max-width: 138px;">{{ people.name | length > 33  ? people.name|slice(0, 33) ~ '...' : people.name}}</p>
-                    </div>
+                        <i class="over_i fas fa-search fa-2x" ></i>
+                    </a>
+                    <p class="text people " style="max-width: 138px;">{{ people.name | length > 33  ? people.name|slice(0, 33) ~ '...' : people.name}}</p>
                 </div>
             {% endfor %} 
         </div>
@@ -275,7 +267,7 @@
                     {{ moviesArrayHome[0] }}</h1>
                 <a href="{{ path('specialDisplay', {'data':moviesArrayHome[1]}) }}">Voir plus</a>
             {% endif %}
-            <div class="row">
+            <div class="row_home">
                 {% for movie in moviesArrayHome[2].results | slice(0,6) %}
                     <div class="col-md-2">
                         <div class="card mb-3 shadow-sm">

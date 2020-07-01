@@ -10,46 +10,15 @@
         {% block stylesheets %}
             <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
             <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" rel="stylesheet">
-            <link rel="stylesheet" href="{{ asset('../build/css/main.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('../build/css/style.css') }}"/>
             <link rel="stylesheet" href="{{ asset('../build/css/navbar.css') }}"/>
         {% endblock %}
     </head>
     <body>
         {% block body %}
-            <!-- Sidebar -->
-            {# <nav id="sidebar" class="fixed-top active">
-                <div class="sidebar-header">
-                    <h3 class="longTitle"style="text-align:center; display:none;">Movie</BR>Progress</h3>
-                    <h3 class="shortTitle"style="text-align:center; " >M</BR>P</h3>
-                </div>
-                <ul
-                    class="list-unstyled components">
-
-                    <li>
-                        <a href="#" id="searchCollapse"><i class="fas fa-search"></i><input autocomplete="off" id="test" placeholder="Search..." style="display:none;"></a>
-                    </li>
-                    <li>
-                        <a href="{{ path('explorer') }}"><i class="far fa-compass"></i> <span style="display:none;">Explorer</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ path('profil') }}"><i class="far fa-user-circle"></i> <span style="display:none;">Profil</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ path('parameter') }}"><i class="fas fa-cog"></i> <span style="display:none;">Paramètres</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ path('security_logout') }}"><i class="fas fa-sign-out-alt"></i> <span style="display:none;">Déconnexion</span></a>
-                    </li>
-                    <li>
-                        <a id="sidebarCollapse" style="text-align:center;" >
-                            <i class="fas fa-chevron-left" style="display:none;"></i>
-                            <i class="fas fa-chevron-right" ></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav> #}
+           
             <!-- Navbar --> 
-            <nav class="navbar navbar-expand">
+            <nav class="navbar navbar-expand" style="height:48px;">
                 <div class="navbar-container">
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto ml-auto ">
@@ -59,22 +28,25 @@
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
                                 </li>
-                                <li class="nav-item active">
+                                <li id ="menu" class="nav-item active">
                                     <a class="nav-link" href="{{ path('explorer') }}">Menu <span class="sr-only">(current)</span></a>
                                 </li>
+                                
                                 <li class="nav-form">
-                                    <form>
-                                    <input id="homeSearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  >
-                                <div id="test" style="z-index:11;"></div>
-                                    
-                                    </form>
+                                {# <div class="searchicone">    #}
+                                    <i class="fas fa-search" ></i>
+                                
+                                {# </div> #}
+                                    <form id="search_form" autocomplete="off">
+                                    <input id="homeSearch" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" >
+
+
+                                    </form>                                   
+                                     <div id="search_frame" ></div>
                                     {# <a href="#" class="form-control mr-sm-2"><input autocomplete="off" id="test" placeholder="Search..." ></a> #}
                                 </li>
-                                <li class="nav-item active" style="padding-top:5px;" >
-                                    <a class="nav-link" href="{{ path('profil_movieToWatch') }}"> <i class="far fa-bookmark fa-lg" style="position:absolute; z-index:2;"> </i></a>
-                                </li>
-                                <li class="nav-item active" style="padding-left:5px">
-                                    <a class="nav-link" href="{{ path('profil_movieToWatch') }}"><p>Watchist</p>  <span class="sr-only">(current)</span></a>
+                                <li id ="watchlist" class="nav-item active" style="padding-left:5px">
+                                    <a  class="nav-link" href="{{ path('profil_movieToWatch') }}"><i class="far fa-bookmark fa-lg"> </i><p>Watchist</p></a>
                                 </li>
                                  <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -109,7 +81,7 @@
             
 
            
-            <div id="content" class="active mx-auto" style="width: 100%; background-color:black  ; ">
+            <div id="content">
 
                
                 {# <div class="container" style="margin-left:8%; margin-top:6%"> #}
@@ -123,8 +95,8 @@
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
             <script crossorigin="anonymous" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
             <script crossorigin="anonymous" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-            {# <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script> #}
+            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <script type="text/javascript" src="{{ asset('../js/sidebar.js') }}"></script>
             <script type="text/javascript" src="{{ asset('../js/main.js') }}"></script>
             <script type="text/javascript" src="{{ asset('../js/homeSearchBar.js') }}"></script>

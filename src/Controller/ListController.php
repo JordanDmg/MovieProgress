@@ -78,7 +78,7 @@ class ListController extends AbstractController
                 // Pour chaque film sur lequelle la personnalité a travaillé (hors acteur)
                 foreach($people_credit->crew as $crew){
                     //Isole les films sur lesquelles il était realisateur
-                    if ($crew->department == "Directing"){
+                    if ($crew->job == "Director"){
                         //Verifie si le film existe deja dans la base de données
                         $movie = $em->getRepository(Movie::class)->findOneBy(
                                                 array('idTMDB' => $crew->id)
@@ -107,23 +107,32 @@ class ListController extends AbstractController
                 //On compare le nombre de films dans la liste BDD avec le nombre de film presente dans l'API
                 $countMovieInList = $listFromDatabase->getMovies()->Count();
                 $countMovieRealised = 0;
+                dump($countMovieInList);
                 foreach($people_credit->crew as $test){
-                    if ($test->department == "Directing"){                        
+                    if ($test->job == "Director"){    
+                        // dump($test);                    
                     $countMovieRealised ++ ;
                     }
                 }
+                dump($countMovieRealised);
                 //S'il y en a plus dans l'API Alors la liste necessite une mise à jour
                 if ($countMovieInList < $countMovieRealised) {
-                    $tchekMovie = false;
                     foreach($people_credit->crew as $crewMovie){
-                        if ($crewMovie->department == "Directing"){     
+
+                        if ($crewMovie->job == "Director"){    
+                            $tchekMovie = false;
                             foreach ($listFromDatabase->getMovies()->getValues() as $movieInList){
+                                    
+
                                     if ($movieInList->getIdTMDB() == $crewMovie->id){
                                         $tchekMovie = true;
+                                        
                                     }
+
                                     
                             }
                             if(!$tchekMovie){
+                                // dump($tchekMovie);
                                 $movie = $em->getRepository(Movie::class)->findOneBy(
                                     array('idTMDB' => $crewMovie->id)
                                 );
@@ -133,9 +142,11 @@ class ListController extends AbstractController
                                     $movie->setIdTMDB($crewMovie->id);
                                     $movie->setName($crewMovie->title);
                                     $movie->setPosterPath($crewMovie->poster_path);
-                                    if (isset($crew->release_date)&& !empty($crew->release_date)){
+                                    if (isset($crewMovie->release_date)&& !empty($crewMovie->release_date)){
+
                                         $movie->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$crewMovie->release_date));
-                                    }
+            
+                                        }
                                     $em->persist($movie);
                                     
 
@@ -144,6 +155,7 @@ class ListController extends AbstractController
                                 $em->persist($listFromDatabase); 
                             
                             }
+                            
                         }
                     }
                 }

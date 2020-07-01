@@ -1,11 +1,11 @@
 {
   "entrypoints": {
-    "css/home": {
+    "css/style": {
       "js": [
         "/build/runtime.js"
       ],
       "css": [
-        "/build/css/home.css"
+        "/build/css/style.css"
       ]
     },
     "css/info_page": {
@@ -16,28 +16,20 @@
         "/build/css/info_page.css"
       ]
     },
-    "css/login": {
-      "js": [
-        "/build/runtime.js"
-      ],
-      "css": [
-        "/build/css/login.css"
-      ]
-    },
-    "css/main": {
-      "js": [
-        "/build/runtime.js"
-      ],
-      "css": [
-        "/build/css/main.css"
-      ]
-    },
     "css/navbar": {
       "js": [
         "/build/runtime.js"
       ],
       "css": [
         "/build/css/navbar.css"
+      ]
+    },
+    "css/login": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/login.css"
       ]
     },
     "css/profil_page": {

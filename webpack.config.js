@@ -37,14 +37,13 @@ Encore
     // .addEntry('js/watchBtn', './assets/js/watchBtn.js')
 
     // Css Entry
-    .addStyleEntry('css/home', './assets/scss/home.css')
-    .addStyleEntry('css/info_page', './assets/scss/info_page.css')
-    .addStyleEntry('css/login', './assets/scss/login.css')
-    .addStyleEntry('css/main', './assets/scss/main.css')
-    .addStyleEntry('css/navbar', './assets/scss/navbar.css')
-    .addStyleEntry('css/profil_page', './assets/scss/profil_page.css')
-    .addStyleEntry('css/ratingBar', './assets/scss/ratingBar.css')
-    .addStyleEntry('css/register', './assets/scss/register.css')
+    .addStyleEntry('css/style', './assets/scss/style.scss')
+    .addStyleEntry('css/info_page', './assets/scss/info_page.scss')
+    .addStyleEntry('css/navbar', './assets/scss/navbar.scss')
+    .addStyleEntry('css/login', './assets/scss/login.scss')
+    .addStyleEntry('css/profil_page', './assets/scss/profil_page.scss')
+    .addStyleEntry('css/ratingBar', './assets/scss/ratingBar.scss')
+    .addStyleEntry('css/register', './assets/scss/register.scss')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

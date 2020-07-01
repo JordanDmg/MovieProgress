@@ -48,6 +48,9 @@ class PostController extends AbstractController
             $movie->setIdTMDB($apiId);
             $movie->setName($movieData['title']);
             $movie->setPosterPath($movieData['poster_path']);
+            if (isset($movieData['release_date'])&& !empty($movieData['release_date'])){
+                $movie->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$movieData['release_date']));
+            }
             $movie->setRuntime($movieData['runtime']);
             $em->persist($movie);
         }
@@ -92,6 +95,9 @@ class PostController extends AbstractController
             $movie->setIdTMDB($apiId);
             $movie->setName($movieData['title']);
             $movie->setPosterPath($movieData['poster_path']);
+            if (isset($movieData['release_date'])&& !empty($movieData['release_date'])){
+                $movie->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$movieData['release_date']));
+            }
             $movie->setRuntime($movieData['runtime']);
             $em->persist($movie);
         }
@@ -139,6 +145,9 @@ class PostController extends AbstractController
             $movie->setIdTMDB($apiId);
             $movie->setName($movieData['title']);
             $movie->setPosterPath($movieData['poster_path']);
+            if (isset($movieData['release_date'])&& !empty($movieData['release_date'])){
+                $movie->setReleaseDate(\DateTime::createFromFormat('Y-m-d',$movieData['release_date']));
+            }
             $movie->setRuntime($movieData['runtime']);
             $em->persist($movie);
         }
